@@ -3,7 +3,7 @@ services:
     name: ecommerce-kb-saas
     env: node
     plan: free
-    buildCommand: npm install
+    buildCommand: npm config set python python3 && npm install
     startCommand: npm start
     envVars:
       - key: NODE_ENV

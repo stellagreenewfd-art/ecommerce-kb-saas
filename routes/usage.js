@@ -6,10 +6,10 @@ const USE_POINTS = 10;
 const TRIAL_DURATION_SECONDS = 24 * 60 * 60; // 1天
 
 // 检查当前是否可以使用 AI / 网站
-router.get('/check', (req, res) => {
+router.get('/check', async (req, res) => {
   try {
     const { userId } = req.user;
-    const user = db.prepare('SELECT free_uses_left, trial_end_at, points, membership_type, membership_expires_at FROM users WHERE id = ?').get(userId);
+    const user = await db.prepare('SELECT free_uses_left, trial_end_at, points, membership_type, membership_expires_at FROM users WHERE id = ?').get(userId);
     if (!user) return res.json({ ok: false, message: '用户不存在' });
 
     const now = Math.floor(Date.now() / 1000);
@@ -48,10 +48,10 @@ router.get('/check', (req, res) => {
 });
 
 // 开始一次使用 (消耗一次免费或开启一次试用/扣积分)
-router.post('/start', (req, res) => {
+router.post('/start', async (req, res) => {
   try {
     const { userId } = req.user;
-    const user = db.prepare('SELECT free_uses_left, trial_end_at, points, membership_type, membership_expires_at FROM users WHERE id = ?').get(userId);
+    const user = await db.prepare('SELECT free_uses_left, trial_end_at, points, membership_type, membership_expires_at FROM users WHERE id = ?').get(userId);
     if (!user) return res.json({ ok: false, message: '用户不存在' });
 
     const now = Math.floor(Date.now() / 1000);
@@ -59,7 +59,7 @@ router.post('/start', (req, res) => {
 
     // 会员有效:不扣任何费用,只记录使用
     if (membershipValid) {
-      db.prepare('INSERT INTO usage_logs (user_id, source, cost_points, started_at) VALUES (?, ?, ?, ?)').run(userId, 'membership', 0, now);
+      await db.prepare('INSERT INTO usage_logs (user_id, source, cost_points, started_at) VALUES (?, ?, ?, ?)').run(userId, 'membership', 0, now);
       return res.json({ ok: true, source: 'membership', remaining: 'unlimited' });
     }
 
@@ -71,16 +71,16 @@ router.post('/start', (req, res) => {
     // 免费次数还有:开始一次新的试用
     if (user.free_uses_left > 0) {
       const trialEnd = now + TRIAL_DURATION_SECONDS;
-      db.prepare('UPDATE users SET trial_end_at = ?, free_uses_left = free_uses_left - 1 WHERE id = ?').run(trialEnd, userId);
-      db.prepare('INSERT INTO usage_logs (user_id, source, cost_points, started_at, ended_at) VALUES (?, ?, ?, ?, ?)').run(userId, 'free', 0, now, trialEnd);
+      await db.prepare('UPDATE users SET trial_end_at = ?, free_uses_left = free_uses_left - 1 WHERE id = ?').run(trialEnd, userId);
+      await db.prepare('INSERT INTO usage_logs (user_id, source, cost_points, started_at, ended_at) VALUES (?, ?, ?, ?, ?)').run(userId, 'free', 0, now, trialEnd);
       return res.json({ ok: true, source: 'trial', trialEndAt: trialEnd, freeUsesLeft: user.free_uses_left - 1 });
     }
 
     // 扣积分
     if (user.points >= USE_POINTS) {
-      db.prepare('UPDATE users SET points = points - ? WHERE id = ?').run(USE_POINTS, userId);
+      await db.prepare('UPDATE users SET points = points - ? WHERE id = ?').run(USE_POINTS, userId);
       const trialEnd = now + TRIAL_DURATION_SECONDS;
-      db.prepare('INSERT INTO usage_logs (user_id, source, cost_points, started_at, ended_at) VALUES (?, ?, ?, ?, ?)').run(userId, 'points', USE_POINTS, now, trialEnd);
+      await db.prepare('INSERT INTO usage_logs (user_id, source, cost_points, started_at, ended_at) VALUES (?, ?, ?, ?, ?)').run(userId, 'points', USE_POINTS, now, trialEnd);
       return res.json({ ok: true, source: 'points', consumed: USE_POINTS, remaining: user.points - USE_POINTS, trialEndAt: trialEnd });
     }
 
@@ -92,14 +92,14 @@ router.post('/start', (req, res) => {
 });
 
 // 记录一次提问 (用于统计,非必须)
-router.post('/question', (req, res) => {
+router.post('/question', async (req, res) => {
   try {
     const { userId } = req.user;
     // 找到最近 24 小时内未结束的 usage_log 并更新 question_count
     const now = Math.floor(Date.now() / 1000);
-    const log = db.prepare('SELECT id FROM usage_logs WHERE user_id = ? AND ended_at > ? ORDER BY id DESC LIMIT 1').get(userId, now);
+    const log = await db.prepare('SELECT id FROM usage_logs WHERE user_id = ? AND ended_at > ? ORDER BY id DESC LIMIT 1').get(userId, now);
     if (log) {
-      db.prepare('UPDATE usage_logs SET question_count = question_count + 1 WHERE id = ?').run(log.id);
+      await db.prepare('UPDATE usage_logs SET question_count = question_count + 1 WHERE id = ?').run(log.id);
     }
     res.json({ ok: true });
   } catch (e) {

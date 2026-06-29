@@ -5,14 +5,15 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "node server.js"
+    "dev": "node server.js",
+    "vercel-build": "echo 'Vercel build done'"
   },
   "engines": {
     "node": "20.x"
   },
   "dependencies": {
     "express": "^4.19.2",
-    "better-sqlite3": "^11.0.0",
+    "pg": "^8.12.0",
     "bcryptjs": "^2.4.3",
     "jsonwebtoken": "^9.0.2",
     "cors": "^2.8.5",

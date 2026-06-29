@@ -21,13 +21,13 @@ function verifyToken(req, res, next) {
   }
 }
 
-function verifyAdmin(req, res, next) {
+async function verifyAdmin(req, res, next) {
   const auth = req.headers.authorization || '';
   const token = auth.replace(/^Bearer\s+/i, '');
   if (!token) return res.status(401).json({ ok: false, message: '未登录' });
   try {
     const decoded = jwt.verify(token, JWT_SECRET);
-    const admin = db.prepare('SELECT id FROM admins WHERE id = ?').get(decoded.adminId);
+    const admin = await db.prepare('SELECT id FROM admins WHERE id = ?').get(decoded.adminId);
     if (!admin) return res.status(403).json({ ok: false, message: '无权限' });
     req.admin = decoded;
     next();

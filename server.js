@@ -5,7 +5,7 @@ const path = require('path');
 const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
-const fs = require('fs');
+const { initDb } = require('./db');
 const { verifyToken, verifyAdmin } = require('./middleware/auth');
 const authRoutes = require('./routes/auth');
 const usage = require('./routes/usage');
@@ -14,11 +14,6 @@ const adminRoutes = require('./routes/admin');
 const aiRoutes = require('./routes/ai');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
-
-// 确保数据目录存在
-const dataDir = path.join(__dirname, 'data');
-if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
 
 // 安全与限速
 app.use(helmet({ contentSecurityPolicy: false }));
@@ -49,6 +44,17 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on http://localhost:${PORT}`);
-});
+// 本地开发/Render 等直接启动
+if (require.main === module) {
+  const PORT = process.env.PORT || 3000;
+  initDb().then(() => {
+    app.listen(PORT, () => {
+      console.log(`🚀 Server running on http://localhost:${PORT}`);
+    });
+  }).catch(err => {
+    console.error('Database init failed:', err);
+    process.exit(1);
+  });
+}
+
+module.exports = app;

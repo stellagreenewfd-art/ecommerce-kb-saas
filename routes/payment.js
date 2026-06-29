@@ -20,7 +20,7 @@ router.get('/pricing', (req, res) => {
 });
 
 // 创建订单 (模拟支付,实际应接入微信支付/支付宝)
-router.post('/order', (req, res) => {
+router.post('/order', async (req, res) => {
   try {
     const { userId } = req.user;
     const { type, points } = req.body || {};
@@ -43,9 +43,10 @@ router.post('/order', (req, res) => {
       return res.json({ ok: false, message: '类型错误' });
     }
 
-    const result = db.prepare(`
+    const result = await db.prepare(`
       INSERT INTO orders (user_id, order_type, amount, points, status)
       VALUES (?, ?, ?, ?, 'pending')
+      RETURNING id
     `).run(userId, type, amount, finalPoints);
 
     res.json({ ok: true, orderId: result.lastInsertRowid, amount, type, points: finalPoints });
@@ -56,31 +57,33 @@ router.post('/order', (req, res) => {
 });
 
 // 模拟支付成功回调 (实际应接入支付网关)
-router.post('/pay', (req, res) => {
+router.post('/pay', async (req, res) => {
   try {
     const { userId } = req.user;
     const { orderId } = req.body || {};
 
-    const order = db.prepare('SELECT * FROM orders WHERE id = ? AND user_id = ?').get(orderId, userId);
+    const order = await db.prepare('SELECT * FROM orders WHERE id = ? AND user_id = ?').get(orderId, userId);
     if (!order) return res.json({ ok: false, message: '订单不存在' });
     if (order.status === 'paid') return res.json({ ok: false, message: '订单已支付' });
 
     const now = Math.floor(Date.now() / 1000);
 
     if (order.order_type === 'points') {
-      db.prepare('UPDATE users SET points = points + ?, total_spent = total_spent + ?, updated_at = ? WHERE id = ?')
+      await db.prepare('UPDATE users SET points = points + ?, total_spent = total_spent + ?, updated_at = ? WHERE id = ?')
         .run(order.points, order.amount, now, userId);
     } else if (order.order_type === 'month') {
-      const expire = Math.max(order.membership_expires_at || now, now) + 30 * 24 * 60 * 60;
-      db.prepare('UPDATE users SET membership_type = ?, membership_expires_at = ?, total_spent = total_spent + ?, updated_at = ? WHERE id = ?')
+      const user = await db.prepare('SELECT membership_expires_at FROM users WHERE id = ?').get(userId);
+      const expire = Math.max(user.membership_expires_at || now, now) + 30 * 24 * 60 * 60;
+      await db.prepare('UPDATE users SET membership_type = ?, membership_expires_at = ?, total_spent = total_spent + ?, updated_at = ? WHERE id = ?')
         .run('month', expire, order.amount, now, userId);
     } else if (order.order_type === 'year') {
-      const expire = Math.max(order.membership_expires_at || now, now) + 365 * 24 * 60 * 60;
-      db.prepare('UPDATE users SET membership_type = ?, membership_expires_at = ?, total_spent = total_spent + ?, updated_at = ? WHERE id = ?')
+      const user = await db.prepare('SELECT membership_expires_at FROM users WHERE id = ?').get(userId);
+      const expire = Math.max(user.membership_expires_at || now, now) + 365 * 24 * 60 * 60;
+      await db.prepare('UPDATE users SET membership_type = ?, membership_expires_at = ?, total_spent = total_spent + ?, updated_at = ? WHERE id = ?')
         .run('year', expire, order.amount, now, userId);
     }
 
-    db.prepare('UPDATE orders SET status = ?, paid_at = ? WHERE id = ?').run('paid', now, orderId);
+    await db.prepare('UPDATE orders SET status = ?, paid_at = ? WHERE id = ?').run('paid', now, orderId);
 
     res.json({ ok: true, message: '支付成功' });
   } catch (e) {
@@ -90,10 +93,10 @@ router.post('/pay', (req, res) => {
 });
 
 // 我的订单
-router.get('/orders', (req, res) => {
+router.get('/orders', async (req, res) => {
   try {
     const { userId } = req.user;
-    const orders = db.prepare('SELECT * FROM orders WHERE user_id = ? ORDER BY id DESC').all(userId);
+    const orders = await db.prepare('SELECT * FROM orders WHERE user_id = ? ORDER BY id DESC').all(userId);
     res.json({ ok: true, orders });
   } catch (e) {
     console.error(e);

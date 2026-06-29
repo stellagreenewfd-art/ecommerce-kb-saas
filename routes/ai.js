@@ -15,13 +15,13 @@ const SYSTEM_PROMPT = `你是一位资深中国电商运营专家，熟悉淘宝
 4. 遇到需要用户补充信息的问题，给出追问清单。`;
 
 // 检查当前用户是否可以使用 AI
-function checkUserAccess(userId) {
-  const user = db.prepare('SELECT free_uses_left, trial_end_at, points, membership_type, membership_expires_at FROM users WHERE id = ?').get(userId);
+async function checkUserAccess(userId) {
+  const user = await db.prepare('SELECT free_uses_left, trial_end_at, points, membership_type, membership_expires_at FROM users WHERE id = ?').get(userId);
   if (!user) return { canUse: false, message: '用户不存在' };
 
   const now = Math.floor(Date.now() / 1000);
   const membershipValid = user.membership_expires_at > now && user.membership_type !== 'none';
-  const trialActive = user.trial_end_at > now && user.free_uses_left >= 0; // 注意: free_uses_left 在试用期间是剩余次数，试用进行中 trial_end_at > now 即可
+  const trialActive = user.trial_end_at > now && user.free_uses_left >= 0;
 
   if (membershipValid) return { canUse: true, source: 'membership' };
   if (trialActive) return { canUse: true, source: 'trial' };
@@ -31,12 +31,12 @@ function checkUserAccess(userId) {
 }
 
 // 记录提问一次
-function recordQuestion(userId) {
+async function recordQuestion(userId) {
   try {
     const now = Math.floor(Date.now() / 1000);
-    const log = db.prepare('SELECT id FROM usage_logs WHERE user_id = ? AND ended_at > ? ORDER BY id DESC LIMIT 1').get(userId, now);
+    const log = await db.prepare('SELECT id FROM usage_logs WHERE user_id = ? AND ended_at > ? ORDER BY id DESC LIMIT 1').get(userId, now);
     if (log) {
-      db.prepare('UPDATE usage_logs SET question_count = question_count + 1 WHERE id = ?').run(log.id);
+      await db.prepare('UPDATE usage_logs SET question_count = question_count + 1 WHERE id = ?').run(log.id);
     }
   } catch (e) {
     console.error('record question error', e);
@@ -51,7 +51,7 @@ router.post('/chat', async (req, res) => {
       return res.json({ ok: false, message: '请填写问题' });
     }
 
-    const user = db.prepare('SELECT free_uses_left, trial_end_at, points, membership_type, membership_expires_at FROM users WHERE id = ?').get(userId);
+    const user = await db.prepare('SELECT free_uses_left, trial_end_at, points, membership_type, membership_expires_at FROM users WHERE id = ?').get(userId);
     if (!user) return res.json({ ok: false, message: '用户不存在' });
 
     const now = Math.floor(Date.now() / 1000);
@@ -65,15 +65,15 @@ router.post('/chat', async (req, res) => {
       source = 'trial';
     } else if (user.points >= USE_POINTS_LOCAL) {
       // 扣积分开启一次 24h 使用
-      db.prepare('UPDATE users SET points = points - ? WHERE id = ?').run(USE_POINTS_LOCAL, userId);
+      await db.prepare('UPDATE users SET points = points - ? WHERE id = ?').run(USE_POINTS_LOCAL, userId);
       const trialEnd = now + TRIAL_DURATION_SECONDS;
-      db.prepare('INSERT INTO usage_logs (user_id, source, cost_points, started_at, ended_at) VALUES (?, ?, ?, ?, ?)').run(userId, 'points', USE_POINTS_LOCAL, now, trialEnd);
+      await db.prepare('INSERT INTO usage_logs (user_id, source, cost_points, started_at, ended_at) VALUES (?, ?, ?, ?, ?)').run(userId, 'points', USE_POINTS_LOCAL, now, trialEnd);
       source = 'points';
     } else if (user.free_uses_left > 0) {
       // 开启一次免费试用
       const trialEnd = now + TRIAL_DURATION_SECONDS;
-      db.prepare('UPDATE users SET trial_end_at = ?, free_uses_left = free_uses_left - 1 WHERE id = ?').run(trialEnd, userId);
-      db.prepare('INSERT INTO usage_logs (user_id, source, cost_points, started_at, ended_at) VALUES (?, ?, ?, ?, ?)').run(userId, 'free', 0, now, trialEnd);
+      await db.prepare('UPDATE users SET trial_end_at = ?, free_uses_left = free_uses_left - 1 WHERE id = ?').run(trialEnd, userId);
+      await db.prepare('INSERT INTO usage_logs (user_id, source, cost_points, started_at, ended_at) VALUES (?, ?, ?, ?, ?)').run(userId, 'free', 0, now, trialEnd);
       source = 'trial';
     } else {
       return res.json({ ok: false, code: 'NO_ACCESS', canUse: false, message: '免费次数已用完且积分不足，请购买积分或会员', points: user.points, needPoints: USE_POINTS_LOCAL });
@@ -85,7 +85,7 @@ router.post('/chat', async (req, res) => {
 
     const messages = [
       { role: 'system', content: SYSTEM_PROMPT },
-      ...history.slice(-6), // 只保留最近 6 轮，避免 token 超限
+      ...history.slice(-6),
       { role: 'user', content: message }
     ];
 
@@ -113,7 +113,7 @@ router.post('/chat', async (req, res) => {
     const answer = data.choices?.[0]?.message?.content || '';
 
     // 记录一次提问
-    recordQuestion(userId);
+    await recordQuestion(userId);
 
     res.json({ ok: true, answer, source });
   } catch (e) {

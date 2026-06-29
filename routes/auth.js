@@ -5,7 +5,7 @@ const { signToken, verifyToken } = require('../middleware/auth');
 const router = express.Router();
 
 // 注册
-router.post('/register', (req, res) => {
+router.post('/register', async (req, res) => {
   try {
     const { phone, email, password, company, role } = req.body || {};
     if (!password || password.length < 6) {
@@ -19,22 +19,23 @@ router.post('/register', (req, res) => {
     const emailClean = email ? email.trim().toLowerCase() : null;
 
     if (phoneClean) {
-      const existing = db.prepare('SELECT id FROM users WHERE phone = ?').get(phoneClean);
+      const existing = await db.prepare('SELECT id FROM users WHERE phone = ?').get(phoneClean);
       if (existing) return res.json({ ok: false, message: '手机号已注册' });
     }
     if (emailClean) {
-      const existing = db.prepare('SELECT id FROM users WHERE email = ?').get(emailClean);
+      const existing = await db.prepare('SELECT id FROM users WHERE email = ?').get(emailClean);
       if (existing) return res.json({ ok: false, message: '邮箱已注册' });
     }
 
     const hash = bcrypt.hashSync(password, 10);
-    const result = db.prepare(`
+    const result = await db.prepare(`
       INSERT INTO users (phone, email, password_hash, company, role, free_uses_left, trial_end_at)
       VALUES (?, ?, ?, ?, ?, 3, 0)
+      RETURNING id
     `).run(phoneClean, emailClean, hash, company || '', role || '');
 
     const userId = result.lastInsertRowid;
-    const user = db.prepare('SELECT id, phone, email, company, role, free_uses_left, points, membership_type, membership_expires_at FROM users WHERE id = ?').get(userId);
+    const user = await db.prepare('SELECT id, phone, email, company, role, free_uses_left, points, membership_type, membership_expires_at FROM users WHERE id = ?').get(userId);
     const token = signToken({ userId: user.id });
 
     res.json({ ok: true, token, user });
@@ -45,20 +46,20 @@ router.post('/register', (req, res) => {
 });
 
 // 登录
-router.post('/login', (req, res) => {
+router.post('/login', async (req, res) => {
   try {
     const { account, password } = req.body || {};
     if (!account || !password) return res.json({ ok: false, message: '请填写账号和密码' });
 
     const clean = account.trim().toLowerCase();
-    const user = db.prepare('SELECT * FROM users WHERE phone = ? OR email = ?').get(clean, clean);
+    const user = await db.prepare('SELECT * FROM users WHERE phone = ? OR email = ?').get(clean, clean);
     if (!user) return res.json({ ok: false, message: '账号不存在' });
 
     if (!bcrypt.compareSync(password, user.password_hash)) {
       return res.json({ ok: false, message: '密码错误' });
     }
 
-    db.prepare('UPDATE users SET last_login_at = ? WHERE id = ?').run(Math.floor(Date.now()/1000), user.id);
+    await db.prepare('UPDATE users SET last_login_at = ? WHERE id = ?').run(Math.floor(Date.now()/1000), user.id);
 
     const token = signToken({ userId: user.id });
     res.json({
@@ -84,10 +85,10 @@ router.post('/login', (req, res) => {
 });
 
 // 获取当前用户信息
-router.get('/me', verifyToken, (req, res) => {
+router.get('/me', verifyToken, async (req, res) => {
   try {
     const { userId } = req.user;
-    const user = db.prepare('SELECT id, phone, email, company, role, free_uses_left, trial_end_at, points, membership_type, membership_expires_at, created_at FROM users WHERE id = ?').get(userId);
+    const user = await db.prepare('SELECT id, phone, email, company, role, free_uses_left, trial_end_at, points, membership_type, membership_expires_at, created_at FROM users WHERE id = ?').get(userId);
     if (!user) return res.status(404).json({ ok: false, message: '用户不存在' });
 
     const now = Math.floor(Date.now() / 1000);

@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>后台管理 - 电商运营知识库</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:#f5f7fa;color:#1a1a2e;font-size:14px}
+.header{background:linear-gradient(135deg,#1a1a2e 0%,#16213e 100%);color:white;padding:16px 24px;display:flex;justify-content:space-between;align-items:center}
+.header h1{font-size:18px;font-weight:700}
+.header span{color:#FF6A00}
+.btn{background:linear-gradient(135deg,#FF6A00,#FF9F00);color:white;border:none;padding:8px 16px;border-radius:6px;font-weight:600;cursor:pointer}
+.btn.secondary{background:#374151}
+.container{max-width:1400px;margin:0 auto;padding:24px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:24px}
+.card{background:white;border-radius:12px;padding:20px;box-shadow:0 2px 12px rgba(0,0,0,0.06)}
+.card .num{font-size:28px;font-weight:800;color:#FF6A00}
+.card .label{color:#6b7280;font-size:13px;margin-top:6px}
+.tabs{display:flex;gap:8px;margin-bottom:16px;border-bottom:2px solid #e5e7eb;padding-bottom:8px}
+.tab{padding:8px 16px;border-radius:6px;cursor:pointer;font-weight:600;color:#6b7280}
+.tab.active{background:#fff5e6;color:#FF6A00}
+.panel{display:none}
+.panel.active{display:block}
+.toolbar{display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+.toolbar input,.toolbar select{padding:8px 12px;border:1px solid #d1d5db;border-radius:6px;outline:none}
+.toolbar input:focus{border-color:#FF6A00}
+table{width:100%;border-collapse:collapse;background:white;border-radius:8px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,0.06);font-size:13px}
+th{background:linear-gradient(135deg,#FF6A00,#FF9F00);color:white;padding:12px;text-align:left;font-weight:600}
+td{padding:11px 12px;border-bottom:1px solid #e5e7eb;vertical-align:top}
+tr:hover{background:#fff5e6}
+.badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:12px;font-weight:600}
+.badge.paid{background:#d1fae5;color:#065f46}
+.badge.pending{background:#fef3c7;color:#92400e}
+.badge.trial{background:#dbeafe;color:#1e40af}
+.badge.member{background:#f3e8ff;color:#7c3aed}
+.badge.none{background:#e5e7eb;color:#374151}
+.login-box{max-width:400px;background:white;border-radius:12px;padding:36px;margin:80px auto;box-shadow:0 2px 12px rgba(0,0,0,0.06)}
+.login-box h2{margin-bottom:20px}
+.field{margin-bottom:16px}
+.field label{display:block;font-size:13px;font-weight:600;margin-bottom:6px}
+.field input{width:100%;padding:10px 12px;border:1px solid #d1d5db;border-radius:6px;outline:none}
+.field input:focus{border-color:#FF6A00}
+.msg{margin-top:12px;padding:10px 12px;border-radius:6px;font-size:13px;display:none}
+.msg.error{background:#fee2e2;color:#b91c1c}
+.msg.success{background:#d1fae5;color:#065f46}
+.pagination{display:flex;gap:8px;justify-content:flex-end;margin-top:16px}
+.pagination button{padding:6px 12px;border:1px solid #d1d5db;background:white;border-radius:6px;cursor:pointer}
+.pagination button:disabled{opacity:.5}
+</style>
+</head>
+<body>
+<div class="header" id="header" style="display:none">
+  <h1>🛒 <span>电商运营</span>知识库 后台管理</h1>
+  <button class="btn secondary" onclick="logout()">退出</button>
+</div>
+
+<div class="container">
+  <!-- 登录 -->
+  <div class="login-box" id="loginBox">
+    <h2>管理员登录</h2>
+    <div class="field"><label>账号</label><input type="text" id="adminUser" value="admin"></div>
+    <div class="field"><label>密码</label><input type="password" id="adminPass" value="admin123"></div>
+    <button class="btn" onclick="doLogin()">登录</button>
+    <div class="msg" id="loginMsg"></div>
+  </div>
+
+  <!-- 仪表盘 -->
+  <div id="dashboard" style="display:none">
+    <div class="grid">
+      <div class="card"><div class="num" id="statUsers">-</div><div class="label">总注册用户</div></div>
+      <div class="card"><div class="num" id="statPaid">-</div><div class="label">付费用户</div></div>
+      <div class="card"><div class="num" id="statRevenue">-</div><div class="label">累计收入(元)</div></div>
+      <div class="card"><div class="num" id="statUsage">-</div><div class="label">总使用次数</div></div>
+      <div class="card"><div class="num" id="statToday">-</div><div class="label">今日注册</div></div>
+    </div>
+
+    <div class="tabs">
+      <div class="tab active" onclick="showPanel('users')">用户列表</div>
+      <div class="tab" onclick="showPanel('orders')">订单记录</div>
+      <div class="tab" onclick="showPanel('usage')">使用记录</div>
+    </div>
+
+    <div class="panel active" id="panel-users">
+      <div class="toolbar">
+        <input type="text" id="userSearch" placeholder="搜索手机号/邮箱/公司/岗位" onkeyup="if(event.key==='Enter')loadUsers()">
+        <button class="btn" onclick="loadUsers()">搜索</button>
+        <button class="btn secondary" onclick="exportUsers()">导出 CSV</button>
+      </div>
+      <div id="usersTable"></div>
+      <div class="pagination" id="usersPagination"></div>
+    </div>
+
+    <div class="panel" id="panel-orders">
+      <div class="toolbar">
+        <button class="btn secondary" onclick="exportOrders()">导出 CSV</button>
+      </div>
+      <div id="ordersTable"></div>
+    </div>
+
+    <div class="panel" id="panel-usage">
+      <div class="toolbar">
+        <input type="number" id="usageUserId" placeholder="用户ID(可选)">
+        <button class="btn" onclick="loadUsage()">查询</button>
+        <button class="btn secondary" onclick="exportUsage()">导出 CSV</button>
+      </div>
+      <div id="usageTable"></div>
+      <div class="pagination" id="usagePagination"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const API = location.origin + '/api/admin';
+let token = localStorage.getItem('kb_admin_token');
+
+if (token) showDashboard();
+
+function doLogin(){
+  const user = document.getElementById('adminUser').value;
+  const pass = document.getElementById('adminPass').value;
+  fetch('/api/admin/login', {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({username:user, password:pass})
+  }).then(r=>r.json()).then(data=>{
+    if (!data.ok) return showMsg('loginMsg', data.message, true);
+    token = data.token;
+    localStorage.setItem('kb_admin_token', token);
+    showDashboard();
+  }).catch(e=>showMsg('loginMsg','网络错误',true));
+}
+
+function showMsg(id, text, isErr){
+  const el = document.getElementById(id);
+  el.textContent = text; el.style.display='block';
+  el.className = 'msg ' + (isErr?'error':'success');
+}
+
+function showDashboard(){
+  document.getElementById('loginBox').style.display='none';
+  document.getElementById('dashboard').style.display='block';
+  document.getElementById('header').style.display='flex';
+  loadStats();
+  loadUsers();
+  loadOrders();
+  loadUsage();
+}
+
+function logout(){ localStorage.removeItem('kb_admin_token'); location.reload(); }
+
+function authHeaders(){ return {'Authorization':'Bearer '+token,'Content-Type':'application/json'}; }
+
+async function loadStats(){
+  const r = await fetch(API+'/dashboard', {headers:{'Authorization':'Bearer '+token}});
+  const data = await r.json();
+  if (!data.ok) return;
+  document.getElementById('statUsers').textContent = data.stats.totalUsers;
+  document.getElementById('statPaid').textContent = data.stats.paidUsers;
+  document.getElementById('statRevenue').textContent = data.stats.totalRevenue.toFixed(2);
+  document.getElementById('statUsage').textContent = data.stats.totalUsage;
+  document.getElementById('statToday').textContent = data.stats.todayUsers;
+}
+
+function showPanel(name){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('panel-'+name).classList.add('active');
+}
+
+let userPage = 1;
+const userLimit = 50;
+async function loadUsers(page=1){
+  userPage = page;
+  const keyword = document.getElementById('userSearch').value;
+  const r = await fetch(API+'/users?keyword='+encodeURIComponent(keyword)+'&page='+page+'&limit='+userLimit, {headers:{'Authorization':'Bearer '+token}});
+  const data = await r.json();
+  if (!data.ok) return;
+  const rows = data.users.map(u=>{
+    const now = Math.floor(Date.now()/1000);
+    const memberBadge = u.membership_expires_at > now && u.membership_type !== 'none' ? '<span class="badge member">'+u.membership_type+'会员</span>' : '<span class="badge none">非会员</span>';
+    const trialBadge = u.trial_end_at > now && u.free_uses_left >= 0 ? '<span class="badge trial">试用中</span>' : '';
+    return `<tr>
+      <td>${u.id}</td><td>${u.phone||'-'}<br>${u.email||'-'}</td><td>${u.company||'-'}<br><small>${u.role||'-'}</small></td>
+      <td>${u.points}</td><td>${u.free_uses_left}</td><td>${memberBadge}${trialBadge}</td>
+      <td>${u.total_spent.toFixed(2)}</td><td>${fmtDate(u.created_at)}</td>
+    </tr>`;
+  }).join('');
+  document.getElementById('usersTable').innerHTML = '<table><tr><th>ID</th><th>手机号/邮箱</th><th>公司/岗位</th><th>积分</th><th>剩余试用</th><th>会员状态</th><th>消费</th><th>注册时间</th></tr>'+rows+'</table>';
+  renderPagination('usersPagination', page, Math.ceil(data.total/userLimit), loadUsers);
+}
+
+async function loadOrders(){
+  const r = await fetch(API+'/orders', {headers:{'Authorization':'Bearer '+token}});
+  const data = await r.json();
+  if (!data.ok) return;
+  const rows = data.orders.map(o=>`<tr>
+    <td>${o.id}</td><td>${o.user_id}</td><td>${o.phone||o.email||'-'}</td>
+    <td>${typeText(o.order_type)}</td><td>${o.points}</td><td>¥${o.amount}</td>
+    <td><span class="badge ${o.status}">${o.status==='paid'?'已支付':'待支付'}</span></td>
+    <td>${fmtDate(o.created_at)}</td><td>${o.paid_at?fmtDate(o.paid_at):'-'}</td>
+  </tr>`).join('');
+  document.getElementById('ordersTable').innerHTML = '<table><tr><th>ID</th><th>用户ID</th><th>账号</th><th>类型</th><th>积分</th><th>金额</th><th>状态</th><th>创建时间</th><th>支付时间</th></tr>'+rows+'</table>';
+}
+
+let usagePage = 1;
+const usageLimit = 50;
+async function loadUsage(page=1){
+  usagePage = page;
+  const uid = document.getElementById('usageUserId').value;
+  const r = await fetch(API+'/usage?userId='+encodeURIComponent(uid)+'&page='+page+'&limit='+usageLimit, {headers:{'Authorization':'Bearer '+token}});
+  const data = await r.json();
+  if (!data.ok) return;
+  const rows = data.logs.map(l=>`<tr>
+    <td>${l.id}</td><td>${l.user_id}</td><td>${sourceText(l.source)}</td><td>${l.cost_points}</td>
+    <td>${fmtDate(l.started_at)}</td><td>${fmtDate(l.ended_at)}</td><td>${l.question_count}</td>
+  </tr>`).join('');
+  document.getElementById('usageTable').innerHTML = '<table><tr><th>ID</th><th>用户ID</th><th>来源</th><th>消耗积分</th><th>开始</th><th>结束</th><th>提问数</th></tr>'+rows+'</table>';
+  renderPagination('usagePagination', page, 10, loadUsage); // 简单10页
+}
+
+function renderPagination(id, page, total, cb){
+  let html = `<button ${page===1?'disabled':''} onclick="${cb.name}(${page-1})">上一页</button><span>第 ${page} 页</span><button onclick="${cb.name}(${page+1})">下一页</button>`;
+  document.getElementById(id).innerHTML = html;
+}
+
+function typeText(t){ return t==='points'?'积分':t==='month'?'包月':'包年'; }
+function sourceText(s){ return s==='trial'?'免费试用':s==='points'?'积分':s==='membership'?'会员':'-'; }
+function fmtDate(ts){ if(!ts) return '-'; const d=new Date(ts*1000); return d.toLocaleString('zh-CN'); }
+
+function exportUsers(){
+  const keyword = document.getElementById('userSearch').value;
+  fetch(API+'/users?keyword='+encodeURIComponent(keyword)+'&page=1&limit=1000', {headers:{'Authorization':'Bearer '+token}})
+    .then(r=>r.json()).then(data=>{
+      if(!data.ok) return;
+      const header = ['ID','手机号','邮箱','公司','岗位','积分','剩余试用','会员类型','会员到期','累计消费','注册时间','最后登录'];
+      const rows = data.users.map(u=>[u.id,u.phone||'',u.email||'',u.company||'',u.role||'',u.points,u.free_uses_left,u.membership_type||'',u.membership_expires_at||'',u.total_spent,fmtDate(u.created_at),fmtDate(u.last_login_at)]);
+      downloadCSV('users_'+Date.now()+'.csv', [header,...rows]);
+    });
+}
+function exportOrders(){
+  fetch(API+'/orders', {headers:{'Authorization':'Bearer '+token}})
+    .then(r=>r.json()).then(data=>{
+      if(!data.ok) return;
+      const header = ['ID','用户ID','账号','类型','积分','金额','状态','创建时间','支付时间'];
+      const rows = data.orders.map(o=>[o.id,o.user_id,o.phone||o.email||'',typeText(o.order_type),o.points,o.amount,o.status,fmtDate(o.created_at),fmtDate(o.paid_at)]);
+      downloadCSV('orders_'+Date.now()+'.csv', [header,...rows]);
+    });
+}
+function exportUsage(){
+  const uid = document.getElementById('usageUserId').value;
+  fetch(API+'/usage?userId='+encodeURIComponent(uid)+'&page=1&limit=1000', {headers:{'Authorization':'Bearer '+token}})
+    .then(r=>r.json()).then(data=>{
+      if(!data.ok) return;
+      const header = ['ID','用户ID','来源','消耗积分','开始时间','结束时间','提问数'];
+      const rows = data.logs.map(l=>[l.id,l.user_id,sourceText(l.source),l.cost_points,fmtDate(l.started_at),fmtDate(l.ended_at),l.question_count]);
+      downloadCSV('usage_'+Date.now()+'.csv', [header,...rows]);
+    });
+}
+function downloadCSV(filename, rows){
+  const csv = rows.map(r=>r.map(c=>"\""+(c==null?'':c)+"\"").join(',')).join('\n');
+  const blob = new Blob(['\uFEFF'+csv], {type:'text/csv;charset=utf-8'});
+  const a = document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=filename; a.click();
+}
+</script>
+</body>
+</html>

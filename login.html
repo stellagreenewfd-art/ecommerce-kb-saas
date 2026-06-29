@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>登录 / 注册 - 电商运营知识库</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:linear-gradient(135deg,#1a1a2e 0%,#16213e 100%);min-height:100vh;display:flex;align-items:center;justify-content:center;color:#1a1a2e;padding:20px}
+.box{background:white;border-radius:16px;width:100%;max-width:440px;padding:36px;box-shadow:0 20px 60px rgba(0,0,0,0.3)}
+.logo{font-size:22px;font-weight:800;color:#1a1a2e;margin-bottom:6px;text-align:center}
+.logo span{color:#FF6A00}
+.sub{color:#6b7280;font-size:14px;text-align:center;margin-bottom:28px}
+.tabs{display:flex;border-bottom:2px solid #e5e7eb;margin-bottom:24px}
+.tab{flex:1;text-align:center;padding:12px;font-weight:600;color:#6b7280;cursor:pointer;position:relative}
+.tab.active{color:#FF6A00}
+.tab.active::after{content:'';position:absolute;bottom:-2px;left:0;right:0;height:2px;background:#FF6A00}
+.form{display:none}
+.form.active{display:block}
+.field{margin-bottom:16px}
+.field label{display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:6px}
+.field input,.field select{width:100%;padding:12px 14px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;outline:none;transition:border-color .2s}
+.field input:focus,.field select:focus{border-color:#FF6A00}
+.field small{color:#9ca3af;font-size:12px;display:block;margin-top:4px}
+.btn{width:100%;background:linear-gradient(135deg,#FF6A00,#FF9F00);color:white;border:none;padding:14px;border-radius:8px;font-size:16px;font-weight:700;cursor:pointer;transition:transform .2s}
+.btn:hover{transform:translateY(-2px)}
+.btn:disabled{opacity:.6;cursor:not-allowed}
+.msg{margin-top:14px;padding:10px 14px;border-radius:6px;font-size:13px;display:none}
+.msg.error{background:#fee2e2;color:#b91c1c}
+.msg.success{background:#d1fae5;color:#065f46}
+.notice{background:#fff5e6;border-left:4px solid #FF6A00;padding:12px 14px;border-radius:0 8px 8px 0;font-size:13px;color:#7c2d12;margin-bottom:20px}
+</style>
+</head>
+<body>
+<div class="box">
+  <div class="logo">🛒 <span>电商运营</span>知识库</div>
+  <div class="sub">注册后可免费体验 3 天,每次最长 1 天</div>
+  <div class="notice">
+    <strong>权益说明</strong><br>
+    • 免费试用:3 次,每次最长 1 天<br>
+    • 每次使用:10 积分(约 ¥10)<br>
+    • 会员:包月 ¥99 / 包年 ¥499,使用期内不限次
+  </div>
+  <div class="tabs">
+    <div class="tab active" onclick="switchTab('login')">登录</div>
+    <div class="tab" onclick="switchTab('register')">注册</div>
+  </div>
+
+  <form class="form active" id="loginForm" onsubmit="doLogin(event)">
+    <div class="field">
+      <label>手机号 / 邮箱</label>
+      <input type="text" id="loginAccount" placeholder="请输入手机号或邮箱" required>
+    </div>
+    <div class="field">
+      <label>密码</label>
+      <input type="password" id="loginPassword" placeholder="请输入密码" required>
+    </div>
+    <button class="btn" type="submit">登录</button>
+    <div class="msg" id="loginMsg"></div>
+  </form>
+
+  <form class="form" id="registerForm" onsubmit="doRegister(event)">
+    <div class="field">
+      <label>手机号 <small style="display:inline;color:#9ca3af">(手机号和邮箱至少填一个)</small></label>
+      <input type="text" id="regPhone" placeholder="请输入手机号">
+    </div>
+    <div class="field">
+      <label>邮箱</label>
+      <input type="email" id="regEmail" placeholder="请输入邮箱">
+    </div>
+    <div class="field">
+      <label>公司名称</label>
+      <input type="text" id="regCompany" placeholder="请输入公司名称" required>
+    </div>
+    <div class="field">
+      <label>岗位</label>
+      <select id="regRole" required>
+        <option value="">请选择岗位</option>
+        <option value="运营负责人">运营负责人</option>
+        <option value="平台运营">平台运营</option>
+        <option value="直播运营">直播运营</option>
+        <option value="内容运营">内容运营</option>
+        <option value="客服主管">客服主管</option>
+        <option value="供应链/采购">供应链/采购</option>
+        <option value="品牌/市场">品牌/市场</option>
+        <option value="商家/店主">商家/店主</option>
+        <option value="其他">其他</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>密码</label>
+      <input type="password" id="regPassword" placeholder="至少 6 位" required>
+    </div>
+    <button class="btn" type="submit">注册</button>
+    <div class="msg" id="regMsg"></div>
+  </form>
+</div>
+
+<script>
+const API = location.origin + '/api';
+
+function switchTab(name){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.form').forEach(f=>f.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById(name==='login'?'loginForm':'registerForm').classList.add('active');
+}
+
+function showMsg(id, text, isErr){
+  const el = document.getElementById(id);
+  el.textContent = text;
+  el.style.display = 'block';
+  el.className = 'msg ' + (isErr ? 'error' : 'success');
+}
+
+async function doLogin(e){
+  e.preventDefault();
+  const btn = e.target.querySelector('button');
+  btn.disabled = true;
+  try {
+    const r = await fetch(API+'/auth/login', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({account: document.getElementById('loginAccount').value.trim(), password: document.getElementById('loginPassword').value})
+    });
+    const data = await r.json();
+    if (!data.ok) return showMsg('loginMsg', data.message, true);
+    localStorage.setItem('kb_token', data.token);
+    localStorage.setItem('kb_user', JSON.stringify(data.user));
+    showMsg('loginMsg', '登录成功,跳转中...', false);
+    location.href = '/?logged=1';
+  } catch(e) {
+    showMsg('loginMsg', '网络错误', true);
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+async function doRegister(e){
+  e.preventDefault();
+  const btn = e.target.querySelector('button');
+  btn.disabled = true;
+  try {
+    const body = {
+      phone: document.getElementById('regPhone').value.trim() || null,
+      email: document.getElementById('regEmail').value.trim() || null,
+      company: document.getElementById('regCompany').value.trim(),
+      role: document.getElementById('regRole').value,
+      password: document.getElementById('regPassword').value
+    };
+    if (!body.phone && !body.email) return showMsg('regMsg', '请填写手机号或邮箱', true);
+    const r = await fetch(API+'/auth/register', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify(body)
+    });
+    const data = await r.json();
+    if (!data.ok) return showMsg('regMsg', data.message, true);
+    localStorage.setItem('kb_token', data.token);
+    localStorage.setItem('kb_user', JSON.stringify(data.user));
+    showMsg('regMsg', '注册成功,跳转中...', false);
+    location.href = '/?registered=1';
+  } catch(e) {
+    showMsg('regMsg', '网络错误', true);
+  } finally {
+    btn.disabled = false;
+  }
+}
+</script>
+</body>
+</html>

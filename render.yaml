@@ -2,7 +2,7 @@ services:
   - type: web
     name: ecommerce-kb-saas
     env: node
-    plan: starter
+    plan: free
     buildCommand: npm install
     startCommand: npm start
     envVars:
@@ -15,8 +15,4 @@ services:
       - key: JWT_SECRET
         generateValue: true
       - key: DB_PATH
-        value: /var/data/app.db
-    disk:
-      name: ecommerce-kb-data
-      mountPath: /var/data
-      sizeGB: 1
+        value: /tmp/app.db

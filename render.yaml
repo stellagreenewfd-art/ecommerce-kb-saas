@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: ecommerce-kb-saas
+    env: node
+    plan: starter
+    buildCommand: npm install
+    startCommand: npm start
+    nodeVersion: 20
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+      - key: DEEPSEEK_API_KEY
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: DB_PATH
+        value: /var/data/app.db
+    disk:
+      name: ecommerce-kb-data
+      mountPath: /var/data
+      sizeGB: 1

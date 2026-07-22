@@ -1,0 +1,22 @@
+{
+  "users": [],
+  "chat_history": [],
+  "usage_logs": [],
+  "orders": [],
+  "admins": [
+    {
+      "id": 1,
+      "username": "qaq",
+      "password_hash": "$2a$10$fvRyEIrT0xRNDzkjkEPUIOHpFC1a9eqPOTFqwF2xix5v9ienAvkvC",
+      "created_at": 1784722010
+    }
+  ],
+  "_seq": {
+    "users": 2,
+    "chat_history": 1,
+    "usage_logs": 1,
+    "orders": 1,
+    "admins": 2
+  },
+  "_dirty": true
+}

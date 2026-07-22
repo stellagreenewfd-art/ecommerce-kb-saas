@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>后台管理 - 电商运营知识库</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:#0f172a;color:#e2e8f0;font-size:14px;min-height:100vh}
+.header{background:linear-gradient(135deg,#1e293b,#0f172a);border-bottom:1px solid #1e293b;padding:16px 28px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100}
+.header h1{font-size:18px;font-weight:700;color:white}
+.header h1 span{color:#FF6A00}
+.header-right{display:flex;align-items:center;gap:16px}
+.auto-refresh{display:flex;align-items:center;gap:8px;color:#94a3b8;font-size:12px}
+.auto-refresh .switch{width:36px;height:20px;background:#334155;border-radius:10px;cursor:pointer;position:relative;transition:.2s}
+.auto-refresh .switch.on{background:#16a34a}
+.auto-refresh .switch::after{content:'';width:16px;height:16px;background:white;border-radius:50%;position:absolute;top:2px;left:2px;transition:.2s}
+.auto-refresh .switch.on::after{left:18px}
+.btn{padding:8px 16px;border-radius:6px;font-weight:600;cursor:pointer;border:none;font-size:13px;transition:.2s}
+.btn-primary{background:linear-gradient(135deg,#FF6A00,#f97316);color:white}
+.btn-primary:hover{box-shadow:0 4px 12px rgba(255,106,0,0.3)}
+.btn-outline{background:transparent;border:1px solid #334155;color:#cbd5e1}
+.btn-outline:hover{border-color:#FF6A00;color:#FF6A00}
+.container{max-width:1500px;margin:0 auto;padding:24px 28px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:24px}
+.card{background:#1e293b;border-radius:12px;padding:20px;border:1px solid #334155}
+.card .num{font-size:28px;font-weight:800;color:#FF6A00}
+.card .label{color:#94a3b8;font-size:13px;margin-top:4px}
+.tabs{display:flex;gap:4px;margin-bottom:20px;background:#1e293b;padding:4px;border-radius:8px;border:1px solid #334155}
+.tab-item{padding:8px 20px;border-radius:6px;cursor:pointer;font-weight:600;color:#64748b;font-size:13px;transition:.2s}
+.tab-item.active{background:#FF6A00;color:white}
+.panel{display:none}
+.panel.active{display:block}
+.toolbar{display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap;align-items:center}
+.toolbar input,.toolbar select{padding:9px 14px;background:#0f172a;border:1px solid #334155;border-radius:6px;color:#e2e8f0;outline:none;font-size:13px;min-width:200px}
+.toolbar input:focus,.toolbar select:focus{border-color:#FF6A00}
+.toolbar input::placeholder{color:#475569}
+.toolbar .spacer{flex:1}
+.data-table{width:100%;border-collapse:collapse;background:#1e293b;border-radius:10px;overflow:hidden;border:1px solid #334155;font-size:13px}
+.data-table th{background:#0f172a;color:#94a3b8;padding:12px 14px;text-align:left;font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid #334155}
+.data-table td{padding:11px 14px;border-bottom:1px solid #1e293b;vertical-align:middle}
+.data-table tr:hover{background:rgba(255,106,0,0.05)}
+.data-table tr:last-child td{border-bottom:none}
+.badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600}
+.badge-paid{background:rgba(34,197,94,0.15);color:#86efac}
+.badge-pending{background:rgba(251,191,36,0.15);color:#fde68a}
+.badge-trial{background:rgba(59,130,246,0.15);color:#93c5fd}
+.badge-member{background:rgba(168,85,247,0.15);color:#d8b4fe}
+.badge-none{background:rgba(100,116,139,0.15);color:#94a3b8}
+.badge-chat{background:rgba(255,106,0,0.15);color:#fdba74;cursor:pointer}
+.badge-chat:hover{background:rgba(255,106,0,0.25)}
+.chat-preview{max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:pointer;color:#94a3b8}
+.chat-preview:hover{color:#FF6A00}
+.pagination{display:flex;gap:8px;justify-content:flex-end;align-items:center;margin-top:16px}
+.pagination button{padding:6px 12px;border:1px solid #334155;background:#1e293b;color:#cbd5e1;border-radius:6px;cursor:pointer;font-size:12px}
+.pagination button:hover:not(:disabled){border-color:#FF6A00;color:#FF6A00}
+.pagination button:disabled{opacity:.4;cursor:not-allowed}
+.pagination .page-info{color:#64748b;font-size:12px;padding:0 8px}
+.login-box{max-width:420px;background:#1e293b;border-radius:16px;padding:40px;margin:100px auto;border:1px solid #334155}
+.login-box h2{font-size:22px;color:white;margin-bottom:24px;text-align:center}
+.login-box h2 span{color:#FF6A00}
+.field{margin-bottom:16px}
+.field label{display:block;font-size:13px;font-weight:600;color:#cbd5e1;margin-bottom:6px}
+.field input{width:100%;padding:12px 14px;background:#0f172a;border:1px solid #334155;border-radius:8px;color:#e2e8f0;outline:none;font-size:14px}
+.field input:focus{border-color:#FF6A00}
+.field input::placeholder{color:#475569}
+.msg{margin-top:12px;padding:10px 12px;border-radius:6px;font-size:13px;display:none}
+.msg.error{background:rgba(239,68,68,0.15);color:#fca5a5;border:1px solid rgba(239,68,68,0.3)}
+.msg.success{background:rgba(34,197,94,0.15);color:#86efac;border:1px solid rgba(34,197,94,0.3)}
+.modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center;z-index:200;display:none}
+.modal-overlay.show{display:flex}
+.modal{background:#1e293b;border-radius:16px;padding:32px;max-width:700px;width:90%;max-height:80vh;overflow-y:auto;border:1px solid #334155}
+.modal h3{font-size:18px;color:white;margin-bottom:16px}
+.modal .close{float:right;background:none;border:none;color:#64748b;font-size:20px;cursor:pointer}
+.modal .close:hover{color:white}
+.chat-bubble{margin-bottom:16px;padding:12px 16px;border-radius:10px;font-size:13px;line-height:1.6}
+.chat-bubble.user{background:rgba(255,106,0,0.1);border:1px solid rgba(255,106,0,0.2);color:#fdba74}
+.chat-bubble.ai{background:#0f172a;border:1px solid #334155;color:#e2e8f0}
+.chat-bubble .meta{font-size:11px;color:#64748b;margin-bottom:4px}
+.highlight{color:#FF6A00}
+@media(max-width:768px){.container{padding:16px}.data-table{font-size:12px}.data-table th,.data-table td{padding:8px 6px}}
+</style>
+</head>
+<body>
+
+<!-- 登录 -->
+<div class="login-box" id="loginBox">
+  <h2><span>管理员</span>登录</h2>
+  <div class="field"><label>账号</label><input type="text" id="adminUser" value="qaq" placeholder="管理员账号"></div>
+  <div class="field"><label>密码</label><input type="password" id="adminPass" placeholder="管理员密码"></div>
+  <button class="btn btn-primary" style="width:100%;padding:14px" onclick="doLogin()">登录管理后台</button>
+  <div class="msg" id="loginMsg"></div>
+</div>
+
+<!-- 管理面板 -->
+<div id="dashboard" style="display:none">
+  <div class="header">
+    <h1>🛒 <span>电商运营</span>知识库 · 管理后台</h1>
+    <div class="header-right">
+      <div class="auto-refresh">
+        <span id="refreshStatus">自动刷新: 30s</span>
+        <div class="switch on" id="refreshSwitch" onclick="toggleRefresh()"></div>
+      </div>
+      <button class="btn btn-outline" onclick="loadAll()">🔄 手动刷新</button>
+      <button class="btn btn-outline" onclick="location.href='/'">🏠 前台</button>
+      <button class="btn btn-outline" onclick="logout()">退出</button>
+    </div>
+  </div>
+
+  <div class="container">
+    <!-- 统计卡片 -->
+    <div class="grid" id="statCards">
+      <div class="card"><div class="num" id="statUsers">-</div><div class="label">总注册用户</div></div>
+      <div class="card"><div class="num" id="statToday">-</div><div class="label">今日注册</div></div>
+      <div class="card"><div class="num" id="statChats">-</div><div class="label">总查询次数</div></div>
+      <div class="card"><div class="num" id="statTodayChats">-</div><div class="label">今日查询</div></div>
+      <div class="card"><div class="num" id="statPaid">-</div><div class="label">付费用户</div></div>
+      <div class="card"><div class="num" id="statRevenue">-</div><div class="label">累计收入(元)</div></div>
+    </div>
+
+    <!-- 标签页 -->
+    <div class="tabs">
+      <div class="tab-item active" onclick="showPanel('users')">👥 用户管理</div>
+      <div class="tab-item" onclick="showPanel('chats')">💬 查询案例</div>
+      <div class="tab-item" onclick="showPanel('orders')">📦 订单记录</div>
+    </div>
+
+    <!-- 用户管理 -->
+    <div class="panel active" id="panel-users">
+      <div class="toolbar">
+        <input type="text" id="userSearch" placeholder="搜索用户名/手机号/公司/品类..." onkeyup="if(event.key==='Enter')loadUsers()">
+        <button class="btn btn-primary" onclick="loadUsers()">搜索</button>
+        <span class="spacer"></span>
+        <button class="btn btn-outline" onclick="exportUsers()">📥 导出 CSV</button>
+      </div>
+      <div id="usersTable"></div>
+      <div class="pagination" id="usersPagination"></div>
+    </div>
+
+    <!-- 查询案例 -->
+    <div class="panel" id="panel-chats">
+      <div class="toolbar">
+        <input type="text" id="chatUserId" placeholder="按用户ID筛选(留空则全部)" style="min-width:150px">
+        <button class="btn btn-primary" onclick="loadChats()">查询</button>
+        <span class="spacer"></span>
+        <button class="btn btn-outline" onclick="exportChats()">📥 导出 CSV</button>
+      </div>
+      <div id="chatsTable"></div>
+      <div class="pagination" id="chatsPagination"></div>
+    </div>
+
+    <!-- 订单 -->
+    <div class="panel" id="panel-orders">
+      <div class="toolbar">
+        <span class="spacer"></span>
+        <button class="btn btn-outline" onclick="exportOrders()">📥 导出 CSV</button>
+      </div>
+      <div id="ordersTable"></div>
+    </div>
+  </div>
+</div>
+
+<!-- 对话详情弹窗 -->
+<div class="modal-overlay" id="chatModal" onclick="if(event.target===this)closeModal()">
+  <div class="modal" id="chatModalContent"></div>
+</div>
+
+<script>
+const API = location.origin + '/api/admin';
+let token = localStorage.getItem('kb_admin_token');
+let autoRefreshTimer = null;
+let refreshOn = true;
+
+if (token) showDashboard();
+
+// ========== 登录 ==========
+function doLogin(){
+  const user = document.getElementById('adminUser').value.trim();
+  const pass = document.getElementById('adminPass').value;
+  fetch('/api/admin/login', {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({username:user, password:pass})
+  }).then(r=>r.json()).then(data=>{
+    if (!data.ok) return showMsg('loginMsg', data.message, true);
+    token = data.token;
+    localStorage.setItem('kb_admin_token', token);
+    showDashboard();
+  }).catch(()=>showMsg('loginMsg','网络错误',true));
+}
+
+function showMsg(id, text, isErr){
+  const el = document.getElementById(id);
+  el.textContent = text; el.style.display='block';
+  el.className = 'msg ' + (isErr?'error':'success');
+}
+
+function showDashboard(){
+  document.getElementById('loginBox').style.display='none';
+  document.getElementById('dashboard').style.display='block';
+  loadAll();
+  startAutoRefresh();
+}
+
+function logout(){
+  localStorage.removeItem('kb_admin_token');
+  stopAutoRefresh();
+  location.reload();
+}
+
+function authHeaders(){
+  return {'Authorization':'Bearer '+token,'Content-Type':'application/json'};
+}
+
+// ========== 自动刷新 ==========
+function startAutoRefresh(){
+  stopAutoRefresh();
+  if (refreshOn) autoRefreshTimer = setInterval(loadAll, 30000);
+}
+
+function stopAutoRefresh(){ if (autoRefreshTimer) { clearInterval(autoRefreshTimer); autoRefreshTimer = null; }}
+
+function toggleRefresh(){
+  refreshOn = !refreshOn;
+  const sw = document.getElementById('refreshSwitch');
+  if (refreshOn) { sw.classList.add('on'); document.getElementById('refreshStatus').textContent = '自动刷新: 30s'; startAutoRefresh(); }
+  else { sw.classList.remove('on'); document.getElementById('refreshStatus').textContent = '自动刷新: 关'; stopAutoRefresh(); }
+}
+
+function loadAll(){ loadStats(); loadUsers(); loadChats(); loadOrders(); }
+
+// ========== 标签页 ==========
+function showPanel(name){
+  document.querySelectorAll('.tab-item').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('panel-'+name).classList.add('active');
+}
+
+// ========== 统计 ==========
+async function loadStats(){
+  try {
+    const r = await fetch(API+'/dashboard', {headers:{'Authorization':'Bearer '+token}});
+    const data = await r.json();
+    if (!data.ok) return;
+    document.getElementById('statUsers').textContent = data.stats.totalUsers || 0;
+    document.getElementById('statToday').textContent = data.stats.todayUsers || 0;
+    document.getElementById('statChats').textContent = data.stats.totalChats || 0;
+    document.getElementById('statTodayChats').textContent = data.stats.todayChats || 0;
+    document.getElementById('statPaid').textContent = data.stats.paidUsers || 0;
+    document.getElementById('statRevenue').textContent = (data.stats.totalRevenue || 0).toFixed(2);
+  } catch(e) { console.error(e); }
+}
+
+// ========== 用户列表 ==========
+let userPage = 1;
+const userLimit = 50;
+async function loadUsers(page=1){
+  userPage = page;
+  try {
+    const keyword = document.getElementById('userSearch').value;
+    const r = await fetch(API+'/users?keyword='+encodeURIComponent(keyword)+'&page='+page+'&limit='+userLimit, {headers:{'Authorization':'Bearer '+token}});
+    const data = await r.json();
+    if (!data.ok) return;
+    const now = Math.floor(Date.now()/1000);
+    const rows = data.users.map(u=>{
+      const memberBadge = u.membership_expires_at > now && u.membership_type !== 'none'
+        ? '<span class="badge badge-member">'+u.membership_type+'</span>' : '';
+      const trialBadge = u.trial_end_at > now
+        ? '<span class="badge badge-trial">试用中</span>' : '<span class="badge badge-none">-</span>';
+      const chatBadge = u.chat_count > 0
+        ? `<span class="badge badge-chat" onclick="loadUserChats(${u.id})" title="点击查看查询案例">${u.chat_count}条</span>`
+        : '<span class="badge badge-none">0</span>';
+      return `<tr>
+        <td>${u.id}</td>
+        <td><strong>${esc(u.username)||'-'}</strong></td>
+        <td>${esc(u.company)||'-'}</td>
+        <td>${esc(u.category)||'-'}</td>
+        <td>${esc(u.phone)||'-'}</td>
+        <td>${chatBadge}</td>
+        <td>${memberBadge} ${trialBadge}</td>
+        <td>${u.points||0}</td>
+        <td style="font-size:12px;color:#94a3b8">${fmtDate(u.created_at)}</td>
+      </tr>`;
+    }).join('');
+    document.getElementById('usersTable').innerHTML = `<table class="data-table">
+      <thead><tr><th>ID</th><th>用户名</th><th>公司</th><th>品类</th><th>手机号</th><th>查询案例</th><th>状态</th><th>积分</th><th>注册时间</th></tr></thead>
+      <tbody>${rows||'<tr><td colspan="9" style="text-align:center;color:#64748b;padding:40px">暂无用户数据</td></tr>'}</tbody></table>`;
+    renderPagination('usersPagination', page, Math.ceil(data.total/userLimit), loadUsers);
+  } catch(e) { console.error(e); }
+}
+
+// ========== 查询案例 ==========
+let chatPage = 1;
+const chatLimit = 30;
+async function loadChats(page=1){
+  chatPage = page;
+  try {
+    const uid = document.getElementById('chatUserId').value;
+    const r = await fetch(API+'/chat-history?userId='+encodeURIComponent(uid)+'&page='+page+'&limit='+chatLimit, {headers:{'Authorization':'Bearer '+token}});
+    const data = await r.json();
+    if (!data.ok) return;
+    const rows = data.records.map(c=>`<tr>
+      <td>${c.id}</td>
+      <td><strong>${esc(c.username)}</strong></td>
+      <td>${esc(c.phone)||'-'}</td>
+      <td>${esc(c.company)||'-'}</td>
+      <td>${esc(c.category)||'-'}</td>
+      <td><span class="chat-preview" onclick="showChatDetail(${c.id})" title="点击查看详情">${esc(c.user_message.substring(0,50))}${c.user_message.length>50?'...':''}</span></td>
+      <td>${esc(c.ai_response.substring(0,50))}${c.ai_response.length>50?'...':''}</td>
+      <td><span class="badge badge-${c.source==='trial'?'trial':c.source==='membership'?'member':'none'}">${sourceText(c.source)}</span></td>
+      <td style="font-size:12px;color:#94a3b8">${fmtDate(c.created_at)}</td>
+    </tr>`).join('');
+    document.getElementById('chatsTable').innerHTML = `<table class="data-table">
+      <thead><tr><th>ID</th><th>用户名</th><th>手机号</th><th>公司</th><th>品类</th><th>用户提问</th><th>AI回答</th><th>来源</th><th>时间</th></tr></thead>
+      <tbody>${rows||'<tr><td colspan="9" style="text-align:center;color:#64748b;padding:40px">暂无查询记录</td></tr>'}</tbody></table>`;
+    renderPagination('chatsPagination', page, Math.ceil(data.total/chatLimit), loadChats);
+  } catch(e) { console.error(e); }
+}
+
+function loadUserChats(uid){
+  document.getElementById('chatUserId').value = uid;
+  showPanelByName('chats');
+  loadChats(1);
+}
+
+function showPanelByName(name){
+  document.querySelectorAll('.tab-item').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelector(`.tab-item[onclick*="${name}"]`).classList.add('active');
+  document.getElementById('panel-'+name).classList.add('active');
+}
+
+// ========== 对话详情弹窗 ==========
+async function showChatDetail(chatId){
+  try {
+    const r = await fetch(API+'/chat-history?page=1&limit=1000', {headers:{'Authorization':'Bearer '+token}});
+    const data = await r.json();
+    if (!data.ok) return;
+    const chat = data.records.find(c=>c.id===chatId);
+    if (!chat) return;
+    document.getElementById('chatModalContent').innerHTML = `
+      <h3>💬 对话详情 <span class="highlight">#${chat.id}</span>
+        <button class="close" onclick="closeModal()">✕</button>
+      </h3>
+      <p style="color:#94a3b8;font-size:12px;margin-bottom:16px">
+        用户: <strong style="color:white">${esc(chat.username)}</strong> |
+        手机: ${esc(chat.phone)||'-'} |
+        公司: ${esc(chat.company)||'-'} |
+        品类: ${esc(chat.category)||'-'} |
+        时间: ${fmtDate(chat.created_at)}
+      </p>
+      <div class="chat-bubble user">
+        <div class="meta">👤 用户提问</div>
+        ${esc(chat.user_message).replace(/\n/g,'<br>')}
+      </div>
+      <div class="chat-bubble ai">
+        <div class="meta">🤖 AI 回答</div>
+        ${esc(chat.ai_response).replace(/\n/g,'<br>')}
+      </div>
+    `;
+    document.getElementById('chatModal').classList.add('show');
+  } catch(e) { console.error(e); }
+}
+
+function closeModal(){ document.getElementById('chatModal').classList.remove('show'); }
+
+// ========== 订单 ==========
+async function loadOrders(){
+  try {
+    const r = await fetch(API+'/orders', {headers:{'Authorization':'Bearer '+token}});
+    const data = await r.json();
+    if (!data.ok) return;
+    const rows = data.orders.map(o=>`<tr>
+      <td>${o.id}</td><td>${esc(o.username)||'-'}</td><td>${esc(o.phone)||o.email||'-'}</td>
+      <td>${typeText(o.order_type)}</td><td>${o.points}</td><td>¥${o.amount}</td>
+      <td><span class="badge badge-${o.status==='paid'?'paid':'pending'}">${o.status==='paid'?'已支付':'待支付'}</span></td>
+      <td style="font-size:12px">${fmtDate(o.created_at)}</td>
+    </tr>`).join('');
+    document.getElementById('ordersTable').innerHTML = `<table class="data-table">
+      <thead><tr><th>ID</th><th>用户名</th><th>账号</th><th>类型</th><th>积分</th><th>金额</th><th>状态</th><th>创建时间</th></tr></thead>
+      <tbody>${rows||'<tr><td colspan="8" style="text-align:center;color:#64748b;padding:40px">暂无订单</td></tr>'}</tbody></table>`;
+  } catch(e) { console.error(e); }
+}
+
+// ========== 导出 ==========
+function exportUsers(){
+  fetch(API+'/users?page=1&limit=10000', {headers:{'Authorization':'Bearer '+token}})
+    .then(r=>r.json()).then(data=>{
+      if(!data.ok) return;
+      const header = ['ID','用户名','手机号','邮箱','公司','品类','积分','剩余试用','会员类型','累计消费','查询案例数','注册时间'];
+      const rows = data.users.map(u=>[u.id,u.username||'',u.phone||'',u.email||'',u.company||'',u.category||'',u.points,u.free_uses_left,u.membership_type||'',u.total_spent,u.chat_count||0,fmtDate(u.created_at)]);
+      downloadCSV('users_'+Date.now()+'.csv', [header,...rows]);
+    });
+}
+
+function exportChats(){
+  fetch(API+'/chat-history?page=1&limit=10000', {headers:{'Authorization':'Bearer '+token}})
+    .then(r=>r.json()).then(data=>{
+      if(!data.ok) return;
+      const header = ['ID','用户名','手机号','公司','品类','用户提问','AI回答','来源','时间'];
+      const rows = data.records.map(c=>[c.id,c.username||'',c.phone||'',c.company||'',c.category||'',c.user_message,c.ai_response,sourceText(c.source),fmtDate(c.created_at)]);
+      downloadCSV('chats_'+Date.now()+'.csv', [header,...rows]);
+    });
+}
+
+function exportOrders(){
+  fetch(API+'/orders', {headers:{'Authorization':'Bearer '+token}})
+    .then(r=>r.json()).then(data=>{
+      if(!data.ok) return;
+      const header = ['ID','用户名','账号','类型','积分','金额','状态','创建时间'];
+      const rows = data.orders.map(o=>[o.id,o.username||'',o.phone||o.email||'',typeText(o.order_type),o.points,o.amount,o.status,fmtDate(o.created_at)]);
+      downloadCSV('orders_'+Date.now()+'.csv', [header,...rows]);
+    });
+}
+
+// ========== 工具函数 ==========
+function downloadCSV(filename, rows){
+  const csv = rows.map(r=>r.map(c=>'"'+(c==null?'':String(c).replace(/"/g,'""'))+'"').join(',')).join('\n');
+  const blob = new Blob(['\uFEFF'+csv], {type:'text/csv;charset=utf-8'});
+  const a = document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=filename; a.click();
+}
+
+function renderPagination(id, page, total, cb){
+  let html = `<button ${page<=1?'disabled':''} onclick="${cb.name}(${page-1})">‹ 上一页</button>
+    <span class="page-info">第 ${page} 页 / 共 ${total||1} 页</span>
+    <button ${page>=total?'disabled':''} onclick="${cb.name}(${page+1})">下一页 ›</button>`;
+  document.getElementById(id).innerHTML = html;
+}
+
+function sourceText(s){ return s==='trial'?'免费试用':s==='points'?'积分':s==='membership'?'会员':s==='free'?'免费':'未知'; }
+function typeText(t){ return t==='points'?'积分':t==='month'?'包月':'包年'; }
+function fmtDate(ts){ if(!ts) return '-'; const d=new Date(ts*1000); return d.toLocaleString('zh-CN',{year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'}); }
+function esc(s){ if(!s) return ''; const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
+</script>
+</body>
+</html>

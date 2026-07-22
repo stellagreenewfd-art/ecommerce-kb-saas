@@ -28,11 +28,6 @@ const limiter = rateLimit({
 });
 app.use('/api/', limiter);
 
-// 健康检查
-app.get('/api/health', (req, res) => {
-  res.json({ ok: true, time: new Date().toISOString() });
-});
-
 // API 路由
 app.use('/api/auth', authRoutes);
 app.use('/api/usage', verifyToken, usage.router);

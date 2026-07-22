@@ -1,0 +1,2364 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>中国电商运营知识库 · 完整版</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:#f5f7fa;color:#1a1a2e;line-height:1.85;font-size:15px}
+a{color:#FF6A00;text-decoration:none}
+a:hover{text-decoration:underline}
+code{background:#f0f0f0;padding:2px 6px;border-radius:4px;font-size:0.9em;color:#E55A00}
+pre{background:#1a1a2e;color:#e5e7eb;padding:14px 18px;border-radius:8px;overflow-x:auto;font-size:13px;line-height:1.6;margin:12px 0;border-left:3px solid #FF6A00;white-space:pre-wrap}
+pre code{background:none;color:inherit;padding:0}
+.header{background:linear-gradient(135deg,#1a1a2e 0%,#16213e 100%);color:white;padding:18px 0;border-bottom:4px solid #FF6A00;position:sticky;top:0;z-index:1000}
+.header-inner{max-width:1400px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.logo{font-size:20px;font-weight:800}
+.logo span{color:#FF6A00}
+.search-box{flex:1;max-width:360px;position:relative}
+.search-box input{width:100%;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:white;padding:8px 14px 8px 36px;border-radius:20px;font-size:13px;outline:none}
+.search-box::before{content:'🔍';position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:14px}
+.search-box input::placeholder{color:rgba(255,255,255,0.5)}
+.header nav{display:flex;gap:4px;flex-wrap:wrap}
+.header nav a{color:rgba(255,255,255,0.8);font-size:12px;padding:5px 10px;border-radius:6px;transition:all 0.2s}
+.header nav a:hover{background:rgba(255,106,0,0.2);color:white;text-decoration:none}
+.layout{max-width:1400px;margin:0 auto;padding:24px;display:grid;grid-template-columns:260px 1fr;gap:24px}
+@media(max-width:900px){.layout{grid-template-columns:1fr}}
+.sidebar{position:sticky;top:90px;align-self:start;background:white;border-radius:12px;padding:18px;box-shadow:0 2px 12px rgba(0,0,0,0.06);max-height:calc(100vh - 110px);overflow-y:auto}
+.sidebar h3{font-size:12px;color:#6b7280;margin:18px 0 8px;text-transform:uppercase;letter-spacing:1px;font-weight:700}
+.sidebar h3:first-child{margin-top:0}
+.sidebar a{display:block;padding:5px 10px;border-radius:6px;font-size:13px;color:#374151;margin-bottom:2px;transition:all 0.2s;line-height:1.5}
+.sidebar a:hover{background:#fff5e6;color:#FF6A00;text-decoration:none}
+.sidebar a.active{background:#FF6A00;color:white;font-weight:600}
+.sidebar a.sub{padding-left:24px;font-size:12px;color:#6b7280}
+.main{background:white;border-radius:12px;padding:36px 44px;box-shadow:0 2px 12px rgba(0,0,0,0.06);min-width:0}
+.section{margin-bottom:64px;scroll-margin-top:100px}
+.section h1{font-size:30px;font-weight:800;color:#1a1a2e;margin-bottom:8px;padding-bottom:14px;border-bottom:3px solid #FF6A00}
+.section h1 small{font-size:14px;color:#6b7280;font-weight:400;display:block;margin-top:6px}
+.section h2{font-size:24px;font-weight:700;color:#FF6A00;margin:36px 0 16px;padding-left:14px;border-left:5px solid #FF6A00;scroll-margin-top:100px}
+.section h3{font-size:19px;font-weight:600;color:#1a1a2e;margin:28px 0 14px;padding-bottom:6px;border-bottom:1px dashed #e5e7eb;scroll-margin-top:100px}
+.section h4{font-size:16px;font-weight:700;color:#374151;margin:20px 0 10px;background:#f9fafb;padding:8px 12px;border-radius:6px;border-left:3px solid #FF6A00}
+.section p{margin-bottom:12px;color:#374151}
+.section ul,.section ol{margin:0 0 16px 22px;color:#374151}
+.section li{margin-bottom:6px}
+.section li::marker{color:#FF6A00;font-weight:700}
+.formula{background:linear-gradient(135deg,#fff5e6,#ffe8f0);border:1px solid #FF6A00;border-radius:8px;padding:14px 18px;margin:14px 0;font-weight:600;color:#E55A00;line-height:1.7}
+.formula code{background:none;padding:0;color:#E55A00;font-size:14px}
+.tip-box{background:#f0fdf4;border-left:4px solid #22c55e;padding:14px 18px;border-radius:0 8px 8px 0;margin:14px 0}
+.tip-box::before{content:'✅ ';font-weight:700}
+.warn-box{background:#fef3c7;border-left:4px solid #f59e0b;padding:14px 18px;border-radius:0 8px 8px 0;margin:14px 0}
+.warn-box::before{content:'⚠️ ';font-weight:700}
+.info-box{background:#eff6ff;border-left:4px solid #3b82f6;padding:14px 18px;border-radius:0 8px 8px 0;margin:14px 0}
+.info-box::before{content:'💡 ';font-weight:700}
+.case-box{background:linear-gradient(135deg,#faf5ff,#fdf2f8);border:1px solid #a855f7;border-radius:8px;padding:16px 20px;margin:14px 0}
+.case-box::before{content:'📌 实战案例';display:block;font-weight:700;color:#7c3aed;margin-bottom:8px}
+table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px;box-shadow:0 1px 3px rgba(0,0,0,0.05)}
+th{background:linear-gradient(135deg,#FF6A00,#FF9F00);color:white;padding:12px 14px;text-align:left;font-weight:600;font-size:13px}
+td{padding:11px 14px;border-bottom:1px solid #e5e7eb;vertical-align:top}
+tr:nth-child(even){background:#fafbfc}
+tr:hover{background:#fff5e6}
+td strong{color:#E55A00}
+.tag{display:inline-block;background:#fff5e6;color:#FF6A00;padding:3px 10px;border-radius:4px;font-size:12px;font-weight:600;margin-right:6px;margin-bottom:4px}
+.platform-taobao{padding-left:14px;border-left:5px solid #FF6A00;background:linear-gradient(90deg,rgba(255,106,0,0.05),transparent);padding-top:10px;padding-bottom:10px}
+.platform-pdd{padding-left:14px;border-left:5px solid #E02E24;background:linear-gradient(90deg,rgba(224,46,36,0.05),transparent);padding-top:10px;padding-bottom:10px}
+.platform-jd{padding-left:14px;border-left:5px solid #E1251B;background:linear-gradient(90deg,rgba(225,37,27,0.05),transparent);padding-top:10px;padding-bottom:10px}
+.platform-douyin{padding-left:14px;border-left:5px solid #FE2C55;background:linear-gradient(90deg,rgba(254,44,85,0.05),transparent);padding-top:10px;padding-bottom:10px}
+.steps{counter-reset:step;list-style:none;margin-left:0!important;padding-left:0!important}
+.steps li{counter-increment:step;position:relative;padding:14px 14px 14px 50px;margin-bottom:12px;background:#fafbfc;border-radius:8px;border:1px solid #e5e7eb}
+.steps li::before{content:counter(step);position:absolute;left:14px;top:14px;width:28px;height:28px;background:linear-gradient(135deg,#FF6A00,#FF9F00);color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px}
+.steps li strong{color:#E55A00;display:block;margin-bottom:6px;font-size:16px}
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:16px 0}
+@media(max-width:600px){.compare{grid-template-columns:1fr}}
+.compare-box{padding:16px;border-radius:8px}
+.compare-good{background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:1px solid #22c55e}
+.compare-bad{background:linear-gradient(135deg,#fef2f2,#fee2e2);border:1px solid #ef4444}
+.compare-neutral{background:linear-gradient(135deg,#f0f9ff,#dbeafe);border:1px solid #3b82f6}
+.compare-box h4{margin:0 0 10px;background:none;border:none;padding:0}
+.compare-box ul{margin:0;padding-left:18px}
+.ai-section{background:linear-gradient(135deg,#1a1a2e,#16213e);color:white;border-radius:12px;padding:24px;margin:32px 0}
+.ai-section h2{color:white;border:none;padding:0;margin:0 0 16px;font-size:22px}
+.ai-chat{background:rgba(255,255,255,0.05);border-radius:12px;overflow:hidden}
+.ai-messages{height:340px;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px}
+.ai-messages::-webkit-scrollbar{width:6px}
+.ai-messages::-webkit-scrollbar-thumb{background:#FF6A00;border-radius:3px}
+.ai-msg{display:flex;gap:8px;align-items:flex-start}
+.ai-msg.user{flex-direction:row-reverse}
+.ai-avatar{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.ai-bubble{padding:10px 14px;border-radius:12px;font-size:14px;line-height:1.7;max-width:85%;word-break:break-word}
+.ai-bubble.ai{background:rgba(255,255,255,0.1)}
+.ai-bubble.human{background:#FF6A00}
+.ai-input-row{display:flex;gap:8px;padding:12px 16px;border-top:1px solid rgba(255,255,255,0.1)}
+.ai-input-row input{flex:1;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:white;padding:10px 14px;border-radius:8px;font-size:14px;outline:none}
+.ai-input-row input:focus{border-color:#FF6A00}
+.quick-btns{display:flex;gap:6px;flex-wrap:wrap;padding:10px 16px;border-top:1px solid rgba(255,255,255,0.05)}
+.quick-btn{background:rgba(255,255,255,0.1);color:white;border:1px solid rgba(255,255,255,0.2);padding:6px 10px;border-radius:16px;font-size:12px;cursor:pointer;transition:all 0.2s}
+.quick-btn:hover{background:#FF6A00;border-color:#FF6A00}
+.back-top{position:fixed;bottom:24px;right:24px;background:#FF6A00;color:white;width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;box-shadow:0 4px 12px rgba(255,106,0,0.3);transition:all 0.3s;opacity:0;pointer-events:none;z-index:999}
+.back-top.show{opacity:1;pointer-events:auto}
+.back-top:hover{transform:scale(1.1)}
+.highlight{background:linear-gradient(120deg,#fff5e6 0%,#fff5e6 100%);background-repeat:no-repeat;background-size:100% 40%;background-position:0 88%;font-weight:600}
+@media print{.sidebar,.header nav,.ai-section,.back-top,.search-box{display:none!important}.layout{grid-template-columns:1fr}.main{box-shadow:none}}
+.user-bar{display:flex;align-items:center;gap:10px;color:white;font-size:13px}
+.user-bar .badge{background:rgba(255,255,255,0.15);padding:4px 10px;border-radius:20px;white-space:nowrap}
+.user-bar .btn{padding:5px 12px;background:#FF6A00;border-radius:20px;color:white;font-weight:600;cursor:pointer;border:none;font-size:12px}
+.user-bar .btn.secondary{background:rgba(255,255,255,0.15)}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:2000;align-items:center;justify-content:center;padding:20px}
+.modal.show{display:flex}
+.modal-box{background:white;border-radius:16px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;padding:28px;position:relative}
+.modal-box h2{font-size:20px;margin-bottom:16px;color:#1a1a2e}
+.modal-close{position:absolute;right:16px;top:16px;font-size:24px;cursor:pointer;color:#6b7280}
+.pay-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:16px 0}
+.pay-card{border:2px solid #e5e7eb;border-radius:10px;padding:16px;cursor:pointer;transition:all .2s}
+.pay-card:hover{border-color:#FF6A00;background:#fff5e6}
+.pay-card.selected{border-color:#FF6A00;background:#fff5e6}
+.pay-card .price{font-size:22px;font-weight:800;color:#FF6A00}
+.pay-card .desc{font-size:13px;color:#6b7280;margin-top:4px}
+.auth-wall{position:fixed;inset:0;background:linear-gradient(135deg,#1a1a2e 0%,#16213e 100%);z-index:3000;display:flex;flex-direction:column;align-items:center;justify-content:center;color:white;text-align:center;padding:20px}
+.auth-wall h2{font-size:28px;margin-bottom:12px}
+.auth-wall p{color:rgba(255,255,255,0.8);margin-bottom:24px;max-width:500px;line-height:1.8}
+.auth-wall .btn{background:linear-gradient(135deg,#FF6A00,#FF9F00);color:white;padding:14px 36px;border-radius:8px;font-size:16px;font-weight:700;text-decoration:none;display:inline-block}
+.lock-msg{background:#fee2e2;color:#b91c1c;padding:12px 16px;border-radius:8px;margin-bottom:16px;font-size:14px}
+@media(max-width:900px){.user-bar{font-size:11px}.user-bar .badge{display:none}}
+</style>
+</head>
+<body>
+<div class="header">
+<div class="header-inner">
+<div class="logo">🛒 <span>电商运营</span>知识库 · 完整版</div>
+<div class="search-box"><input type="text" id="searchInput" placeholder="搜索关键词，如"直通车"…" onkeyup="doSearch(this.value)"></div>
+<nav>
+<a href="#taobao">🛒 淘宝</a>
+<a href="#pdd">🍊 拼多多</a>
+<a href="#jd">🟥 京东</a>
+<a href="#douyin">🎵 抖音</a>
+<a href="#campaign">🚀 大促</a>
+<a href="#live">🎬 直播</a>
+<a href="#private">💰 私域</a>
+<a href="#roles">🧩 岗位</a>
+<a href="#caixiao">🏭 采销</a>
+<a href="#aftersales">🛠️ 售后</a>
+<a href="#platform-choice">🎯 平台</a>
+<a href="#visual-sop">🎨 视觉</a>
+<a href="#ai">🤖 AI</a>
+</nav>
+<div class="user-bar" id="userBar">
+<span class="badge" id="statusBadge">未登录</span>
+<button class="btn secondary" onclick="openPayModal()">充值</button>
+<button class="btn" onclick="goLogin()">登录 / 注册</button>
+</div>
+</div>
+</div>
+<div class="auth-wall" id="authWall">
+<h2>🛒 中国电商运营知识库</h2>
+<p>注册/登录后可免费体验 3 次,每次最长 1 天。<br>之后每次使用消耗 10 积分,或购买包月/包年会员无限使用。</p>
+<a class="btn" href="/login.html">立即登录 / 注册</a>
+</div>
+
+<div class="modal" id="payModal">
+<div class="modal-box">
+<span class="modal-close" onclick="closePayModal()">×</span>
+<h2>购买积分 / 会员</h2>
+<div id="payInfo" style="margin-bottom:12px;font-size:14px;color:#6b7280"></div>
+<div class="pay-grid" id="payGrid"></div>
+<div id="payMsg" style="margin:10px 0;color:#b91c1c;font-size:13px;display:none"></div>
+<button class="btn" style="width:100%;padding:12px" onclick="doPay()">立即支付 (模拟)</button>
+</div>
+</div>
+
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+<h3>🛒 平台运营</h3>
+<a href="#taobao">🛒 淘宝/天猫</a>
+<a class="sub" href="#tb-algorithm">· 算法机制详解</a>
+<a class="sub" href="#tb-listing">· 商品发布优化</a>
+<a class="sub" href="#tb-ad">· 直通车/万相台</a>
+<a class="sub" href="#tb-store">· 店铺运营</a>
+<a href="#pdd">🍊 拼多多</a>
+<a class="sub" href="#pdd-algorithm">· 算法机制</a>
+<a class="sub" href="#pdd-sku">· SKU布局</a>
+<a class="sub" href="#pdd-startup">· 新店起量</a>
+<a class="sub" href="#pdd-ad">· 多多搜索/场景</a>
+<a href="#jd">🟥 京东</a>
+<a class="sub" href="#jd-mode">· 自营vs POP</a>
+<a class="sub" href="#jd-algorithm">· 算法机制</a>
+<a href="#douyin">🎵 抖音电商</a>
+<a class="sub" href="#dy-algorithm">· 流量逻辑</a>
+<a class="sub" href="#dy-video">· 短视频运营</a>
+<a class="sub" href="#dy-live">· 直播间运营</a>
+<a class="sub" href="#dy-qianchuan">· 千川投放</a>
+<h3>🔧 运营技能</h3>
+<a href="#listing">📝 商品发布</a>
+<a href="#visual">🎨 视觉设计</a>
+<a href="#advertising">📢 付费推广</a>
+<a href="#data">📊 数据分析</a>
+<a href="#customer">💬 客服体系</a>
+<h3>🚀 大促作战</h3>
+<a href="#campaign-618">🔥 618完整作战</a>
+<a href="#campaign-double11">🛍️ 双11完整作战</a>
+<a href="#campaign-rules">📋 大促执行规则</a>
+<h3>🎬 直播带货</h3>
+<a href="#live-basics">🎯 直播基础</a>
+<a href="#live-host">🎤 主播培养</a>
+<a href="#live-script">📜 话术框架</a>
+<a href="#live-products">📦 选品排品</a>
+<h3>💰 私域运营</h3>
+<a href="#private-funnel">💰 私域漏斗</a>
+<a href="#private-member">👑 会员体系</a>
+<a href="#private-wechat">💬 企微运营</a>
+<h3>🔧 进阶模块</h3>
+<a href="#jd-sop">🟥 京东运营SOP</a>
+<a href="#xhs-sop">📕 小红书运营SOP</a>
+<a href="#roles">🧩 岗位职责</a>
+<a href="#caixiao">🏭 采销职责</a>
+<a href="#aftersales">🛠️ 售后客服</a>
+<a href="#platform-choice">🎯 平台选择</a>
+<a href="#visual-sop">🎨 视觉SOP</a>
+
+<h3>🚚 供应链履约</h3>
+<a href="#supply">🚚 供应链管理</a>
+<a href="#logistics">📦 物流履约</a>
+</aside>
+<main class="main" id="main">
+<div id="content">
+<div class="section" id="taobao">
+<h1>🛒 淘宝/天猫运营知识库<small>中国电商第一平台 · 搜索流量为主 · 品牌建设首选</small></h1>
+<div><span class="tag">月活 8亿+</span><span class="tag">年GMV 5万亿+</span><span class="tag">服饰/美妆/家居/3C 最强</span><span class="tag">搜索流量为核心</span></div>
+</div>
+<div class="section platform-taobao" id="tb-algorithm">
+<h2>一、平台算法机制深度解析</h2>
+<h3>1.1 搜索流量分发机制</h3>
+<p>淘宝搜索的底层逻辑是<span class="highlight">"匹配 + 排序"</span>。系统会从两个维度评估：</p>
+<p><strong>第一步：召回</strong> - 用户搜索词和商品标题的匹配度（决定是否被搜到）</p>
+<ul>
+<li>精确匹配：用户搜"红色连衣裙" → 标题含"红色连衣裙"优先</li>
+<li>语义匹配：用户搜"夏天裙子" → 系统扩展到"夏季连衣裙"</li>
+<li>类目匹配：你的商品必须发布在正确类目下，否则无法被搜到</li>
+</ul>
+<p><strong>第二步：排序</strong> - 召回后按综合质量分排序（决定排在第几）</p>
+<div class="formula">综合质量分 = 文本相关性 × 销量权重 × DSR评分 × 转化率 × 客单价 × 店铺权重 × 个性化因子</div>
+<h4>① 文本相关性（基础门槛）</h4>
+<p>就是标题中的关键词与用户搜索词的匹配程度，关键词位置越靠前权重越高。</p>
+<div class="case-box">
+<strong>实际场景：</strong>用户搜"儿童保温杯 316不锈钢"<br>
+<strong>商品A标题：</strong>"儿童保温杯 316不锈钢 防摔便携小学生水杯 2024新款"<br>
+<strong>商品B标题：</strong>"316不锈钢保温杯 儿童水杯 防摔便携 可爱女孩款"<br>
+<strong>分析：</strong>商品A的相关性更高（关键词更靠前+顺序匹配），所以A排名靠前。
+</div>
+<h4>② 销量权重（动态变化）</h4>
+<ul>
+<li><strong>权重排序：</strong>近1天销量 > 近7天销量 > 近30天销量 > 总销量</li>
+<li><strong>新品扶持期：</strong>商品发布后28天内有搜索加权，是冷启动黄金期</li>
+<li><strong>销量异常检测：</strong>系统会判断销量是否正常（是否存在刷单、是否短期暴增）</li>
+</ul>
+<div class="warn-box"><strong>重要提醒：</strong>新品前7天的销量决定生死。如果新品期销量没起来，后续再想突破搜索流量难度倍增。务必重视新品期的破零和冲量。</div>
+<h4>③ DSR评分（店铺综合服务质量）</h4>
+<table>
+<tr><th>指标</th><th>计算方式</th><th>权重</th><th>红线</th></tr>
+<tr><td><strong>描述相符</strong></td><td>买家打分（1-5分）</td><td>40%</td><td>< 4.6分降权</td></tr>
+<tr><td><strong>服务态度</strong></td><td>客服响应、问题解决</td><td>30%</td><td>< 4.6分降权</td></tr>
+<tr><td><strong>物流服务</strong></td><td>发货速度、配送时效</td><td>30%</td><td>< 4.6分降权</td></tr>
+</table>
+<p>三项分数的平均值就是DSR总分。<span class="highlight">DSR < 4.7 是警戒线，< 4.5 会被严重降权</span>。</p>
+<div class="case-box">
+<strong>实战案例：</strong>某天猫店DSR从4.8掉到4.5<br>
+<strong>原因分析：</strong>找了外包客服，回复模板化，导致服务态度分暴跌。<br>
+<strong>处理方案：</strong>客服话术重写+每日客服绩效监控+主动售后关怀，2个月内DSR回升到4.8+<br>
+<strong>教训：</strong>DSR一旦掉下去，恢复需要2-3个月，期间搜索流量损失巨大。预防胜于治疗。
+</div>
+<h4>④ 转化率（同行对比）</h4>
+<p>淘宝不要求你绝对转化率高，而是要求<span class="highlight">高于同行同层级均值</span>。</p>
+<p><strong>不同类目的转化率基准：</strong></p>
+<table>
+<tr><th>类目</th><th>及格线</th><th>良好</th><th>优秀</th></tr>
+<tr><td>服饰</td><td>2%</td><td>3%</td><td>5%+</td></tr>
+<tr><td>3C数码</td><td>1.5%</td><td>2.5%</td><td>4%+</td></tr>
+<tr><td>美妆</td><td>1.8%</td><td>3%</td><td>5%+</td></tr>
+<tr><td>家居</td><td>1.5%</td><td>2.5%</td><td>4%+</td></tr>
+<tr><td>食品</td><td>2.5%</td><td>4%</td><td>6%+</td></tr>
+</table>
+<h4>⑤ 客单价（不是越高越好）</h4>
+<p>客单价是双刃剑：高客单 = 流量价值高（加权）；低客单 = 流量质量差（降权）。</p>
+<div class="case-box">
+<strong>案例：</strong>某女包店客单价从89元提升到145元<br>
+<strong>方法：</strong>设置"满120减10元"优惠券 → 50%买家会凑单到120+<br>
+<strong>结果：</strong>客单价提升63%，搜索流量增加40%
+</div>
+<h3>1.2 个性化推荐（千人千面）</h3>
+<div class="formula">用户画像 = 浏览历史 + 收藏加购 + 购买记录 + 搜索词 + 人群标签</div>
+<p><strong>操作含义：</strong>新客获取成本高；老客复购权重高；商品标签要精准。</p>
+<h3>1.3 流量结构（运营必看）</h3>
+<table>
+<tr><th>流量来源</th><th>占比建议</th><th>说明</th></tr>
+<tr><td>手淘搜索</td><td>30-40%</td><td>核心，必须稳</td></tr>
+<tr><td>手淘推荐（猜你喜欢）</td><td>25-35%</td><td>增长点</td></tr>
+<tr><td>付费广告</td><td>15-25%</td><td>不能停，占比不宜太高</td></tr>
+<tr><td>直播</td><td>10-20%</td><td>增量渠道</td></tr>
+<tr><td>老客复购</td><td>10-20%</td><td>越高越好（最便宜）</td></tr>
+</table>
+<div class="warn-box"><strong>危险信号：</strong>付费流量占比超过40%，说明自然搜索能力弱，一旦停止广告，店铺立即"死掉"。<strong>健康店铺的付费占比应控制在20%以内</strong>。</div>
+</div>
+<div class="section platform-taobao" id="tb-listing">
+<h2>二、商品发布优化（实战版）</h2>
+<h3>2.1 标题优化（决定搜索流量）</h3>
+<h4>标题公式</h4>
+<div class="formula">标题 = 品牌词（2-3字）+ 核心关键词（5-8字）+ 属性词（5-8字）+ 卖点词（5-8字）+ 场景词（5-8字）</div>
+<p><strong>总字数严格控制在60字内</strong>（30个汉字+空格）。</p>
+<h4>实战案例：保温杯类目</h4>
+<pre><code>【原始标题（错误示例）】
+高品质保温杯 304不锈钢 真空保温 学生水杯 商务礼品 推荐购买 厂家直销
+问题：核心词不清晰，没有品牌词，描述词堆砌
+【优化后（正确示例）】
+品牌名 保温杯 304不锈钢 真空保温 大容量 便携 学生水杯 商务礼盒 2024新款
+拆解：
+- 品牌名：3字（建立品牌认知）
+- 保温杯：核心词（主搜词）
+- 304不锈钢：属性词（材质卖点）
+- 真空保温：功能词
+- 大容量便携：属性词
+- 学生水杯：场景词（精准人群）
+- 商务礼盒：场景词（扩展人群）
+- 2024新款：时间词（提升点击率）</code></pre>
+<h4>选词四维评估</h4>
+<table>
+<tr><th>维度</th><th>优秀标准</th><th>判断方法</th></tr>
+<tr><td>搜索量</td><td>≥ 1000/月</td><td>生意参谋查</td></tr>
+<tr><td>商城点击占比</td><td>< 60%</td><td>流量解析查</td></tr>
+<tr><td>在线商品数</td><td>< 5万</td><td>搜索结果数</td></tr>
+<tr><td>转化率</td><td>> 3%</td><td>流量解析查</td></tr>
+</table>
+<h4>标题违禁词清单</h4>
+<div class="warn-box">
+<strong>《广告法》明令禁止的极限词：</strong><br>
+• 最高级：最、最佳、最好、第一、国家级<br>
+• 绝对化：100%、永久、绝对、特效、全能<br>
+• 虚假承诺：包治、治愈、根治、立竿见影<br>
+<strong>违禁处罚：</strong>每次扣2-4分（48分满分），严重者直接封店；罚款2000元起。
+</div>
+<h3>2.2 主图设计（决定点击率）</h3>
+<h4>5张主图的黄金法则</h4>
+<table>
+<tr><th>顺序</th><th>用途</th><th>设计要求</th></tr>
+<tr><td><strong>第1张</strong></td><td>搜索展示图</td><td>白底/浅色背景，产品占60%画面</td></tr>
+<tr><td><strong>第2张</strong></td><td>核心卖点</td><td>一个卖点+大号文字（≤8字）</td></tr>
+<tr><td><strong>第3张</strong></td><td>场景图</td><td>产品在使用场景中，引发代入感</td></tr>
+<tr><td><strong>第4张</strong></td><td>信任背书</td><td>销量数字/检测报告/品牌logo</td></tr>
+<tr><td><strong>第5张</strong></td><td>促销/白底</td><td>活动信息 或 白底（天猫必须）</td></tr>
+</table>
+<h4>不同类目的CTR基准</h4>
+<table>
+<tr><th>类目</th><th>及格CTR</th><th>良好CTR</th><th>优秀CTR</th></tr>
+<tr><td>服饰</td><td>1.5%</td><td>3%</td><td>5%+</td></tr>
+<tr><td>3C数码</td><td>2.5%</td><td>4%</td><td>7%+</td></tr>
+<tr><td>美妆</td><td>2%</td><td>3.5%</td><td>6%+</td></tr>
+<tr><td>家居日用</td><td>2%</td><td>3.5%</td><td>5%+</td></tr>
+<tr><td>食品</td><td>2.5%</td><td>4%</td><td>7%+</td></tr>
+</table>
+<div class="case-box">
+<strong>案例：某女包店主图优化</strong><br>
+<strong>原图问题：</strong>5张主图都是产品正面图+白底，缺乏差异化<br>
+<strong>优化方案：</strong><br>
+• 第1张：模特背着+街拍场景（提升点击）<br>
+• 第2张："能装下13寸电脑"大字+展示容量（核心卖点）<br>
+• 第3张：办公室/通勤场景图（场景代入）<br>
+• 第4张：累计销量8万+好评4.9分（信任）<br>
+• 第5张："618狂欢价269元 限量100件"（紧迫）<br>
+<strong>结果：</strong>CTR从1.2%提升到3.8%（+217%），自然搜索流量增长150%
+</div>
+<h3>2.3 详情页设计（决定转化率）</h3>
+<h4>8屏黄金结构（移动端优先）</h4>
+<ol class="steps">
+<li><strong>第1屏 - 核心价值主张（首屏，3秒定生死）</strong>
+<p>用大号字体+对比色突出"为什么买你"，而不是"你是什么"。</p>
+<pre><code>【错误】高品质304不锈钢保温杯
+【正确】12小时保温/保冷｜1000万家庭的选择｜食品级304内胆
+= 卖点 + 信任 + 安全 三重价值</code></pre>
+</li>
+<li><strong>第2屏 - 痛点场景 + 解决方案</strong>
+<p>先共情用户痛点，再展示产品如何解决。</p>
+<pre><code>痛点：宝宝喝水总是凉？ → 上班太忙没空烧水？
+方案：12小时60℃恒温｜一键出水｜500ml大容量</code></pre>
+</li>
+<li><strong>第3屏 - 产品核心参数</strong>
+<p>用图表展示，不用大段文字。移动端适配，必须大字体。</p>
+</li>
+<li><strong>第4屏 - 竞品对比（间接）</strong>
+<p>不点名竞品，用"普通款 vs 我们"对比，强化优势。</p>
+<table>
+<tr><th>对比项</th><th>普通款</th><th>我们</th></tr>
+<tr><td>材质</td><td>201不锈钢</td><td>316医用级</td></tr>
+<tr><td>保温</td><td>6小时</td><td>12小时</td></tr>
+<tr><td>密封</td><td>普通硅胶</td><td>食品级密封圈</td></tr>
+<tr><td>保修</td><td>3个月</td><td>1年</td></tr>
+</table>
+</li>
+<li><strong>第5屏 - 用户评价/晒图</strong>
+<p>真实感最重要，至少10条带图好评，文字不要润色过度。</p>
+</li>
+<li><strong>第6屏 - 品牌实力/质检报告</strong>
+<p>工厂图片、ISO认证、检测报告、品牌故事。</p>
+</li>
+<li><strong>第7屏 - 使用说明/注意事项</strong>
+<p>详细的使用方法+保养指南，减少售后纠纷。</p>
+</li>
+<li><strong>第8屏 - FAQ + 售后保障</strong>
+<p>列出TOP5买家疑问，附上明确的售后承诺。</p>
+</li>
+</ol>
+<h4>移动端详情页特别提示</h4>
+<ul>
+<li>详情页宽度：750px（淘宝移动端标准）</li>
+<li>每屏高度 ≤ 800px（避免用户滑动过多）</li>
+<li>字体大小 ≥ 24px（移动端阅读体验）</li>
+<li>首屏必须5秒内传达核心价值</li>
+</ul>
+</div>
+<div class="section platform-taobao" id="tb-ad">
+<h2>三、付费推广（直通车/万相台/超级推荐）</h2>
+<h3>3.1 直通车完整操作手册</h3>
+<h4>底层逻辑</h4>
+<div class="formula">直通车扣费 = (下一名出价 × 下一名质量分) / 你的质量分 + 0.01元</div>
+<p><strong>关键洞察：</strong>质量分越高，相同排名出价越低；出价越高，排名越靠前。</p>
+<h4>质量分的三根支柱</h4>
+<table>
+<tr><th>支柱</th><th>权重</th><th>优化方法</th></tr>
+<tr><td><strong>创意质量（点击率）</strong></td><td>⭐⭐⭐⭐⭐</td><td>主图设计+精准投放人群，CTR>行业均值1.5倍=10分</td></tr>
+<tr><td><strong>相关性</strong></td><td>⭐⭐⭐</td><td>标题、属性、类目要与关键词完全匹配</td></tr>
+<tr><td><strong>买家体验</strong></td><td>⭐⭐⭐</td><td>详情页跳出率、DSR评分、好评率</td></tr>
+</table>
+<h4>直通车运营全流程（30天）</h4>
+<ol class="steps">
+<li><strong>Day 1-3：建计划，测基础</strong>
+<p>建立2-3个计划：</p>
+<ul>
+<li><strong>计划A（主推）：</strong>100个长尾词，广泛匹配，出价=行业均价×1.2</li>
+<li><strong>计划B（测款）：</strong>5-10个新品测款，预算各200元</li>
+<li><strong>计划C（防守）：</strong>品牌词+店铺名，确保自身品牌搜索时自己排第一</li>
+</ul>
+</li>
+<li><strong>Day 4-7：测图，测创意</strong>
+<p>每个计划配4套创意（4个标题+4张主图），轮播测试。</p>
+<div class="info-box"><strong>测图黄金标准：</strong>单张图展现量≥1000后看CTR；CTR > 行业均值1.2倍=留下；CTR < 行业均值=淘汰换新图。</div>
+</li>
+<li><strong>Day 8-14：筛词，提质量分</strong>
+<p>7天数据出来后：</p>
+<ul>
+<li>删除：展现量<100的词（没意义）</li>
+<li>删除：展现高但CTR低的词（不精准）</li>
+<li>优化：展现高CTR高的词 → 提高出价抢前3</li>
+<li>提价：质量分<6的词 → 暂停3天再开</li>
+</ul>
+</li>
+<li><strong>Day 15-30：放量，优化ROI</strong>
+<p>核心动作：</p>
+<ul>
+<li>高质量分词（≥8分）加价20-30%，抢前三</li>
+<li>添加人群标签溢价：相似店铺访客+收藏加购未购（溢价30%）</li>
+<li>添加分时折扣：成交高峰时段（10-12点、20-22点）出价系数1.2</li>
+<li>地域优化：关闭转化率最低的3个省份</li>
+</ul>
+</li>
+</ol>
+<h4>直通车预算分配黄金比例</h4>
+<div class="formula">总预算 = 已验证高ROI词(40%) + 新词测试(30%) + 品牌词防守(20%) + 竞品截流(10%)</div>
+<h4>不同阶段的出价策略</h4>
+<table>
+<tr><th>阶段</th><th>目标</th><th>出价策略</th></tr>
+<tr><td>新品破零</td><td>拿到展现</td><td>高出价（行业均价×1.5）</td></tr>
+<tr><td>成长期</td><td>提质量分</td><td>适中出价，优化CTR</td></tr>
+<tr><td>成熟期</td><td>稳定ROI</td><td>低出价+精准匹配</td></tr>
+<tr><td>爆款期</td><td>抢流量</td><td>高出价卡前三</td></tr>
+<tr><td>衰退期</td><td>收割剩余</td><td>逐步降价</td></tr>
+</table>
+<h3>3.2 万相台（智能投放）</h3>
+<table>
+<tr><th>场景</th><th>目的</th><th>适用阶段</th><th>出价建议</th></tr>
+<tr><td><strong>货品加速</strong></td><td>给老品爆款加速</td><td>商品已上架，有基础销量</td><td>系统建议出价</td></tr>
+<tr><td><strong>拉新快</strong></td><td>纯拉新客</td><td>新品/品牌曝光</td><td>高于建议出价20%</td></tr>
+<tr><td><strong>会员运营</strong></td><td>老客复购</td><td>已积累会员的店铺</td><td>系统建议出价</td></tr>
+<tr><td><strong>超级直播</strong></td><td>直播间引流</td><td>有直播业务的店铺</td><td>高于建议出价30%</td></tr>
+</table>
+<div class="info-box"><strong>直通车 vs 万相台 怎么选？</strong><br>
+• 直通车：能看到具体关键词，精准度高，操作复杂<br>
+• 万相台：系统自动投放，省心但不够透明<br>
+<strong>最优组合：</strong>直通车做精准词（防守）+ 万相台做智能拓展（进攻）</div>
+<h3>3.3 超级推荐（推荐流广告）</h3>
+<p><strong>展示位置：</strong>手淘首页"猜你喜欢"、微详情、淘宝直播广场、支付成功页</p>
+<p><strong>适合场景：</strong>新品冷启动、爆款加速、直播间引流</p>
+<p><strong>出价逻辑：</strong>按千次展现扣费（CPM），出价范围10-300元/千次展现</p>
+</div>
+<div class="section platform-taobao" id="tb-store">
+<h2>四、店铺运营核心</h2>
+<h3>4.1 店铺权重</h3>
+<p>店铺权重影响店内所有商品的搜索排名，权重高的店铺，新品上架就能获得更好的位置。</p>
+<table>
+<tr><th>影响因素</th><th>权重</th><th>提升方法</th></tr>
+<tr><td>店铺等级（1-20）</td><td>⭐⭐⭐⭐⭐</td><td>持续提升销售额+好评</td></tr>
+<tr><td>DSR三项</td><td>⭐⭐⭐⭐⭐</td><td>提升产品描述、客服、物流</td></tr>
+<tr><td>上新频率</td><td>⭐⭐⭐</td><td>每周2-5款新品</td></tr>
+<tr><td>动销率</td><td>⭐⭐⭐⭐</td><td>有销量的商品占比>80%</td></tr>
+</table>
+<h3>4.2 老客运营（提升复购）</h3>
+<p><strong>淘宝提供的工具：</strong>客户运营平台、店铺会员体系、淘宝群、订阅号</p>
+<p><strong>会员体系设计：</strong></p>
+<table>
+<tr><th>等级</th><th>门槛</th><th>权益</th></tr>
+<tr><td>普通会员</td><td>注册即得</td><td>100元以下9.5折</td></tr>
+<tr><td>银卡</td><td>累计消费500元</td><td>全场9折+生日礼</td></tr>
+<tr><td>金卡</td><td>累计消费2000元</td><td>全场8.5折+优先发货</td></tr>
+<tr><td>钻卡</td><td>累计消费8000元</td><td>全场8折+专属客服+新品试用</td></tr>
+</table>
+<div class="info-box"><strong>核心指标：</strong>复购率每提升5%，店铺净利润提升20-30%。<strong>老客运营是最便宜的流量获取方式</strong>。</div>
+</div>
+<div class="section" id="pdd">
+<h1>🍊 拼多多运营知识库<small>价格力为王 · 下沉市场 · 7.5亿用户</small></h1>
+<div><span class="tag">月活 7.5亿+</span><span class="tag">下沉市场主导</span><span class="tag">价格力是核心权重</span><span class="tag">社交裂变基因</span></div>
+</div>
+<div class="section platform-pdd" id="pdd-algorithm">
+<h2>一、平台算法深度解析</h2>
+<h3>1.1 价格力机制（拼多多最核心）</h3>
+<p>拼多多和其他平台最大的区别是<span class="highlight">价格力是平台权重第一要素</span>。</p>
+<h4>价格力怎么算？</h4>
+<p>系统会自动爬取全网（淘宝、京东、抖音）同款商品价格：</p>
+<table>
+<tr><th>价格水平</th><th>系统标签</th><th>流量倾斜</th></tr>
+<tr><td>≤ 全网均价 80%</td><td>同款最低价</td><td>⭐⭐⭐⭐⭐ 极大倾斜</td></tr>
+<tr><td>全网均价 80-90%</td><td>同款低价</td><td>⭐⭐⭐⭐ 较大倾斜</td></tr>
+<tr><td>全网均价 90-100%</td><td>同款平价</td><td>⭐⭐⭐ 正常</td></tr>
+<tr><td>> 全网均价 100%</td><td>同款高价</td><td>⭐ 流量抑制</td></tr>
+</table>
+<div class="case-box">
+<strong>案例：保温杯定价策略</strong><br>
+<strong>全网同款均价：</strong>39.9元<br>
+<strong>你的定价：</strong>29.9元 = 75% × 均价 → 同款最低价标签<br>
+<strong>结果：</strong>搜索排名提升300%，单日搜索展现量从5000涨到15000<br>
+<strong>注意：</strong>29.9元虽然不赚钱（成本25元），但能冲量、冲销量榜、带动店铺其他商品销售
+</div>
+<h3>1.2 多多搜索底层逻辑</h3>
+<div class="formula">综合排名 = 出价 × 质量分 × 价格力系数 × 千人千面权重</div>
+<p>对比淘宝/京东，拼多多的<span class="highlight">价格力系数占权重30%以上</span>，远高于其他平台。</p>
+<h3>1.3 流量结构</h3>
+<table>
+<tr><th>流量来源</th><th>占比</th><th>特点</th></tr>
+<tr><td>多多搜索</td><td>35-45%</td><td>核心流量，必须优化</td></tr>
+<tr><td>多多场景（推荐）</td><td>20-30%</td><td>快速增长中</td></tr>
+<tr><td>百亿补贴/秒杀</td><td>15-25%</td><td>爆量最快</td></tr>
+<tr><td>多多进宝（CPS）</td><td>5-10%</td><td>按成交付费，零风险</td></tr>
+<tr><td>私域（微信分享）</td><td>5-10%</td><td>拼团基因</td></tr>
+</table>
+</div>
+<div class="section platform-pdd" id="pdd-sku">
+<h2>二、SKU布局策略（核心中的核心）</h2>
+<h3>2.1 SKU的四种角色</h3>
+<table>
+<tr><th>SKU类型</th><th>定价</th><th>毛利率</th><th>目的</th><th>占比</th></tr>
+<tr><td><strong>引流SKU</strong></td><td>成本价或微亏</td><td>-5% ~ 0%</td><td>冲销量榜、拉搜索权重</td><td>20%</td></tr>
+<tr><td><strong>利润SKU</strong></td><td>市场主流价</td><td>20-40%</td><td>主要利润来源</td><td>50%</td></tr>
+<tr><td><strong>形象SKU</strong></td><td>高价（锚点）</td><td>50%+</td><td>让利润SKU显得便宜</td><td>10%</td></tr>
+<tr><td><strong>凑单SKU</strong></td><td>超低价配件</td><td>0%</td><td>凑满减、凑包邮</td><td>20%</td></tr>
+</table>
+<h3>2.2 实战案例：女包店铺</h3>
+<div class="case-box">
+<strong>产品：</strong>女式手提包<br>
+<strong>全网同款均价：</strong>89元<br>
+<strong>SKU布局：</strong><br>
+• <strong>引流款：</strong>同款迷你包19.9元（成本22元，单单亏2.1元）<br>
+• <strong>利润款A：</strong>经典款79元（成本35元，净赚35元）<br>
+• <strong>利润款B：</strong>豪华款139元（成本55元，净赚70元）<br>
+• <strong>形象款：</strong>真皮款199元（成本60元，净赚100元，做价格锚点）<br>
+• <strong>凑单品：</strong>小卡包9.9元（成本6元，凑满99减10）<br>
+<strong>实际效果：</strong><br>
+• 20%用户买引流款19.9元（亏5元/单）<br>
+• 50%用户升级到利润款A 79元（赚35元/单）<br>
+• 20%用户买利润款B 139元（赚70元/单）<br>
+• 10%用户买形象款199元（赚100元/单）<br>
+<strong>加权平均毛利：</strong>0.2×(-5) + 0.5×35 + 0.2×70 + 0.1×100 = 38元/单<br>
+<strong>单店日销100单，月毛利：</strong>11.4万元（除掉广告费等净利5-7万）
+</div>
+<h3>2.3 拼多多定价禁区</h3>
+<div class="warn-box">
+<strong>活动价恢复限制：</strong><br>
+• 参加百亿补贴后，30天内不能涨价<br>
+• 参加限时秒杀后，15天内不能涨价<br>
+• 参加9.9特卖后，30天内不能涨价<br>
+• <strong>违规则被判定"虚假促销"，扣2-4分</strong><br>
+<strong>设计SKU时一定要预留利润空间，避免被活动绑架</strong>
+</div>
+</div>
+<div class="section platform-pdd" id="pdd-startup">
+<h2>三、新店30天完整起量计划</h2>
+<h4>Day 1-3：店铺基础搭建</h4>
+<ol class="steps">
+<li>注册个人店/企业店（个人店保证金1000元，企业店保证金视类目）</li>
+<li>选择2-3个主打类目（不要贪多）</li>
+<li>设计店铺LOGO、店招、详情页</li>
+<li>设置店铺客服自动回复</li>
+<li>完善售后服务说明</li>
+</ol>
+<h4>Day 4-10：上架破零</h4>
+<ol class="steps">
+<li>上架10-20个SKU（按上面的SKU布局策略）</li>
+<li>主图设计：拼多多主图可以多文字（与淘宝不同），直接写"买一送十"等促销信息</li>
+<li>标题优化：60字内，公式"核心词+价格锚点+价值主张"</li>
+<li>报名"新品推荐"活动（零门槛）</li>
+<li>多多搜索启动：日预算200元，100个长尾词广泛匹配，出价=行业均价×1.5</li>
+<li>主动联系身边朋友下单（破零）+ 真实好评晒图</li>
+</ol>
+<h4>Day 11-20：爬坡放量</h4>
+<ol class="steps">
+<li>分析数据：哪款SKU卖得最好？多分配资源</li>
+<li>优化主图：测3-5版主图，留下CTR最高的</li>
+<li>报名"限时秒杀"：每天2-3个SKU参加秒杀，流量暴增</li>
+<li>设置"店铺关注券"：关注领5元无门槛券（提升关注率）</li>
+<li>开启"多多搜索OCPX"：智能投放，系统自动优化</li>
+<li>开启"多多进宝"：设置20-30%佣金，找达人带货</li>
+</ol>
+<h4>Day 21-30：报百亿补贴+稳定</h4>
+<ol class="steps">
+<li>申请"百亿补贴"资源位（需要联系招商经理）</li>
+<li>百亿补贴要求：<br>• 价格必须是全网最低<br>• 店铺评分≥4.8<br>• 销量要求（不同类目不同，服饰类至少月销5000+）<br>• 有品牌资质（部分类目）</li>
+<li>百亿补贴通过后：流量暴增5-10倍，准备充足库存</li>
+<li>店铺运营转向精细化：DSR维护、客服响应、复购运营</li>
+</ol>
+<div class="case-box">
+<strong>真实案例：某新店30天GMV</strong><br>
+<strong>第1周：</strong>日销5-10单，GMV 500元/日<br>
+<strong>第2周：</strong>日销30-50单，GMV 3000元/日（参加秒杀）<br>
+<strong>第3周：</strong>日销100-200单，GMV 12000元/日（爆款起量）<br>
+<strong>第4周：</strong>日销300-500单，GMV 35000元/日（百亿补贴通过）<br>
+<strong>30天累计GMV：</strong>约50万元
+</div>
+</div>
+<div class="section platform-pdd" id="pdd-ad">
+<h2>四、付费推广</h2>
+<h3>4.1 多多搜索</h3>
+<p><strong>计费方式：</strong>CPC按点击扣费，出价范围0.1-99元</p>
+<table>
+<tr><th>匹配方式</th><th>说明</th><th>适用阶段</th></tr>
+<tr><td><strong>精确匹配</strong></td><td>用户搜索词=关键词</td><td>成熟期，转化率高</td></tr>
+<tr><td><strong>短语匹配</strong></td><td>用户搜索词包含关键词</td><td>成长期，推荐使用</td></tr>
+<tr><td><strong>广泛匹配</strong></td><td>系统自动扩展相关词</td><td>测款期，不建议长期</td></tr>
+</table>
+<p><strong>出价技巧：</strong></p>
+<ul>
+<li>新链接前14天：高出价（行业均价×1.5）冲销量</li>
+<li>14天-30天：降回行业均价，依靠历史销量降低PPC</li>
+<li>30天以上：根据ROI动态调整</li>
+</ul>
+<div class="formula">拼多多ROAS目标：≥ 2:1（平台整体毛利低）</div>
+<h3>4.2 多多场景（展示广告）</h3>
+<p><strong>展示位置：</strong>类目频道页、商品详情页底部、营销活动页、APP首页推荐位</p>
+<p><strong>三大定向：</strong></p>
+<table>
+<tr><th>定向</th><th>说明</th><th>精准度</th></tr>
+<tr><td><strong>重定向</strong></td><td>看过/加购过/收藏过本商品的用户</td><td>⭐⭐⭐⭐⭐</td></tr>
+<tr><td><strong>相似商品定向</strong></td><td>看过/买过同款竞品的用户</td><td>⭐⭐⭐⭐</td></tr>
+<tr><td><strong>类目定向</strong></td><td>浏览过同类目的用户</td><td>⭐⭐⭐</td></tr>
+</table>
+<h3>4.3 多多进宝（CPS）</h3>
+<p>类似淘宝客，按成交付费，零风险。适合新品破零和冲销量。</p>
+<ul>
+<li>设置通用佣金（如20%）</li>
+<li>设置推手专属佣金（如25%，吸引头部推手）</li>
+<li>推手会在自己的社群/网站/APP推广你的商品</li>
+<li>只有成交才付费</li>
+</ul>
+</div>
+<div class="section platform-pdd" id="pdd-event">
+<h2>五、活动资源全景</h2>
+<table>
+<tr><th>活动</th><th>门槛</th><th>流量级别</th><th>费用</th><th>适用阶段</th></tr>
+<tr><td><strong>百亿补贴</strong></td><td>全网最低价+品牌资质</td><td>⭐⭐⭐⭐⭐</td><td>佣金8-15%</td><td>成熟爆款</td></tr>
+<tr><td><strong>限时秒杀</strong></td><td>价格优势+库存充足</td><td>⭐⭐⭐⭐</td><td>佣金2-5%</td><td>全阶段</td></tr>
+<tr><td><strong>9.9特卖</strong></td><td>价格≤9.9元</td><td>⭐⭐⭐⭐</td><td>低佣金</td><td>引流款</td></tr>
+<tr><td><strong>品牌特卖</strong></td><td>品牌资质</td><td>⭐⭐⭐</td><td>免费</td><td>品牌商家</td></tr>
+<tr><td><strong>新品推荐</strong></td><td>新品（销量<100）</td><td>⭐⭐</td><td>免费</td><td>新店阶段</td></tr>
+<tr><td><strong>店铺关注券</strong></td><td>无门槛</td><td>⭐</td><td>商家承担</td><td>新店阶段</td></tr>
+</table>
+</div>
+<div class="section" id="jd">
+<h1>🟥 京东运营知识库<small>品质电商 · 品牌权重高 · 复购率最高</small></h1>
+<div><span class="tag">月活 5亿+</span><span class="tag">3C/家电/超市最强势</span><span class="tag">用户决策理性</span><span class="tag">客单价最高</span></div>
+</div>
+<div class="section platform-jd" id="jd-mode">
+<h2>一、京东两大模式选择（重要）</h2>
+<div class="compare">
+<div class="compare-box compare-good">
+<h4>✅ 京东自营（适合标品大品牌）</h4>
+<ul>
+<li>京东采购，京东发货</li>
+<li>有"京东配送"金标</li>
+<li>流量是普通商家3-5倍</li>
+<li>用户信任度最高</li>
+<li>毛利润低（京东抽15-25%）</li>
+<li>京东决定售价</li>
+</ul>
+<p><strong>适合：</strong>标品（手机、家电、奶粉）、成熟品牌</p>
+</div>
+<div class="compare-box compare-good">
+<h4>✅ POP店（适合差异化产品）</h4>
+<ul>
+<li>商家自主定价</li>
+<li>商家自行发货（或入京东仓）</li>
+<li>流量需要自建</li>
+<li>毛利润高</li>
+<li>运营自主权大</li>
+</ul>
+<p><strong>适合：</strong>非标品、新品牌、定制商品、垂类商品</p>
+</div>
+</div>
+<div class="case-box">
+<strong>新商家路径建议：</strong><br>
+<strong>Step 1：</strong>先开POP店（3-6个月）<br>
+• 学习京东运营规则<br>
+• 积累店铺评分和销量数据<br>
+• 跑通选品和供应链<br>
+<strong>Step 2：</strong>达到自营标准后谈自营合作<br>
+• 月销10万+<br>
+• 店铺评分4.8+<br>
+• 有品牌授权或自有品牌<br>
+• 行业排名TOP10<br>
+<strong>Step 3：</strong>同步上自营+POP，利润最大化<br>
+• 自营做品牌+销量<br>
+• POP做利润+用户运营
+</div>
+</div>
+<div class="section platform-jd" id="jd-algorithm">
+<h2>二、京东搜索算法详解</h2>
+<h3>2.1 与淘宝的本质区别</h3>
+<table>
+<tr><th>维度</th><th>淘宝/天猫</th><th>京东</th></tr>
+<tr><td>品牌权重</td><td>中等</td><td>⭐⭐⭐⭐⭐ 极高</td></tr>
+<tr><td>关键词搜索</td><td>"保温杯"量大</td><td>"美的保温杯"量大（品牌词为主）</td></tr>
+<tr><td>参数完整度</td><td>重要</td><td>⭐⭐⭐⭐⭐ 极其重要</td></tr>
+<tr><td>价格敏感度</td><td>中</td><td>中（但更看性价比）</td></tr>
+<tr><td>用户决策</td><td>冲动型</td><td>理性型（看参数、看评价）</td></tr>
+<tr><td>评论权重</td><td>中等</td><td>⭐⭐⭐⭐ 高（评价很重）</td></tr>
+</table>
+<h3>2.2 标题优化（45字推荐）</h3>
+<div class="formula">公式：品牌 + 产品名称 + 关键规格参数 + 使用场景</div>
+<pre><code>【错误示例】
+美的电热水器 家用电热水器 热水器 速热 优惠促销 厂家直发
+问题：没有参数，没有具体型号，重复词
+【正确示例】
+美的(Midea)电热水器 60升 3200W速热 一级能效 储水式
+拆解：
+- 美的(Midea)：品牌词（3-5字）
+- 电热水器：产品名（核心词）
+- 60升：容量参数（重要规格）
+- 3200W速热：功率参数（卖点）
+- 一级能效：节能等级（重要参数）
+- 储水式：类型（用户搜索词）</code></pre>
+<div class="info-box"><strong>京东用户搜索习惯：</strong>用户倾向搜索"品牌+型号+关键参数"，如"美的60升电热水器"。所以标题必须包含品牌词和关键规格参数，否则搜不到。</div>
+<h3>2.3 影响京东搜索排名的因素</h3>
+<table>
+<tr><th>因素</th><th>权重</th><th>优化方法</th></tr>
+<tr><td><strong>品牌词</strong></td><td>⭐⭐⭐⭐⭐</td><td>品牌词前置，加型号</td></tr>
+<tr><td><strong>规格参数</strong></td><td>⭐⭐⭐⭐⭐</td><td>参数完整、准确</td></tr>
+<tr><td><strong>好评率/好评数</strong></td><td>⭐⭐⭐⭐</td><td>提升服务质量，引导好评</td></tr>
+<tr><td><strong>销量</strong></td><td>⭐⭐⭐⭐</td><td>冲爆款单品</td></tr>
+<tr><td><strong>京东配送/自营</strong></td><td>⭐⭐⭐⭐</td><td>入京东仓</td></tr>
+<tr><td><strong>价格力</strong></td><td>⭐⭐⭐</td><td>低于或等于竞品</td></tr>
+<tr><td><strong>店铺评分</strong></td><td>⭐⭐⭐</td><td>DSR、店铺等级</td></tr>
+</table>
+</div>
+<div class="section platform-jd" id="jd-ad">
+<h2>三、付费推广（京准通）</h2>
+<h3>3.1 京准通产品体系</h3>
+<table>
+<tr><th>产品</th><th>类型</th><th>计费</th><th>适用</th></tr>
+<tr><td><strong>京东快车</strong></td><td>搜索广告（CPC）</td><td>按点击</td><td>精准流量获取</td></tr>
+<tr><td><strong>京东海投</strong></td><td>智能投放</td><td>按点击</td><td>新手/全店推广</td></tr>
+<tr><td><strong>京速推</strong></td><td>智能投放</td><td>按点击/转化</td><td>无操作经验商家</td></tr>
+<tr><td><strong>京东联盟</strong></td><td>CPS</td><td>按成交</td><td>站外引流</td></tr>
+<tr><td><strong>京东展位</strong></td><td>展示广告（CPM）</td><td>按千次展现</td><td>品牌曝光</td></tr>
+</table>
+<div class="formula">京准通ROAS目标：≥ 3.5:1（京东用户客单价高，ROI要求更严）</div>
+<h3>3.2 京东快车操作要点</h3>
+<ol class="steps">
+<li><strong>选词：</strong>用京麦"商智"工具查词，重点选"品牌词+品牌型号词"</li>
+<li><strong>出价：</strong>新品高出价（行业×1.3），成熟品低出价</li>
+<li><strong>定向：</strong>必选"京东用户"+"购买力"+"品类兴趣"</li>
+<li><strong>地域：</strong>关闭转化率最低的省份</li>
+<li><strong>时段：</strong>京东用户购物高峰是20-23点，加投</li>
+</ol>
+</div>
+<div class="section" id="douyin">
+<h1>🎵 抖音电商运营知识库<small>兴趣电商 · 6亿日活 · 内容为王</small></h1>
+<div><span class="tag">日活 6亿+</span><span class="tag">兴趣电商</span><span class="tag">内容驱动</span><span class="tag">高速增长</span></div>
+</div>
+<div class="section platform-douyin" id="dy-algorithm">
+<h2>一、抖音电商底层逻辑</h2>
+<h3>1.1 兴趣电商 vs 搜索电商</h3>
+<table>
+<tr><th>维度</th><th>传统电商（淘宝）</th><th>兴趣电商（抖音）</th></tr>
+<tr><td>购物路径</td><td>想买→搜索→对比→下单</td><td>刷视频→被种草→冲动下单</td></tr>
+<tr><td>流量逻辑</td><td>搜索权重</td><td>内容推荐（GPM）</td></tr>
+<tr><td>运营核心</td><td>商品+价格+店铺</td><td>内容+人设+情绪</td></tr>
+<tr><td>转化周期</td><td>较长（理性决策）</td><td>极短（情绪冲动）</td></tr>
+</table>
+<h3>1.2 GPM：抖音最核心的指标</h3>
+<div class="formula">GPM = (销售额 ÷ 曝光量) × 1000 = 客单价 × 转化率 × 1000</div>
+<p><strong>举例：</strong></p>
+<pre><code>某直播间 1小时内：
+- 曝光量：10000次
+- 销售额：20000元
+- GPM = 20000 ÷ 10000 × 1000 = 2000元
+如果客单价100元，转化率2%：
+GPM = 100 × 0.02 × 1000 = 2000元 ✓</code></pre>
+<h3>1.3 各类目GPM基准</h3>
+<table>
+<tr><th>类目</th><th>及格GPM</th><th>良好GPM</th><th>优秀GPM</th></tr>
+<tr><td>服饰</td><td>800</td><td>2000</td><td>4000+</td></tr>
+<tr><td>美妆</td><td>1200</td><td>3000</td><td>6000+</td></tr>
+<tr><td>食品饮料</td><td>600</td><td>1500</td><td>3000+</td></tr>
+<tr><td>家居日用</td><td>1000</td><td>2500</td><td>5000+</td></tr>
+<tr><td>母婴</td><td>1000</td><td>2500</td><td>5000+</td></tr>
+<tr><td>数码3C</td><td>1500</td><td>3500</td><td>7000+</td></tr>
+</table>
+<h3>1.4 推流机制</h3>
+<table>
+<tr><th>阶段</th><th>流量池</th><th>考核指标</th><th>通过条件</th></tr>
+<tr><td>第一级</td><td>200-500曝光</td><td>完播率+互动率</td><td>完播率>30%</td></tr>
+<tr><td>第二级</td><td>1000-5000</td><td>互动率+转化率</td><td>互动>3%</td></tr>
+<tr><td>第三级</td><td>1万-10万</td><td>转化+加购</td><td>GPM达标</td></tr>
+<tr><td>第四级</td><td>10万+</td><td>持续高GPM</td><td>稳定产出</td></tr>
+</table>
+</div>
+<div class="section platform-douyin" id="dy-video">
+<h2>二、短视频运营</h2>
+<h3>2.1 爆款短视频公式</h3>
+<div class="formula">爆款 = 强钩子（前3秒）+ 情绪价值 + 产品展示 + 行动号召</div>
+<h3>2.2 5种钩子类型（实测最有效）</h3>
+<h4>① 痛点钩子（最常用）</h4>
+<pre><code>【模板】你是不是也遇到过...？
+【示例】
+"姐妹们有没有跟我一样，夏天脸特别油？
+用了好多控油产品都没用？
+今天这款我用了3天，真的不油了！"</code></pre>
+<h4>② 好奇钩子</h4>
+<pre><code>【模板】没想到...竟然可以...！
+【示例】
+"没想到普通牙刷还能这样用！
+牙缝里的脏东西全都刷出来了！
+关键才9.9元！"</code></pre>
+<h4>③ 利益钩子</h4>
+<pre><code>【模板】今天教你一个...的方法
+【示例】
+"今天教你一个薅羊毛的方法！
+这个牙膏线下店39.9，
+今天直播间9.9，限量100单！"</code></pre>
+<h4>④ 视觉钩子</h4>
+<pre><code>产品开箱、产品变形、夸张对比</code></pre>
+<h4>⑤ 反差钩子</h4>
+<pre><code>【模板】XX元 vs XX元
+【示例】
+"超市39.9 vs 工厂9.9！
+区别在哪？让我切开给你看！"</code></pre>
+<h3>2.3 短视频数据基准</h3>
+<table>
+<tr><th>指标</th><th>及格</th><th>良好</th><th>优秀</th></tr>
+<tr><td>完播率</td><td>15%</td><td>25%</td><td>35%+</td></tr>
+<tr><td>点赞率</td><td>2%</td><td>5%</td><td>8%+</td></tr>
+<tr><td>评论率</td><td>0.5%</td><td>1%</td><td>2%+</td></tr>
+<tr><td>转化率（挂车）</td><td>0.5%</td><td>1.5%</td><td>3%+</td></tr>
+</table>
+<h3>2.4 短视频拍摄要点</h3>
+<ul>
+<li><strong>时长：</strong>15-30秒最优</li>
+<li><strong>竖屏：</strong>9:16（满屏体验）</li>
+<li><strong>分辨率：</strong>1080p</li>
+<li><strong>字幕：</strong>必加（70%用户静音刷视频）</li>
+<li><strong>BGM：</strong>选热门音乐（蹭流量）</li>
+</ul>
+</div>
+<div class="section platform-douyin" id="dy-live">
+<h2>三、直播间运营（核心）</h2>
+<h3>3.1 直播间黄金公式</h3>
+<div class="formula">直播间GMV = 场均观看 × 平均停留 × 转化率 × 客单价</div>
+<p><strong>4个指标都要优化，不能有短板：</strong></p>
+<table>
+<tr><th>指标</th><th>优化方法</th><th>难度</th></tr>
+<tr><td>场均观看</td><td>短视频引流+千川投放+自然推流</td><td>⭐⭐⭐</td></tr>
+<tr><td>平均停留</td><td>主播话术+福利互动+内容有趣</td><td>⭐⭐⭐⭐</td></tr>
+<tr><td>转化率</td><td>选品+价格+逼单话术</td><td>⭐⭐⭐⭐⭐</td></tr>
+<tr><td>客单价</td><td>排品策略+搭售+满减</td><td>⭐⭐</td></tr>
+</table>
+<h3>3.2 直播间硬件配置（入门到专业）</h3>
+<table>
+<tr><th>设备</th><th>入门配置（5万元）</th><th>专业配置（20万元）</th></tr>
+<tr><td>摄像机</td><td>手机 iPhone 14+</td><td>索尼A7M4+大光圈</td></tr>
+<tr><td>灯光</td><td>2盏环形灯</td><td>4盏金贝灯+柔光箱</td></tr>
+<tr><td>收音</td><td>领夹麦克风</td><td>无线领夹+声卡</td></tr>
+<tr><td>推流</td><td>手机直播</td><td>OBS电脑推流+绿幕</td></tr>
+</table>
+<h3>3.3 直播排品节奏（2小时直播）</h3>
+<table>
+<tr><th>时间</th><th>环节</th><th>过品数</th><th>话术重点</th></tr>
+<tr><td>0-10分钟</td><td>暖场福利</td><td>2-3款9.9元</td><td>打招呼，讲今日福利</td></tr>
+<tr><td>10-40分钟</td><td>引流爆款</td><td>5-8款</td><td>平价好物，促加购</td></tr>
+<tr><td>40-100分钟</td><td>利润主推</td><td>3-5款</td><td>详细介绍，逼单成交</td></tr>
+<tr><td>100-115分钟</td><td>福利返场</td><td>2-3款</td><td>返场爆款，互动抽奖</td></tr>
+<tr><td>115-120分钟</td><td>收尾</td><td>1-2款</td><td>预告下场，引导加粉丝群</td></tr>
+</table>
+<h3>3.4 直播团队配置（最低标准）</h3>
+<table>
+<tr><th>岗位</th><th>人数</th><th>职责</th></tr>
+<tr><td>主播</td><td>1-2人</td><td>讲解产品+互动+逼单</td></tr>
+<tr><td>副播/助播</td><td>1人</td><td>配合主播、试穿试吃、回复公屏</td></tr>
+<tr><td>运营</td><td>1人</td><td>控节奏、上下架、推流调整</td></tr>
+<tr><td>客服</td><td>1人</td><td>私信回复、订单处理</td></tr>
+<tr><td>中控</td><td>1人</td><td>千川投放、价格设置</td></tr>
+</table>
+</div>
+<div class="section platform-douyin" id="dy-qianchuan">
+<h2>四、千川投放</h2>
+<h3>4.1 千川产品体系</h3>
+<table>
+<tr><th>产品</th><th>使用场景</th><th>门槛</th><th>操作难度</th></tr>
+<tr><td><strong>小店随心推</strong></td><td>手机端操作，短视频/直播间引流</td><td>100元起</td><td>⭐ 简单</td></tr>
+<tr><td><strong>巨量千川</strong></td><td>PC端操作，功能完整</td><td>无门槛</td><td>⭐⭐⭐ 复杂</td></tr>
+</table>
+<h3>4.2 千川投放3阶段策略</h3>
+<table>
+<tr><th>阶段</th><th>目标</th><th>动作</th><th>出价</th></tr>
+<tr><td>冷启动（1-3天）</td><td>跑量</td><td>高出价+广泛定向，让系统找到人群</td><td>建议价×1.2</td></tr>
+<tr><td>优化期（4-10天）</td><td>提ROI</td><td>降出价+精准定向，过滤低质流量</td><td>建议价×0.8</td></tr>
+<tr><td>放量期（10+天）</td><td>扩量</td><td>日预算每天+20%，稳定ROI</td><td>动态调整</td></tr>
+</table>
+<div class="formula">千川ROAS目标：≥ 2.5:1</div>
+<h3>4.3 千川投放核心指标</h3>
+<table>
+<tr><th>指标</th><th>及格</th><th>良好</th><th>优秀</th></tr>
+<tr><td>CTR（点击率）</td><td>1%</td><td>2%</td><td>4%+</td></tr>
+<tr><td>转化率</td><td>0.5%</td><td>1.5%</td><td>3%+</td></tr>
+<tr><td>客单价</td><td>50</td><td>100</td><td>200+</td></tr>
+<tr><td>GPM</td><td>1000</td><td>2500</td><td>5000+</td></tr>
+</table>
+</div>
+<div class="section" id="xhs">
+<h1>📕 小红书运营知识库<small>种草神器 · 月活 2亿+ · 女性主导</small></h1>
+<div><span class="tag">月活 2亿+</span><span class="tag">80% 女性</span><span class="tag">高消费力</span><span class="tag">搜索心智强</span></div>
+</div>
+<div class="section platform-douyin">
+<h2>一、小红书种草价值</h2>
+<p>小红书在电商链路中扮演"前置种草+决策影响"角色：</p>
+<div class="formula">小红书种草 → 用户产生购买意向 → 跳转淘宝/京东/抖音搜索 → 成交</div>
+<p><strong>案例：</strong>完美日记通过小红书种草 → 淘宝/天猫旗舰店成交，建立品牌初期</p>
+<h2>二、笔记类型选择</h2>
+<table>
+<tr><th>类型</th><th>适用</th><th>互动率</th></tr>
+<tr><td><strong>测评笔记</strong></td><td>美妆/数码/食品</td><td>⭐⭐⭐⭐</td></tr>
+<tr><td><strong>教程笔记</strong></td><td>家居/美妆/厨电</td><td>⭐⭐⭐⭐⭐</td></tr>
+<tr><td><strong>场景笔记</strong></td><td>服饰/家居/生活方式</td><td>⭐⭐⭐⭐</td></tr>
+<tr><td><strong>对比笔记</strong></td><td>所有类目</td><td>⭐⭐⭐⭐⭐</td></tr>
+<tr><td><strong>vlog笔记</strong></td><td>生活方式/旅游</td><td>⭐⭐⭐</td></tr>
+</table>
+<h2>三、爆款笔记公式</h2>
+<div class="formula">爆款 = 强封面（视觉冲击）+ 标题关键词（搜索友好）+ 实用内容（收藏价值）+ 标签（蹭流量）</div>
+<h3>3.1 标题模板</h3>
+<ul>
+<li><strong>数字型：</strong>"5款必入的平价口红！"</li>
+<li><strong>痛点型：</strong>"敏感肌救星！用空3瓶的面霜"</li>
+<li><strong>攻略型：</strong>"新手妈妈必看｜待产包清单"</li>
+<li><strong>对比型：</strong>"9.9 vs 99元眉笔 区别到底在哪"</li>
+</ul>
+<h2>四、KOC/KOL合作</h2>
+<table>
+<tr><th>层级</th><th>粉丝量</th><th>报价范围</th><th>ROI特征</th></tr>
+<tr><td><strong>头部KOL</strong></td><td>100万+</td><td>5-50万/篇</td><td>品牌曝光好，转化弱</td></tr>
+<tr><td><strong>腰部达人</strong></td><td>10-100万</td><td>0.5-5万/篇</td><td>性价比最高</td></tr>
+<tr><td><strong>素人KOC</strong></td><td>1千-10万</td><td>100-500元/篇</td><td>真实感强，适合铺量</td></tr>
+</table>
+<div class="tip-box">
+<strong>新品牌种草策略：</strong>铺100-300个素人笔记（铺基础）+ 5-10个腰部达人（拉权重）+ 1-2个头部（拉品牌力）
+</div>
+</div>
+<div class="section" id="listing">
+<h1>📝 商品发布优化（跨平台通用技能）</h1>
+<h2>一、五大平台标题公式对比</h2>
+<table>
+<tr><th>平台</th><th>字数</th><th>公式</th><th>关键词策略</th></tr>
+<tr><td>淘宝/天猫</td><td>60字</td><td>品牌+核心词+属性+卖点+场景</td><td>核心词前置，搜索优化</td></tr>
+<tr><td>拼多多</td><td>60字</td><td>核心词+价格锚点+价值主张</td><td>突出低价+价值</td></tr>
+<tr><td>京东</td><td>45字</td><td>品牌+产品名+关键规格+场景</td><td>品牌词+规格参数</td></tr>
+<tr><td>抖音</td><td>30字(短视频标题)</td><td>核心词+痛点+解决方案</td><td>痛点词+情绪词</td></tr>
+<tr><td>小红书</td><td>20字</td><td>数字+痛点+解决方案</td><td>长尾词+场景词</td></tr>
+</table>
+<h2>二、主图设计跨平台要点</h2>
+<table>
+<tr><th>要素</th><th>淘宝</th><th>拼多多</th><th>京东</th><th>抖音</th></tr>
+<tr><td>白底图要求</td><td>建议第1张</td><td>可选</td><td>必须第5张</td><td>可选</td></tr>
+<tr><td>文字量</td><td>少（≤30%）</td><td>多（≤60%）</td><td>少</td><td>多</td></tr>
+<tr><td>风格</td><td>简洁高端</td><td>价格突出</td><td>参数专业</td><td>视觉冲击</td></tr>
+</table>
+</div>
+<div class="section" id="visual">
+<h1>🎨 视觉设计（点击率决定流量）</h1>
+<h2>一、主图设计黄金法则</h2>
+<h3>1.1 用户浏览路径</h3>
+<ol>
+<li>在搜索结果页，用户0.5秒扫一眼主图</li>
+<li>主图要在0.5秒内传达"这是什么"</li>
+<li>如果主图看不懂，直接划走</li>
+</ol>
+<h3>1.2 主图六步设计法</h3>
+<ol class="steps">
+<li><strong>明确卖点</strong> - 一张图只讲一个核心卖点</li>
+<li><strong>选择背景</strong> - 干净简洁，白底或纯色最佳</li>
+<li><strong>主体突出</strong> - 产品占画面60%以上</li>
+<li><strong>添加文字</strong> - 8字以内，大字号（>40pt）</li>
+<li><strong>色彩对比</strong> - 与竞品形成反差</li>
+<li><strong>移动端测试</strong> - 60%用户手机购物，缩略图清晰</li>
+</ol>
+<h3>1.3 不同类目主图风格</h3>
+<table>
+<tr><th>类目</th><th>主图风格</th><th>核心元素</th></tr>
+<tr><td>服饰</td><td>模特图+多色展示</td><td>上身效果、款式</td></tr>
+<tr><td>3C数码</td><td>产品图+参数展示</td><td>黑科技、参数</td></tr>
+<tr><td>美妆</td><td>产品+前后对比</td><td>效果对比、成分</td></tr>
+<tr><td>家居</td><td>场景图+生活化</td><td>氛围、实用</td></tr>
+<tr><td>食品</td><td>产品+食欲感</td><td>诱人物理、原料</td></tr>
+</table>
+</div>
+<div class="section" id="advertising">
+<h1>📢 付费推广（跨平台广告体系）</h1>
+<h2>一、各平台广告产品对照</h2>
+<table>
+<tr><th>功能</th><th>淘宝/天猫</th><th>拼多多</th><th>京东</th><th>抖音</th></tr>
+<tr><td><strong>搜索广告</strong></td><td>直通车</td><td>多多搜索</td><td>京东快车</td><td>巨量千川</td></tr>
+<tr><td><strong>推荐广告</strong></td><td>超级推荐</td><td>多多场景</td><td>京东展位</td><td>巨量千川</td></tr>
+<tr><td><strong>智能投放</strong></td><td>万相台</td><td>OCPX</td><td>海投/京速推</td><td>小店随心推</td></tr>
+<tr><td><strong>直播引流</strong></td><td>超级直播</td><td>多多直播</td><td>京东直播</td><td>千川直播间</td></tr>
+<tr><td><strong>CPS</strong></td><td>淘宝客</td><td>多多进宝</td><td>京东联盟</td><td>精选联盟</td></tr>
+</table>
+<h2>二、ROI目标（各平台基准）</h2>
+<table>
+<tr><th>平台</th><th>广告ROAS及格线</th><th>优秀线</th></tr>
+<tr><td>淘宝直通车</td><td>3:1</td><td>5:1+</td></tr>
+<tr><td>拼多多多多搜索</td><td>2:1</td><td>3:1+</td></tr>
+<tr><td>京东快车</td><td>3.5:1</td><td>5:1+</td></tr>
+<tr><td>抖音千川</td><td>2.5:1</td><td>4:1+</td></tr>
+</table>
+<h2>三、ROI优化通用方法</h2>
+<h3>3.1 诊断问题</h3>
+<table>
+<tr><th>现象</th><th>可能原因</th><th>解决方法</th></tr>
+<tr><td>有展现无点击</td><td>主图CTR低</td><td>换主图，测图</td></tr>
+<tr><td>有点击无转化</td><td>详情页/价格问题</td><td>优化详情页、调整价格</td></tr>
+<tr><td>ROI低</td><td>关键词不精准/出价高</td><td>关低转化词、降出价</td></tr>
+<tr><td>跑不动量</td><td>出价低/质量分低</td><td>提价、优化CTR提质量分</td></tr>
+</table>
+<h3>3.2 优化动作</h3>
+<ol class="steps">
+<li><strong>添加否定词</strong> - 排除不相关搜索词</li>
+<li><strong>分时折扣</strong> - 高转化时段加价，低谷减价</li>
+<li><strong>人群溢价</strong> - 老客、相似人群加价30%</li>
+<li><strong>创意更新</strong> - 每2周换新图，防审美疲劳</li>
+<li><strong>落地页一致性</strong> - 广告创意与详情页首屏一致</li>
+</ol>
+<h2>四、预算计算公式</h2>
+<div class="formula">广告预算 = 目标GMV × 类目平均转化率 × 类目平均CPC × 1.2（安全系数）</div>
+<pre><code>示例：
+目标GMV：10万元/月
+类目平均转化率：2%
+类目平均CPC：2元
+客单价：100元
+所需点击量 = 100000 ÷ 0.02 ÷ 100 = 50000点击
+广告预算 = 50000 × 2元 × 1.2 = 12万元/月</code></pre>
+</div>
+<div class="section" id="data">
+<h1>📊 数据分析（运营的眼睛）</h1>
+<h2>一、核心数据指标体系</h2>
+<h3>1.1 流量指标</h3>
+<table>
+<tr><th>指标</th><th>公式</th><th>作用</th></tr>
+<tr><td>UV（独立访客）</td><td>—</td><td>店铺触达人数</td></tr>
+<tr><td>PV（页面浏览）</td><td>—</td><td>浏览总次数</td></tr>
+<tr><td>CTR（点击率）</td><td>点击数 ÷ 展现数</td><td>商品吸引力</td></tr>
+<tr><td>跳失率</td><td>只访问1页就离开 ÷ 总访客</td><td>页面吸引力</td></tr>
+</table>
+<h3>1.2 转化指标</h3>
+<table>
+<tr><th>指标</th><th>公式</th><th>行业基准</th></tr>
+<tr><td>转化率</td><td>下单人数 ÷ 访客数</td><td>2-5%</td></tr>
+<tr><td>收藏率</td><td>收藏人数 ÷ 访客数</td><td>5-10%</td></tr>
+<tr><td>加购率</td><td>加购人数 ÷ 访客数</td><td>8-15%</td></tr>
+</table>
+<h2>二、数据诊断方法</h2>
+<h3>2.1 漏斗分析</h3>
+<pre><code>展现 → 点击 → 浏览 → 加购 → 下单 → 付款
+展现 10000   100%
+点击  500    5%（CTR=5%）
+浏览  500    100%
+加购  100    20%（加购率=20%）
+下单  30     30%（转化率=30%）
+付款  25     83%（付款率=83%）
+整体转化率 = 25 ÷ 10000 = 0.25%</code></pre>
+<h3>2.2 异常数据预警</h3>
+<table>
+<tr><th>数据异常</th><th>可能原因</th><th>应对</th></tr>
+<tr><td>CTR突然下降</td><td>主图被同质化/竞品截流</td><td>更新主图</td></tr>
+<tr><td>转化率突然下降</td><td>差评/竞品低价/活动结束</td><td>查评价、处理差评</td></tr>
+<tr><td>流量突然下降</td><td>违规降权/大促结束/DSR掉</td><td>查违规、提升DSR</td></tr>
+</table>
+<h2>三、关键数据报告</h2>
+<h3>3.1 每日必看（5分钟）</h3>
+<ul>
+<li>昨日GMV、销售额、订单数</li>
+<li>店铺访客数、转化率</li>
+<li>广告花费、ROI</li>
+<li>DSR三项</li>
+<li>差评数、退款数</li>
+</ul>
+<h3>3.2 每周复盘（1小时）</h3>
+<ul>
+<li>本周GMV达成率（目标 vs 实际）</li>
+<li>热销商品TOP10</li>
+<li>广告投放效果</li>
+<li>竞品动态</li>
+<li>下周计划</li>
+</ul>
+</div>
+<div class="section" id="customer">
+<h1>💬 客服体系（转化率提升关键）</h1>
+<h2>一、客服核心指标</h2>
+<table>
+<tr><th>指标</th><th>及格</th><th>良好</th><th>优秀</th></tr>
+<tr><td>响应时长</td><td>30秒</td><td>15秒</td><td>5秒</td></tr>
+<tr><td>转化率</td><td>30%</td><td>50%</td><td>70%+</td></tr>
+<tr><td>满意度</td><td>90%</td><td>95%</td><td>98%+</td></tr>
+</table>
+<h2>二、客服话术框架</h2>
+<h3>2.1 售前5步法</h3>
+<ol class="steps">
+<li><strong>欢迎语</strong> - "亲，欢迎光临XX旗舰店，有什么可以帮您？"</li>
+<li><strong>需求挖掘</strong> - "您是自用还是送礼呢？大概什么价位合适？"</li>
+<li><strong>产品推荐</strong> - 推荐1-3款，重点突出2-3个卖点</li>
+<li><strong>打消疑虑</strong> - 主动说材质/售后/物流</li>
+<li><strong>逼单</strong> - "今天下单送XX，您看可以吗？"</li>
+</ol>
+<h3>2.2 售后5原则</h3>
+<ul>
+<li><strong>快速响应：</strong>30秒内必须响应</li>
+<li><strong>真诚道歉：</strong>不论对错，先道歉</li>
+<li><strong>解决导向：</strong>直接给方案，不解释原因</li>
+<li><strong>超出预期：</strong>补偿比客户预期多</li>
+<li><strong>主动跟进：</strong>处理后第二天回访</li>
+</ul>
+<h2>三、推荐客服工具</h2>
+<ul>
+<li><strong>晓多客服机器人</strong> - AI自动回复（解决80%常见问题）</li>
+<li><strong>快麦CRM</strong> - 客户全生命周期管理</li>
+<li><strong>店小蜜</strong> - 淘宝官方AI客服</li>
+</ul>
+</div>
+<div class="section" id="campaign-618">
+<h1>🚀 618大促完整作战地图</h1>
+<h3>📅 时间轴总览</h3>
+<table>
+<tr><th>阶段</th><th>时间</th><th>核心任务</th><th>关键指标</th></tr>
+<tr><td><strong>战略规划期</strong></td><td>4月20-5月10 (T-60~T-40)</td><td>GMV目标、货品规划、坑位谈判</td><td>目标拆解、库存到位</td></tr>
+<tr><td><strong>备战筹备期</strong></td><td>5月11-5月30 (T-39~T-20)</td><td>素材制作、系统配置、人员培训</td><td>素材完成、客服就位</td></tr>
+<tr><td><strong>蓄水预热期</strong></td><td>5月31-6月10 (T-19~T-7)</td><td>预售启动、内容种草、广告加投</td><td>加购量、收藏数</td></tr>
+<tr><td><strong>爆发冲刺期</strong></td><td>6月11-6月18 (T-6~T-Day)</td><td>实时盯盘、直播马拉松、秒杀节奏</td><td>GMV、转化率</td></tr>
+<tr><td><strong>返场复盘期</strong></td><td>6月19-6月25 (T+1~T+7)</td><td>数据复盘、退货处理、复购运营</td><td>复购率、ROI</td></tr>
+</table>
+<h2>🎯 T-60天：战略规划（决定成败）</h2>
+<h4>① GMV目标拆解</h4>
+<pre><code>示例：年度目标1000万，618占比40% = 400万
+拆解到5个阶段：
+  蓄水期 (10天)：80万 (20%)
+  预热期 (5天)：40万 (10%)
+  爆发期 (3天)：240万 (60%)
+  返场期 (7天)：40万 (10%)
+继续拆解到天：
+  6月18日（峰值日）：150万
+  6月17日：50万
+  6月16日：40万
+拆解到SKU：
+  引流款（30%）：120万
+  利润款（50%）：200万
+  活动款（20%）：80万</code></pre>
+<h4>② 货品规划（三款产品策略）</h4>
+<table>
+<tr><th>产品类型</th><th>占比</th><th>定价</th><th>目的</th></tr>
+<tr><td><strong>引流款</strong></td><td>30%</td><td>微利或平价</td><td>冲销量、冲权重</td></tr>
+<tr><td><strong>利润款</strong></td><td>50%</td><td>日常价8折</td><td>主要盈利</td></tr>
+<tr><td><strong>活动款</strong></td><td>20%</td><td>限量特价</td><td>制造紧迫感</td></tr>
+</table>
+<h4>③ 库存计算</h4>
+<div class="formula">大促库存 = 目标销量 × 1.5（安全系数）</div>
+<p>提前45天下生产订单。库存不足会错失大促机会。</p>
+<h2>🎨 T-30天：备战筹备</h2>
+<ol class="steps">
+<li><strong>素材制作清单</strong>
+<ul>
+<li>主图（5张/SKU × SKU数量）</li>
+<li>详情页（加入大促氛围元素）</li>
+<li>短视频（3-5条，抖音/小红书种草）</li>
+<li>直播脚本（大促专属话术）</li>
+</ul>
+</li>
+<li><strong>系统配置</strong>
+<ul>
+<li>设置预售（付定金立减/定金膨胀）</li>
+<li>设置跨店满减（如满300-40）</li>
+<li>配置优惠券（店铺券/商品券/粉丝券）</li>
+</ul>
+</li>
+<li><strong>人员准备</strong>
+<ul>
+<li>客服：大促期间咨询量×3，需增加临时客服</li>
+<li>仓库：提前联系仓储增加临时打包人员</li>
+<li>直播：排班表，确保不间断直播</li>
+</ul>
+</li>
+</ol>
+<h2>💧 T-7天：蓄水期（最关键流量积累期）</h2>
+<h4>核心动作</h4>
+<ul>
+<li><strong>预售启动</strong>：付定金享膨胀金（如付20抵60），锁定用户</li>
+<li><strong>广告加投</strong>：日预算提高30-50%，以「加购量」为目标</li>
+<li><strong>内容种草</strong>：抖音/小红书发布种草内容</li>
+<li><strong>CRM触达</strong>：给老客发短信/客服消息，预告大促优惠</li>
+</ul>
+<div class="info-box"><strong>蓄水期的核心指标是「加购量」，不是「成交量」。加购越多，爆发期越猛。</strong></div>
+<h4>蓄水期加购目标</h4>
+<pre><code>假设目标GMV = 400万
+客单价 = 200元
+目标订单 = 20000单
+蓄水期加购目标 = 20000 × 1.5 = 30000个
+（加购到成交转化率约 60-70%）</code></pre>
+<h2>⚡ T-Day：爆发期（24小时作战）</h2>
+<h4>作战室配置</h4>
+<ul>
+<li>实时GMV大屏（生意参谋/京东商智）</li>
+<li>库存监控（防止超卖）</li>
+<li>广告调价员（每30分钟盯一次）</li>
+<li>客服主管（监控响应时长）</li>
+</ul>
+<h4>四个流量高峰</h4>
+<table>
+<tr><th>时间</th><th>特点</th><th>策略</th></tr>
+<tr><td><strong>00:00-02:00</strong></td><td>熬夜党，转化率最高</td><td>主推高客单利润款</td></tr>
+<tr><td><strong>10:00-12:00</strong></td><td>上班族摸鱼，流量大</td><td>秒杀款+爆款</td></tr>
+<tr><td><strong>14:00-16:00</strong></td><td>下午茶时间</td><td>直播+短视频双管齐下</td></tr>
+<tr><td><strong>20:00-22:00</strong></td><td>晚高峰，全天最高峰</td><td>最大秒杀+压轴福利</td></tr>
+</table>
+<h4>秒杀节奏表</h4>
+<pre><code>10:00 秒杀1（爆款1）
+12:00 秒杀2（爆款2）
+14:00 秒杀3（爆款3）
+16:00 秒杀4（爆款4）
+18:00 秒杀5（爆款5）
+20:00 秒杀6（爆款6）— 全天最大
+22:00 秒杀7（爆款7）
+23:30 秒杀8（爆款8）— 收尾</code></pre>
+<h2>📊 T+7天：复盘期</h2>
+<ol class="steps">
+<li><strong>数据复盘</strong> - GMV达成率、流量结构、ROI、转化漏斗</li>
+<li><strong>退货处理</strong> - 大促后退货率通常5-10%</li>
+<li><strong>复购运营</strong> - 感谢短信、邀请加入会员、评价引导</li>
+<li><strong>经验沉淀</strong> - 团队复盘会、文档化关键决策</li>
+</ol>
+</div>
+<div class="section" id="campaign-double11">
+<h1>🛍️ 双11作战特辑</h1>
+<p>双11和618的核心区别：<span class="highlight">双11多了一个预售期（10月20-31日）</span></p>
+<h3>双11三波段</h3>
+<table>
+<tr><th>波段</th><th>时间</th><th>玩法</th><th>GMV占比</th></tr>
+<tr><td><strong>第一波：预售</strong></td><td>10月20-31日</td><td>付定金膨胀，锁定用户</td><td>30%</td></tr>
+<tr><td><strong>第二波：现货</strong></td><td>11月1-10日</td><td>付尾款+现货开卖</td><td>20%</td></tr>
+<tr><td><strong>第三波：爆发</strong></td><td>11月11日</td><td>全天爆发</td><td>50%</td></tr>
+</table>
+<div class="warn-box"><strong>重要！</strong>双11的「预售定金」不计入GMV（淘宝/天猫规则），但计入销量权重！所以预售期就要拼命冲销量，为现货期加权。</div>
+<h3>双11独有玩法</h3>
+<ul>
+<li><strong>超级红包</strong>：用户每天领红包，提高复访</li>
+<li><strong>喵糖总动员</strong>：互动游戏，引流</li>
+<li><strong>心愿清单</strong>：用户加心愿商品，提高锁定</li>
+<li><strong>直播盛典</strong>：超头部主播集中带货</li>
+</ul>
+</div>
+<div class="section" id="campaign-rules">
+<h1>📋 大促执行规则（避坑）</h1>
+<h3>4.1 价格保护</h3>
+<ul>
+<li>大促价格必须是大促前30天最低价</li>
+<li>不允许先涨后降</li>
+<li>系统会自动检测，发现违规扣2-4分</li>
+</ul>
+<h3>4.2 库存保护</h3>
+<ul>
+<li>库存必须真实，不能虚标</li>
+<li>超卖要赔付（每单30%赔偿）</li>
+<li>设置库存预警，到阈值自动告警</li>
+</ul>
+<h3>4.3 物流保障</h3>
+<ul>
+<li>大促期间48小时内必须发货</li>
+<li>快递爆仓要提前预案（备选快递）</li>
+<li>偏远地区要有运费险</li>
+</ul>
+<h3>4.4 售后保障</h3>
+<ul>
+<li>客服响应时长 ≤ 30秒</li>
+<li>7天无理由退换必须支持</li>
+<li>质量问题包邮退换</li>
+</ul>
+</div>
+<div class="section" id="live">
+<h1>🎬 直播带货知识库（完整版）</h1>
+</div>
+<div class="section" id="live-basics">
+<h2>一、直播带货底层逻辑</h2>
+<div class="formula">直播间GMV = 场均观看 × 平均停留 × 转化率 × 客单价</div>
+<table>
+<tr><th>指标</th><th>占比</th><th>提升方法</th></tr>
+<tr><td><strong>场均观看</strong></td><td>入口流量</td><td>短视频引流、千川投放、自然推流</td></tr>
+<tr><td><strong>平均停留</strong></td><td>内容吸引力</td><td>主播话术、福利互动、节奏紧凑</td></tr>
+<tr><td><strong>转化率</strong></td><td>选品+价格</td><td>价格优势+逼单话术+紧迫感</td></tr>
+<tr><td><strong>客单价</strong></td><td>价值感</td><td>搭售+满减+多件优惠</td></tr>
+</table>
+</div>
+<div class="section" id="live-host">
+<h2>二、主播培养体系</h2>
+<h3>2.1 主播类型</h3>
+<table>
+<tr><th>类型</th><th>优势</th><th>劣势</th><th>适合</th></tr>
+<tr><td><strong>自播主播</strong></td><td>成本低、可控、品牌专属</td><td>需要培养周期</td><td>品牌商家</td></tr>
+<tr><td><strong>头部KOL</strong></td><td>快速出量、破圈</td><td>费用高、风险大</td><td>大品牌爆款</td></tr>
+<tr><td><strong>腰部KOC</strong></td><td>性价比高</td><td>数据需筛选</td><td>中小商家</td></tr>
+</table>
+<h3>2.2 自播主播培训路径</h3>
+<ol class="steps">
+<li><strong>第1周：</strong>产品知识培训（卖点、参数、对比竞品）</li>
+<li><strong>第2周：</strong>话术学习（5步法、常见问题应对）</li>
+<li><strong>第3周：</strong>模拟直播（同事当观众，反复试讲）</li>
+<li><strong>第4周：</strong>小流量试播（在线10-20人）</li>
+<li><strong>第5周起：</strong>正式直播 + 每日复盘</li>
+<li><strong>3个月后：</strong>成熟主播（稳定在线100+）</li>
+</ol>
+<h3>2.3 主播核心能力</h3>
+<ul>
+<li><strong>镜头感：</strong>不怯场、表情自然、肢体语言得体</li>
+<li><strong>表达力：</strong>语言流畅、节奏感强、感染力</li>
+<li><strong>控场力：</strong>主导节奏、应对突发、调动气氛</li>
+<li><strong>专业力：</strong>产品知识扎实、能解答用户疑问</li>
+<li><strong>亲和力：</strong>真诚、有耐心、像朋友</li>
+</ul>
+</div>
+<div class="section" id="live-script">
+<h2>三、5步法话术框架</h2>
+<ol class="steps">
+<li><strong>痛点引入（5-10秒）</strong>
+<p>引发共鸣</p>
+<pre><code>【示例】
+"姐妹们，你们有没有遇到过这种情况——
+保温杯放包里漏水，键盘都湿了！
+今天这款我必须强烈推荐给你！"</code></pre>
+</li>
+<li><strong>产品展示（30-60秒）</strong>
+<p>实际演示</p>
+<pre><code>【错误】这款保温杯很好用，316不锈钢
+【正确】"你们看！这样用力摇，完全不漏水！
+我倒热水进去，看温度12小时后还有60度！"</code></pre>
+</li>
+<li><strong>价格锚点（20秒）</strong>
+<p>建立价值感</p>
+<pre><code>"这款在日本卖折合人民币399元，
+在美国亚马逊卖49美金（约350人民币），
+今天在咱们直播间——"</code></pre>
+</li>
+<li><strong>限时优惠（30秒）</strong>
+<p>制造紧迫</p>
+<pre><code>"今天直播间福利价，199元！
+我再多送你2个杯盖，价值39元！
+但是只限今天，只限前100单！
+库存已经不到50单了！"</code></pre>
+</li>
+<li><strong>逼单成交（10秒）</strong>
+<p>立即下单</p>
+<pre><code>"想要的朋友直接拍！
+1、2、3，上链接！
+已经下单的朋友打"已拍"！
+手慢无！"</code></pre>
+</li>
+</ol>
+<h3>3.1 常见话术模板</h3>
+<h4>开场话术</h4>
+<pre><code>"哈喽宝宝们，欢迎来到XX直播间！
+我是你们的主播XX！
+今天我们给大家准备了超多福利！
+3、2、1，先上我们的9.9秒杀福利！"</code></pre>
+<h4>过品话术</h4>
+<pre><code>"好！下一款是我们的明星单品——
+这款我每天都在用！
+（边演示边讲）
+你们看这个材质，是XX材质的，X工艺...
+（强调3个核心卖点）
+今天直播间价格是XX元，比双11还划算！
+想要的宝宝先加购物车！"</code></pre>
+<h4>逼单话术</h4>
+<pre><code>"宝宝们注意！库存只剩XX件了！
+（看库存）
+想要的朋友直接拍！
+现在拍完的朋友，我额外送一份小样！
+3、2、1，截图扣1我看你已经下单了！"</code></pre>
+<h4>挽留话术</h4>
+<pre><code>"还没下单的宝宝要抓紧了！
+今天直播间价格是历史最低！
+错过今天再等一年！
+对产品有疑问的朋友，公屏扣问，我一个个解答！"</code></pre>
+</div>
+<div class="section" id="live-products">
+<h2>四、选品与排品</h2>
+<h3>4.1 SKU组合策略</h3>
+<table>
+<tr><th>类型</th><th>占比</th><th>作用</th><th>价格</th></tr>
+<tr><td><strong>福利款</strong></td><td>10%</td><td>开场聚人</td><td>9.9元起</td></tr>
+<tr><td><strong>引流款</strong></td><td>30%</td><td>保持人气</td><td>市场最低价</td></tr>
+<tr><td><strong>利润款</strong></td><td>40%</td><td>主要盈利</td><td>日常价7-8折</td></tr>
+<tr><td><strong>形象款</strong></td><td>20%</td><td>品牌调性</td><td>高价（锚点）</td></tr>
+</table>
+<h3>4.2 排品节奏（2小时直播）</h3>
+<pre><code>时间            环节        过品数    目的
+0-10分钟        暖场福利    2-3款     拉升在线人数
+10-40分钟       引流爆款    5-8款     保持人气，积累加购
+40-100分钟      利润主推    3-5款     主要盈利
+100-115分钟     福利返场    2-3款     拉升互动率
+115-120分钟     限量收尾    1-2款     制造紧迫，促成下单</code></pre>
+<h3>4.3 选品标准（爆品特征）</h3>
+<ul>
+<li><strong>强视觉：</strong>产品外观有冲击力，适合展示</li>
+<li><strong>强痛点：</strong>能解决用户的明确问题</li>
+<li><strong>强价格优势：</strong>直播间价格显著低于日常</li>
+<li><strong>强复购：</strong>消耗品、季节品更佳</li>
+<li><strong>弱售后：</strong>不易出质量问题、争议</li>
+</ul>
+</div>
+<div class="section" id="private">
+<h1>💰 私域运营知识库（完整版）</h1>
+</div>
+<div class="section" id="private-funnel">
+<h2>一、私域流量漏斗（5步法）</h2>
+<div class="formula">公域引流 → 加企微 → 入群 → 首单 → 复购 → 转介绍</div>
+<h3>Step 1：公域引流（最关键）</h3>
+<p>把淘宝/京东/抖音的公域用户引导到私域：</p>
+<h4>包裹卡（成本最低、效果最好）</h4>
+<div class="case-box">
+<strong>成功包裹卡设计：</strong><br>
+• 主文案："扫码加我微信，立领10元无门槛券"<br>
+• 钩子：10元券（必须高于扫码心理预期）<br>
+• 二维码：大、清晰、带品牌标识<br>
+• 加微信转化率：10-20%（设计好可达30%）<br>
+• 成本：1-2元/张<br>
+<strong>10万单/月的店，通过包裹卡可获得1-2万新私域用户</strong>
+</div>
+<h4>AI外呼</h4>
+<ul>
+<li>大促前外呼老客，引导加企微</li>
+<li>话术："您好我是XX品牌XX，给您准备了20元专属券..."</li>
+<li>转化率：3-8%</li>
+</ul>
+<h4>短信引流</h4>
+<ul>
+<li>下单后短信附企微二维码</li>
+<li>转化率：2-5%</li>
+<li>成本：0.04-0.05元/条</li>
+</ul>
+<h4>客服引导</h4>
+<ul>
+<li>售前/售后客服主动加微信</li>
+<li>转化率：5-15%</li>
+</ul>
+<h3>Step 2：添加企微</h3>
+<p><strong>欢迎语模板（必须个性化）：</strong></p>
+<pre><code>亲！我是XX品牌专属顾问小X！🎁
+欢迎加入我们大家庭～我给你准备了3份见面礼：
+✅ 20元无门槛优惠券（限前3天）
+✅ 免费试用品1份（包邮到家）
+✅ 加入VIP群，每日秒杀福利
+👉 戳链接领取：xxx
+有问题随时找我！</code></pre>
+<p><strong>关键动作：</strong></p>
+<ul>
+<li>自动通过好友请求</li>
+<li>立即发送欢迎语（不要等用户说话）</li>
+<li>欢迎语要具体、有钩子</li>
+<li>24小时内完成首单转化（最关键）</li>
+</ul>
+<h3>Step 3：入群运营</h3>
+<table>
+<tr><th>群类型</th><th>入群门槛</th><th>运营重点</th><th>群规模</th></tr>
+<tr><td><strong>福利群</strong></td><td>所有加企微用户</td><td>每日秒杀、限时折扣</td><td>200-500人</td></tr>
+<tr><td><strong>VIP群</strong></td><td>消费满500元</td><td>专属客服、提前购</td><td>100-300人</td></tr>
+<tr><td><strong>体验官群</strong></td><td>高价值用户</td><td>新品试用、UGC内容</td><td>50-100人</td></tr>
+</table>
+<p><strong>群日常运营节奏：</strong></p>
+<pre><code>9:00 早安问候+今日秒杀预告
+12:00 中午秒杀活动
+15:00 客户晒单/UGC内容
+18:00 晚间直播预告
+20:00 限时折扣（黄金时段）</code></pre>
+<h3>Step 4：首单转化</h3>
+<p><strong>私域首单转化率可达30-50%</strong>（公域仅2-5%）</p>
+<p>关键动作：</p>
+<ul>
+<li>加好友后24小时内推送首单优惠券</li>
+<li>朋友圈每天2-3条内容（产品/客户晒单/活动）</li>
+<li>小程序商城上架活动商品</li>
+<li>客服1对1跟进未下单用户</li>
+</ul>
+<h3>Step 5：复购+转介绍</h3>
+<p><strong>会员体系设计：</strong></p>
+<pre><code>普通会员：消费即成为，95折
+银卡会员：消费满500元，9折+生日礼
+金卡会员：消费满2000元，85折+专属客服
+钻卡会员：消费满8000元，8折+新品试用</code></pre>
+</div>
+<div class="section" id="private-member">
+<h2>二、会员体系深度设计</h2>
+<h3>2.1 会员等级设计原则</h3>
+<ul>
+<li>等级不宜过多（4-5级最佳）</li>
+<li>门槛要合理（10-20%用户达到最高级）</li>
+<li>权益要差异化（高级别会员感知明显）</li>
+<li>升级要有仪式感（升级提醒、生日礼）</li>
+</ul>
+<h3>2.2 不同类目的会员体系</h3>
+<h4>高频低客单（如美妆、食品）</h4>
+<pre><code>积分制：1元=1积分
+1000积分=10元券
+5000积分=小样一份
+10000积分=正装一份
+重点：积分要易得、积分商城要丰富</code></pre>
+<h4>低频高客单（如3C、家电）</h4>
+<pre><code>成长值制：消费1元=1成长值
+1000成长值=银卡
+5000成长值=金卡
+10000成长值=钻卡
+重点：会员日活动（每月X日专属折扣）</code></pre>
+<h3>2.3 会员日运营</h3>
+<p>设置固定的"会员日"（如每月8号、18号）：</p>
+<ul>
+<li>会员专享折扣</li>
+<li>会员专享新品</li>
+<li>会员抽奖活动</li>
+<li>会员积分加倍</li>
+</ul>
+</div>
+<div class="section" id="private-wechat">
+<h2>三、企微运营核心</h2>
+<h3>3.1 朋友圈运营</h3>
+<p><strong>每天2-3条，比例：</strong></p>
+<ul>
+<li>1条产品/活动（硬广）</li>
+<li>1条客户晒单/UGC</li>
+<li>1条生活/品牌故事（软性）</li>
+</ul>
+<p><strong>禁止事项：</strong></p>
+<ul>
+<li>连续发硬广（用户会屏蔽）</li>
+<li>发心灵鸡汤（显得不专业）</li>
+<li>刷屏（每天>5条）</li>
+</ul>
+<h3>3.2 1对1私聊</h3>
+<p><strong>核心原则：</strong>不打扰、有价值</p>
+<ul>
+<li>用户咨询时热情解答</li>
+<li>节日/生日主动祝福</li>
+<li>新品上市定向推荐</li>
+<li>定期回访老客户</li>
+</ul>
+</div>
+<div class="section" id="supply">
+<h1>🚚 供应链管理</h1>
+<h2>一、选品与采购</h2>
+<h3>1.1 选品四象限</h3>
+<table>
+<tr><th>象限</th><th>毛利高</th><th>毛利低</th></tr>
+<tr><td><strong>销量大</strong></td><td>明星款（重点投入）</td><td>引流款（保本运营）</td></tr>
+<tr><td><strong>销量小</strong></td><td>形象款（品牌调性）</td><td>淘汰款（清仓）</td></tr>
+</table>
+<h3>1.2 采购成本控制</h3>
+<ul>
+<li><strong>多供应商：</strong>至少2-3家供应商，避免被卡</li>
+<li><strong>账期谈判：</strong>争取月结60天（现金流友好）</li>
+<li><strong>批量折扣：</strong>单次下单量越大单价越低</li>
+<li><strong>质量控制：</strong>首单大货前必须先打样确认</li>
+</ul>
+<h2>二、库存管理</h2>
+<h3>2.1 库存计算公式</h3>
+<div class="formula">安全库存 = (日均销量 × 备货周期) + (日均销量 × 波动系数)</div>
+<pre><code>示例：
+日均销量：100单
+备货周期：15天
+波动系数：1.2
+安全库存 = 100 × 15 + 100 × 1.2 = 1620单
+实际备货：1620 × 1.3 = 2100单（再加30%安全余量）</code></pre>
+<h3>2.2 库存预警</h3>
+<table>
+<tr><th>预警级别</th><th>剩余库存</th><th>动作</th></tr>
+<tr><td>黄色预警</td><td>< 14天销量</td><td>立即补货</td></tr>
+<tr><td>红色预警</td><td>< 7天销量</td><td>紧急补货+限购</td></tr>
+<tr><td>断货预警</td><td>< 3天销量</td><td>下架+预售</td></tr>
+</table>
+<h3>2.3 滞销品处理</h3>
+<ul>
+<li>30天无销量：降价30%促销</li>
+<li>60天无销量：参加清仓活动</li>
+<li>90天无销量：清库存+下架</li>
+</ul>
+<h2>三、毛利控制</h2>
+<div class="formula">净利率 = 毛利率 - 平台费率 - 广告费率 - 物流费率 - 售后费率</div>
+<table>
+<tr><th>费用项</th><th>占比</th><th>说明</th></tr>
+<tr><td>毛利率</td><td>50%</td><td>售价-成本</td></tr>
+<tr><td>平台费率</td><td>5%</td><td>佣金+技术服务费</td></tr>
+<tr><td>广告费率</td><td>15%</td><td>推广费/GMV</td></tr>
+<tr><td>物流费率</td><td>8%</td><td>快递+包装</td></tr>
+<tr><td>售后费率</td><td>5%</td><td>退货+客服成本</td></tr>
+<tr><td><strong>净利率</strong></td><td><strong>17%</strong></td><td>最终利润</td></tr>
+</table>
+<div class="warn-box"><strong>危险信号：</strong>净利率<10%是危险线，说明产品没有抗风险能力（一次活动可能就亏本）。</div>
+</div>
+<div class="section" id="logistics">
+<h1>📦 物流履约</h1>
+<h2>一、快递选择</h2>
+<table>
+<tr><th>快递</th><th>价格</th><th>速度</th><th>服务</th><th>适合</th></tr>
+<tr><td><strong>顺丰</strong></td><td>高（15-25元）</td><td>1-2天</td><td>⭐⭐⭐⭐⭐</td><td>高客单、3C、生鲜</td></tr>
+<tr><td><strong>京东物流</strong></td><td>中高（10-15元）</td><td>2-3天</td><td>⭐⭐⭐⭐⭐</td><td>3C、家电</td></tr>
+<tr><td><strong>中通</strong></td><td>中（4-6元）</td><td>3-4天</td><td>⭐⭐⭐</td><td>通用</td></tr>
+<tr><td><strong>圆通/申通/韵达</strong></td><td>中低（3-5元）</td><td>3-5天</td><td>⭐⭐⭐</td><td>低价品</td></tr>
+<tr><td><strong>极兔</strong></td><td>低（3-5元）</td><td>3-5天</td><td>⭐⭐⭐</td><td>拼多多首选</td></tr>
+</table>
+<h2>二、发货时效</h2>
+<ul>
+<li><strong>常规商品：</strong>48小时内发货</li>
+<li><strong>大促期间：</strong>72小时内发货（行业惯例）</li>
+<li><strong>预售商品：</strong>按约定时间发货</li>
+<li><strong>定制商品：</strong>7-15天</li>
+</ul>
+<h2>三、运费险策略</h2>
+<ul>
+<li>所有商品默认购买运费险（成本0.5-1元/单）</li>
+<li>退货率高的类目：必须买（女装、鞋靴）</li>
+<li>退货率低的类目：可不买（3C配件）</li>
+</ul>
+<h2>四、退货处理流程</h2>
+<ol class="steps">
+<li><strong>买家申请退货</strong> - 系统自动同意</li>
+<li><strong>买家寄回商品</strong> - 填写退货物流</li>
+<li><strong>商家收到退货</strong> - 检查商品（3天内）</li>
+<li><strong>确认退款</strong> - 系统自动退款</li>
+<li><strong>退货商品处理</strong> - 重新包装/降价/销毁</li>
+</ol>
+</div>
+
+<div class="section platform-jd" id="jd-sop">
+<h2>五、京东商家运营全流程SOP</h2>
+
+<h3>5.1 店铺基建与入驻</h3>
+<ol class="steps">
+<li><strong>店铺类型选择</strong>旗舰店/专营店/专卖店/POP店/自营,根据品牌授权与资金实力选择。</li>
+<li><strong>资质准备</strong>营业执照、商标R标、品牌授权链、对公账户、质检报告。</li>
+<li><strong>保证金与扣点</strong>不同类目保证金5000-10万,扣点2-10%不等,需提前测算。</li>
+<li><strong>入驻京东仓</strong>标品高周转建议入仓,获得"京东物流"金标和搜索加权。</li>
+</ol>
+
+<h3>5.2 商品运营SOP</h3>
+<ol class="steps">
+<li><strong>选品</strong>优先3C/家电/母婴/超市标品,看重品牌与参数。</li>
+<li><strong>定价</strong>京东用户对价格敏感度中等,但对"品牌+性价比"敏感,定价需高于拼多多10-30%。</li>
+<li><strong>标题</strong>品牌+型号+核心参数+场景(45字),关键词布局以品牌词+型号词为主。</li>
+<li><strong>主图</strong>第5张必须为白底图,整体风格简洁专业,突出参数和卖点。</li>
+<li><strong>详情页</strong>强调参数、质检、售后、品牌故事,用户决策理性。</li>
+</ol>
+
+<h3>5.3 京准通推广体系</h3>
+<table>
+<tr><th>产品</th><th>类型</th><th>适用场景</th><th>ROAS目标</th></tr>
+<tr><td>京东快车</td><td>搜索广告(CPC)</td><td>精准关键词抢排名</td><td>≥3.5</td></tr>
+<tr><td>京东海投</td><td>智能投放</td><td>全店推广/新手</td><td>≥2.5</td></tr>
+<tr><td>京速推</td><td>智能投放</td><td>无经验商家快速起量</td><td>≥2.5</td></tr>
+<tr><td>京东展位</td><td>展示广告(CPM)</td><td>品牌曝光</td><td>按曝光计费</td></tr>
+<tr><td>京东联盟</td><td>CPS</td><td>站外达人/导购</td><td>≥3</td></tr>
+</table>
+
+<h3>5.4 京东大促与活动</h3>
+<ul>
+<li><strong>京东秒杀:</strong>单品日销要求,价格需有竞争力,提前锁库存。</li>
+<li><strong>京东百亿补贴:</strong>对标拼多多,要求全网低价,流量大但毛利低。</li>
+<li><strong>京东超市/京东到家:</strong>适合快消品,需满足入仓和配送时效。</li>
+<li><strong>双11/618:</strong>与天猫节奏类似,但预售和现货结合更灵活。</li>
+</ul>
+
+<div class="case-box">
+<strong>案例：某3C品牌京东自营路径</strong><br>
+Step 1: 先开POP店3个月,月销做到50万,评分4.8+。<br>
+Step 2: 以POP数据洽谈自营,谈定供货价和扣点。<br>
+Step 3: 自营入仓后流量提升3倍,但毛利下降5%,靠规模摊薄。<br>
+<strong>结论：</strong>京东自营是品牌背书+规模,不是高利润模型。
+</div>
+</div>
+
+<div class="section platform-douyin" id="xhs-sop">
+<h2>五、小红书商家运营全流程SOP</h2>
+
+<h3>5.1 账号定位与基建</h3>
+<ol class="steps">
+<li><strong>账号类型</strong>个人号/企业号/专业号;品牌做企业号,可挂商卡、投聚光。</li>
+<li><strong>人设定位</strong>明确"为谁解决什么问题",如"宝妈测评官""成分党护肤""职场穿搭"。</li>
+<li><strong>主页装修</strong>头像、昵称、简介、背景图统一风格;简介含关键词与价值主张。</li>
+<li><strong>店铺开通</strong>企业号可开薯店,个人号1000粉丝可开通蒲公英。</li>
+</ol>
+
+<h3>5.2 内容矩阵与笔记生产</h3>
+<table>
+<tr><th>笔记类型</th><th>适用场景</th><th>核心公式</th><th>互动率</th></tr>
+<tr><td>测评笔记</td><td>美妆/数码/食品</td><td>真实使用+多维度打分+优缺点</td><td>⭐⭐⭐⭐</td></tr>
+<tr><td>教程笔记</td><td>家居/美妆/厨电</td><td>痛点+步骤+效果对比</td><td>⭐⭐⭐⭐⭐</td></tr>
+<tr><td>场景笔记</td><td>服饰/家居/生活方式</td><td>氛围图+使用场景+购买链接</td><td>⭐⭐⭐⭐</td></tr>
+<tr><td>对比笔记</td><td>所有类目</td><td>A vs B + 客观结论</td><td>⭐⭐⭐⭐⭐</td></tr>
+<tr><td>合集笔记</td><td>好物推荐</td><td>数字+场景+清单</td><td>⭐⭐⭐⭐</td></tr>
+</table>
+
+<h3>5.3 爆款笔记公式</h3>
+<div class="formula">爆款笔记 = 强封面(3:4竖图) + 痛点标题(20字) + 实用内容 + 精准标签(5-8个) + 置顶评论</div>
+
+<h3>5.4 投放与商业化</h3>
+<ul>
+<li><strong>薯条：</strong>100元起投,测试笔记点击率与互动,CTR>5%可追投。</li>
+<li><strong>聚光平台：</strong>企业号信息流+搜索广告,按点击/互动计费。</li>
+<li><strong>蒲公英：</strong>官方达人合作平台,可筛选粉丝画像、报价、历史数据。</li>
+<li><strong>KOC铺量：</strong>100-300元/篇,用于建立基础口碑和搜索占位。</li>
+</ul>
+
+<div class="case-box">
+<strong>新品牌小红书冷启动路径</strong><br>
+• 第1-2周: 铺50-100篇素人KOC笔记,关键词覆盖<br>
+• 第3-4周: 5-10个腰部达人拉升权重<br>
+• 第5-8周: 1-2个头部KOL或明星背书<br>
+• 持续: 品牌号+UGC活动,把评论区转化为晒单<br>
+<strong>预算建议：</strong>30%头部+50%腰部+20%素人铺量
+</div>
+</div>
+
+<div class="section" id="roles">
+<h1>🧩 商家运营岗位职责与团队架构</h1>
+
+<h2>一、淘宝/拼多多/抖音运营岗位差异</h2>
+<div style="font-weight:700;margin:14px 0 6px;color:#E55A00">三平台运营重点差异对照</div>
+<table>
+<tr><th>维度</th><th>淘宝</th><th>拼多多</th><th>抖音</th><th>关键提醒</th></tr>
+<tr><td>起盘主阵地</td><td>搜索+店铺+内容+直播协同起盘</td><td>价格力+活动+推广中心快速起量</td><td>短视频+直播+商品卡三路协同起盘</td><td>岗位动作不能照搬，必须顺着平台主流流量分发逻辑走。</td></tr>
+<tr><td>核心经营抓手</td><td>标题、主图、会员、淘客、万相台</td><td>标题、价格、秒杀、全站推广、体验分</td><td>素材、直播、达人、千川、商城货架</td><td>同样叫运营，不同平台真正的第一抓手完全不同。</td></tr>
+<tr><td>对内容的依赖度</td><td>中高，需要内容辅助搜索和直播</td><td>较低，内容不是主驱动</td><td>极高，内容是成交链路核心组成</td><td>抖音岗位必须把内容能力纳入职责，拼多多则更偏经营效率。</td></tr>
+<tr><td>价格策略</td><td>价格与品牌心智并重</td><td>价格力优先，需强控引流款与利润款结构</td><td>不同渠道分价格和分佣金逻辑</td><td>价格不只是便宜，还要服务于平台的流量获取方式。</td></tr>
+<tr><td>付费投放重点</td><td>直通车、引力魔方、万相台</td><td>多多搜索、场景推广、全站推广</td><td>巨量千川</td><td>岗位上要把投放和自然流量的分工写清楚，不能统称“广告投放”。</td></tr>
+<tr><td>活动资源打法</td><td>大促会场、店铺活动、直播大场</td><td>秒杀、百亿补贴、平台活动会场</td><td>商城活动、直播大场、达人矩阵活动</td><td>活动资源是平台特性最强的一部分，最适合放进岗位职责差异化描述。</td></tr>
+<tr><td>老客运营</td><td>会员体系和客户运营平台更成熟</td><td>关注券和复购活动为主</td><td>粉丝团、会员权益、回访直播为主</td><td>老客运营链路会直接决定岗位是否只是“拉新运营”。</td></tr>
+<tr><td>服务与风险指标</td><td>售后、客服、店铺体验都重要</td><td>体验分、物流、赔付和违规更敏感</td><td>体验分、退款率、达人和直播履约风险更敏感</td><td>岗位职责里最好把“规模目标”和“体质底线”同时写进去。</td></tr>
+<tr><td>组织协同对象</td><td>设计、客服、投放、直播、财务</td><td>仓配、客服、投放、活动运营、财务</td><td>内容团队、主播、达人、投放、客服、仓配</td><td>抖音岗位跨团队协同最重，JD式单点运营写法不够用。</td></tr>
+<tr><td>最关键运营心法</td><td>流量和承接两手抓，搜索与店铺资产一起做</td><td>先把价格力和体质做稳，再谈冲规模</td><td>内容、直播、货架、达人是一盘棋</td><td>真正好用的岗位说明书，不只是写动作，还要写背后的经营逻辑。</td></tr>
+</table>
+
+<h2>二、典型电商团队架构</h2>
+<table>
+<tr><th>岗位</th><th>核心职责</th><th>人数(初创/成熟)</th><th>KPI</th></tr>
+<tr><td>运营负责人</td><td>目标拆解、资源协调、数据复盘</td><td>1/1</td><td>GMV、利润率、ROI</td></tr>
+<tr><td>平台运营</td><td>店铺日常、活动报名、推广优化</td><td>1-2/3-5</td><td>销售额、ROI、转化率</td></tr>
+<tr><td>内容/短视频运营</td><td>短视频、直播脚本、达人对接</td><td>1/2-3</td><td>播放量、互动率、GPM</td></tr>
+<tr><td>主播</td><td>直播讲解、互动、逼单</td><td>1-2/3-5</td><td>GMV、转化率、停留时长</td></tr>
+<tr><td>客服主管</td><td>客服培训、质检、售后处理</td><td>1/1</td><td>响应时长、满意度、DSR</td></tr>
+<tr><td>美工/设计</td><td>主图、详情页、活动素材</td><td>1/2-3</td><td>点击率、转化率</td></tr>
+<tr><td>供应链/采购</td><td>选品、采购、库存、物流</td><td>1/2-3</td><td>缺货率、库存周转、毛利</td></tr>
+</table>
+
+<h2>三、运营人核心能力模型</h2>
+<ol class="steps">
+<li><strong>数据分析能力</strong>能读懂UV/转化率/ROI/GPM,会漏斗拆解和归因</li>
+<li><strong>平台规则理解</strong>每个平台算法、红线、活动规则都要吃透</li>
+<li><strong>选品能力</strong>能识别价格力、复购率、视觉卖点、供应链稳定性</li>
+<li><strong>内容敏感度</strong>知道什么素材能爆,会写脚本和brief</li>
+<li><strong>流量操盘能力</strong>会投直通车/多多搜索/千川/聚光,会调出价和人群</li>
+<li><strong>用户运营能力</strong>会设计会员、私域、复购路径</li>
+</ol>
+</div>
+
+<div class="section" id="caixiao">
+<h1>🏭 采销岗位职责与SOP</h1>
+
+<h2>一、采购模块核心职责</h2>
+<div style="font-weight:700;margin:14px 0 6px;color:#E55A00">采购职责全流程（最细颗粒度）</div>
+<table>
+<tr><th>序号</th><th>业务阶段/流程</th><th>一级模块</th><th>二级模块</th><th>具体操作项</th></tr>
+<tr><td>1</td><td>品类规划</td><td>行业分析</td><td>市场规模分析</td><td>品类市场规模测算</td></tr>
+<tr><td>2</td><td></td><td></td><td></td><td>品类结构分析</td></tr>
+<tr><td>3</td><td></td><td></td><td>行业趋势分析</td><td>搜索趋势分析</td></tr>
+<tr><td>4</td><td></td><td></td><td></td><td>新品趋势追踪</td></tr>
+<tr><td>5</td><td></td><td>竞对分析</td><td>竞对平台分析</td><td>竞对价格结构分析</td></tr>
+<tr><td>6</td><td></td><td></td><td></td><td>竞对商品结构分析</td></tr>
+<tr><td>7</td><td></td><td></td><td></td><td>竞对促销策略分析</td></tr>
+<tr><td>8</td><td></td><td>用户分析</td><td>用户画像分析</td><td>品类核心用户画像</td></tr>
+<tr><td>9</td><td></td><td></td><td>用户需求洞察</td><td>用户评价关键词分析</td></tr>
+<tr><td>10</td><td></td><td></td><td></td><td>用户搜索意图分析</td></tr>
+<tr><td>11</td><td></td><td>品类策略制定</td><td>GMV目标规划</td><td>年度/季度GMV目标拆解</td></tr>
+<tr><td>12</td><td></td><td></td><td>商品结构规划</td><td>引流款/利润款/形象款规划</td></tr>
+<tr><td>13</td><td></td><td></td><td></td><td>价格带布局规划</td></tr>
+<tr><td>14</td><td></td><td></td><td>品牌矩阵规划</td><td>头部/腰部/尾部品牌结构</td></tr>
+<tr><td>15</td><td></td><td></td><td>差异化货品规划</td><td>独家/定制/差异化商品规划</td></tr>
+<tr><td>16</td><td>招商寻源</td><td>情报收集</td><td>竞对情报</td><td>竞对商家情报采集</td></tr>
+<tr><td>17</td><td></td><td></td><td></td><td>竞对商家价格监控</td></tr>
+<tr><td>18</td><td></td><td></td><td>供应链情报</td><td>工厂/产能情报收集</td></tr>
+<tr><td>19</td><td></td><td>商家评估</td><td>资质初筛</td><td>营业执照/品牌授权核验</td></tr>
+<tr><td>20</td><td></td><td></td><td>成本分析</td><td>BOM成本分析</td></tr>
+<tr><td>21</td><td></td><td></td><td>供货能力</td><td>商家经营规模评估</td></tr>
+<tr><td>22</td><td></td><td>入驻沟通</td><td>意向沟通</td><td>合作模式及条件沟通</td></tr>
+<tr><td>23</td><td></td><td></td><td>条款谈判</td><td>核心条款博弈</td></tr>
+<tr><td>24</td><td></td><td>商家培训</td><td>后台培训</td><td>京东后台操作培训</td></tr>
+<tr><td>25</td><td></td><td></td><td>活动培训</td><td>京东活动玩法培训</td></tr>
+</table>
+
+<h2>二、销售运营模块核心职责</h2>
+<div style="font-weight:700;margin:14px 0 6px;color:#E55A00">销/运营职责-商品生命周期全阶段（最细颗粒度）</div>
+<table>
+<tr><th>序号</th><th>业务阶段/流程</th><th>一级模块</th><th>二级模块</th><th>具体操作项</th></tr>
+<tr><td>1</td><td>准备期</td><td>商品信息创建</td><td>基础信息</td><td>商品主标题撰写</td></tr>
+<tr><td>2</td><td></td><td></td><td></td><td>商品短标题设置（商卡）</td></tr>
+<tr><td>3</td><td></td><td></td><td></td><td>高级广告词设置</td></tr>
+<tr><td>4</td><td></td><td></td><td></td><td>四级类目归属设置</td></tr>
+<tr><td>5</td><td></td><td></td><td></td><td>规格参数（规参）填写</td></tr>
+<tr><td>6</td><td></td><td></td><td></td><td>扩展属性（扩属）填写</td></tr>
+<tr><td>7</td><td></td><td></td><td>视觉素材</td><td>主图制作（静态）</td></tr>
+<tr><td>8</td><td></td><td></td><td></td><td>主图视频制作</td></tr>
+<tr><td>9</td><td></td><td></td><td></td><td>商品详情页制作</td></tr>
+<tr><td>10</td><td></td><td></td><td></td><td>商品卖点图设置（推荐场景）</td></tr>
+<tr><td>11</td><td></td><td></td><td>商品标签</td><td>南海商品标签创建</td></tr>
+<tr><td>12</td><td></td><td></td><td></td><td>活动打标</td></tr>
+<tr><td>13</td><td></td><td></td><td>商品关联</td><td>系列化/尺码关联设置</td></tr>
+<tr><td>14</td><td></td><td></td><td></td><td>搭配购设置</td></tr>
+<tr><td>15</td><td></td><td></td><td></td><td>虚拟组套设置</td></tr>
+<tr><td>16</td><td></td><td>流量预埋</td><td>搜索预埋</td><td>类目平铺设置</td></tr>
+<tr><td>17</td><td></td><td></td><td></td><td>搜索下拉词提报</td></tr>
+<tr><td>18</td><td>导入期</td><td>拉新促销</td><td>首单工具</td><td>首单新人价设置</td></tr>
+<tr><td>19</td><td></td><td></td><td></td><td>新人礼金设置</td></tr>
+<tr><td>20</td><td></td><td></td><td>首购礼金</td><td>品类首购礼金设置</td></tr>
+<tr><td>21</td><td></td><td>促销破零</td><td>单品直降</td><td>单品直降促销设置</td></tr>
+<tr><td>22</td><td></td><td></td><td>秒杀提报</td><td>单品秒杀提报（破零）</td></tr>
+<tr><td>23</td><td></td><td></td><td>便宜包邮</td><td>便宜包邮/9.9包邮提报</td></tr>
+<tr><td>24</td><td></td><td>新品资源</td><td>搜索资源</td><td>搜索新品加权申请</td></tr>
+<tr><td>25</td><td></td><td></td><td></td><td>搜索霸屏（新品）</td></tr>
+</table>
+
+<h2>三、采控模块核心职责</h2>
+<div style="font-weight:700;margin:14px 0 6px;color:#E55A00">采控职责全链路（最细颗粒度）</div>
+<table>
+<tr><th>序号</th><th>业务阶段/流程</th><th>一级模块</th><th>二级模块</th><th>具体操作项</th></tr>
+<tr><td>1</td><td>计划管理</td><td>销售计划</td><td>销售预测</td><td>历史数据+季节规律销售预测</td></tr>
+<tr><td>2</td><td></td><td></td><td>计划对齐</td><td>销售计划与采销对齐确认</td></tr>
+<tr><td>3</td><td></td><td>采购计划</td><td>净需求计算</td><td>采购净需求计算</td></tr>
+<tr><td>4</td><td></td><td>入库计划</td><td>仓储资源</td><td>入库资源规划与预约</td></tr>
+<tr><td>5</td><td></td><td>预算管理</td><td>多维预算</td><td>销售/营销/物流/费用预算管理</td></tr>
+<tr><td>6</td><td>采购执行</td><td>系统出单</td><td>参数设置</td><td>出单规则参数配置</td></tr>
+<tr><td>7</td><td></td><td></td><td>异常监控</td><td>自动补货异常处理</td></tr>
+<tr><td>8</td><td></td><td>手工下单</td><td>活动备货</td><td>大促活动备货下单</td></tr>
+<tr><td>9</td><td></td><td></td><td>新品备货</td><td>新品首次采购</td></tr>
+<tr><td>10</td><td></td><td></td><td>囤货决策</td><td>利润型/稀缺品囤货决策</td></tr>
+<tr><td>11</td><td></td><td></td><td>赠品备货</td><td>赠品采购管理</td></tr>
+<tr><td>12</td><td></td><td></td><td>季节品</td><td>季节性商品特殊采购策略</td></tr>
+<tr><td>13</td><td></td><td>采购审批</td><td>合理性审核</td><td>采购单合理性审核</td></tr>
+<tr><td>14</td><td></td><td></td><td>特殊审批</td><td>限采/超采/超保审批</td></tr>
+<tr><td>15</td><td></td><td>基础信息</td><td>商品属性</td><td>UPC/保质期/序列号/库房属性维护</td></tr>
+<tr><td>16</td><td></td><td></td><td>供应策略</td><td>平行仓/一品多商管理</td></tr>
+<tr><td>17</td><td>库存管理</td><td>健康库存</td><td>不健康识别</td><td>不健康库存自动识别（周转/库龄/动销）</td></tr>
+<tr><td>18</td><td></td><td></td><td>不健康处置</td><td>创促清货（价格促销）</td></tr>
+<tr><td>19</td><td></td><td></td><td></td><td>仓间内配调拨</td></tr>
+<tr><td>20</td><td></td><td></td><td></td><td>退供（退货给供应商）</td></tr>
+<tr><td>21</td><td></td><td>临期管理</td><td>效期监控</td><td>临期商品自动预警</td></tr>
+<tr><td>22</td><td></td><td></td><td>效期处置</td><td>临期商品清货方案执行</td></tr>
+<tr><td>23</td><td></td><td>库存监控</td><td>指标监控</td><td>供应链指标日常监控</td></tr>
+<tr><td>24</td><td></td><td></td><td>供应商履约</td><td>供应商履约率监控</td></tr>
+<tr><td>25</td><td></td><td></td><td></td><td>供应商履约异常处理</td></tr>
+</table>
+
+<h2>四、采销关键指标体系</h2>
+<table>
+<tr><th>指标</th><th>公式</th><th>健康线</th><th>作用</th></tr>
+<tr><td>毛利率</td><td>(售价-成本)/售价</td><td>≥20%</td><td>盈利能力</td></tr>
+<tr><td>库存周转天数</td><td>平均库存/日均销售成本</td><td>≤45天</td><td>资金效率</td></tr>
+<tr><td>缺货率</td><td>缺货SKU数/总SKU数</td><td>≤5%</td><td>销售机会损失</td></tr>
+<tr><td>动销率</td><td>有销量SKU/总SKU</td><td>≥80%</td><td>商品健康度</td></tr>
+<tr><td>退货率</td><td>退货订单/总订单</td><td>≤8%</td><td>品质与服务</td></tr>
+<tr><td>GMV达成率</td><td>实际GMV/目标GMV</td><td>≥95%</td><td>业绩完成</td></tr>
+</table>
+
+<div class="info-box">
+<strong>采销一体化思维：</strong>采购不是越便宜越好,销售也不是越便宜越卖。真正的采销是"用合适的价格采购合适的商品,用合适的毛利卖给合适的人群"。
+</div>
+</div>
+
+<div class="section" id="aftersales">
+<h1>🛠️ 售后、客服与体验分维护</h1>
+
+<h2>一、平台体验分/评分体系</h2>
+<table>
+<tr><th>平台</th><th>评分体系</th><th>核心维度</th><th>红线</th></tr>
+<tr><td>淘宝</td><td>DSR三项</td><td>描述相符/服务态度/物流服务</td><td><4.6降权</td></tr>
+<tr><td>拼多多</td><td>体验分+领航员</td><td>商品体验/物流体验/服务体验</td><td>低于行业30%无法报活动</td></tr>
+<tr><td>京东</td><td>店铺评分</td><td>商品/服务/物流/售后</td><td><4.5影响搜索</td></tr>
+<tr><td>抖音</td><td>店铺体验分</td><td>商品/物流/服务</td><td><4.6无法投流</td></tr>
+</table>
+
+<h2>二、售后处理SOP</h2>
+<ol class="steps">
+<li><strong>退款/退货申请</strong>系统自动同意(7天无理由),减少纠纷率。</li>
+<li><strong>质量问题</strong>主动联系买家,提供退换/补偿方案,避免差评。</li>
+<li><strong>差评处理</strong>24小时内联系买家,协商改评;无法改评则追评解释。</li>
+<li><strong>投诉/纠纷</strong>保留聊天记录和物流凭证,平台介入时举证。</li>
+<li><strong>退货质检</strong>收到退货后24小时内质检,影响二次销售的按残次处理。</li>
+</ol>
+
+<h2>三、客服数据监控</h2>
+<table>
+<tr><th>指标</th><th>及格</th><th>良好</th><th>优秀</th></tr>
+<tr><td>首次响应时间</td><td>30秒</td><td>15秒</td><td>5秒</td></tr>
+<tr><td>平均响应时间</td><td>60秒</td><td>30秒</td><td>15秒</td></tr>
+<tr><td>客服转化率</td><td>30%</td><td>50%</td><td>70%+</td></tr>
+<tr><td>满意度</td><td>90%</td><td>95%</td><td>98%+</td></tr>
+<tr><td>差评率</td><td><2%</td><td><1%</td><td><0.5%</td></tr>
+</table>
+
+<div class="warn-box">
+<strong>售后红线：</strong>虚假发货、拒绝退货、辱骂客户、泄露用户信息都会触发严重违规。平台处罚力度:拼多多>抖音>淘宝>京东。
+</div>
+</div>
+
+<div class="section" id="platform-choice">
+<h1>🎯 平台选择与多平台布局决策</h1>
+
+<h2>一、四大平台核心画像</h2>
+<table>
+<tr><th>平台</th><th>用户心智</th><th>核心品类</th><th>价格敏感度</th><th>流量逻辑</th><th>适合商家</th></tr>
+<tr><td>淘宝</td><td>万能、搜索</td><td>服饰/美妆/家居</td><td>中</td><td>搜索权重+个性化</td><td>有供应链、会做SEO</td></tr>
+<tr><td>拼多多</td><td>极致低价</td><td>日百/家居/食品/白牌</td><td>极高</td><td>价格力+推荐</td><td>有成本优势、能接受低毛利</td></tr>
+<tr><td>京东</td><td>品质、正品</td><td>3C/家电/母婴/超市</td><td>中</td><td>品牌+参数+自营</td><td>品牌方、标品、重视服务</td></tr>
+<tr><td>抖音</td><td>兴趣、种草</td><td>服饰/美妆/食品/家居</td><td>中高</td><td>内容推荐+GPM</td><td>有内容能力、供应链反应快</td></tr>
+<tr><td>小红书</td><td>种草、决策</td><td>美妆/家居/服饰/生活方式</td><td>中</td><td>搜索+推荐</td><td>品牌种草、高颜值产品</td></tr>
+</table>
+
+<h2>二、新商家入局路径</h2>
+<div class="formula">阶段1(0-6月) 跑通单平台 → 阶段2(6-12月) 复制第二平台 → 阶段3(12月+) 全渠道+私域</div>
+<ol class="steps">
+<li><strong>选主战场</strong>根据供应链优势选:低价→拼多多;品牌/标品→京东;内容/非标→抖音;搜索/长尾→淘宝。</li>
+<li><strong>单平台打爆</strong>集中资源打1-2个爆款,验证产品力和供应链。</li>
+<li><strong>复制第二平台</strong>用主战场验证的爆款,针对不同平台改主图/标题/价格/详情页。</li>
+<li><strong>全渠道+私域</strong>公域做增量,私域做复购和利润。</li>
+</ol>
+
+<h2>三、多平台差异化策略</h2>
+<div class="case-box">
+<strong>案例：同一款保温杯在5个平台怎么卖</strong><br>
+• 拼多多:29.9元(同款最低价),主图写"304不锈钢 9.9秒杀",详情突出价格<br>
+• 淘宝:49.9元,主图简洁模特场景,详情强调品牌和品质<br>
+• 京东:59.9元,标题"品牌名+304不锈钢+500ml+便携",入京东仓<br>
+• 抖音:39.9元,短视频演示"12小时保温不漏水",直播间限时福利<br>
+• 小红书:种草笔记"打工人通勤必备",强调颜值和场景,挂薯店49元<br>
+<strong>结论：</strong>同一产品可差异化定价,关键是<strong>避免跨平台直接比价</strong>。
+</div>
+</div>
+
+<div class="section" id="visual-sop">
+<h1>🎨 视觉素材SOP与素材库</h1>
+
+<h2>一、各平台主图规范</h2>
+<table>
+<tr><th>平台</th><th>尺寸</th><th>文字占比</th><th>风格</th><th>特殊要求</th></tr>
+<tr><td>淘宝</td><td>800×800/3:4</td><td>≤30%</td><td>简洁高端</td><td>第1张建议白底</td></tr>
+<tr><td>拼多多</td><td>800×800/3:4</td><td>≤60%</td><td>价格突出</td><td>突出促销利益点</td></tr>
+<tr><td>京东</td><td>800×800</td><td>≤20%</td><td>专业参数</td><td>第5张白底图</td></tr>
+<tr><td>抖音</td><td>9:16/3:4</td><td>可较多</td><td>视觉冲击</td><td>适合竖屏信息流</td></tr>
+<tr><td>小红书</td><td>3:4</td><td>≤20%</td><td>ins风/生活感</td><td>封面决定点击率</td></tr>
+</table>
+
+<h2>二、素材生产清单</h2>
+<ol class="steps">
+<li><strong>基础素材</strong>白底图、场景图、细节图、SKU图、参数图</li>
+<li><strong>促销素材</strong>主图打标、活动 banner、限时秒杀图</li>
+<li><strong>短视频素材</strong>开箱、使用教程、对比测评、用户证言</li>
+<li><strong>直播素材</strong>直播间封面、贴片、福利弹窗、主播手卡</li>
+</ol>
+
+<h2>三、素材A/B测试</h2>
+<div class="formula">测试优先级: 主图 CTR > 详情页转化率 > 短视频完播率 > 直播停留时长</div>
+<ul>
+<li>每款商品至少准备3-5套主图</li>
+<li>单张图展现量≥1000后再判断优劣</li>
+<li>胜出素材保留,淘汰素材分析原因</li>
+<li>大促前至少完成2轮主图测试</li>
+</ul>
+</div>\n<!-- AI 对话 -->
+<div class="ai-section section" id="ai">
+<h2>🤖 AI 电商运营顾问<span style="font-size:14px;color:rgba(255,255,255,0.6);font-weight:400;margin-left:12px">基于 DeepSeek + 知识库智能回答</span></h2>
+<div class="ai-tip" style="background:rgba(255,106,0,0.1);border:1px solid rgba(255,106,0,0.3);padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px">
+<strong>💡 提示:</strong>登录后可免费体验 3 次,每次最长 1 天;之后每次使用消耗 10 积分,或购买包月/包年会员无限使用。AI 由后端 DeepSeek API 驱动,无需配置 Key。
+</div>
+<div class="ai-chat">
+<div class="ai-messages" id="aiMessages">
+<div class="ai-msg">
+<div class="ai-avatar" style="background:#FF6A00">🤖</div>
+<div class="ai-bubble ai">
+你好!我是你的电商运营顾问 👋<br>
+我可以帮你解答:<br>
+• 淘宝/拼多多/京东/抖音运营策略<br>
+• 直通车/万相台/千川广告优化<br>
+• 直播带货话术与选品<br>
+• 618/双11大促作战方案<br>
+• 私域运营与会员体系<br>
+• 供应链与库存管理<br>
+<br>
+请直接输入你的问题,或点击下方快捷问题开始。
+</div>
+</div>
+</div>
+<div class="quick-btns">
+<button class="quick-btn" onclick="quickAsk('新手开淘宝店应该从哪里开始?')">📈 新手开店</button>
+<button class="quick-btn" onclick="quickAsk('直通车ROI太低怎么优化?')">💰 直通车优化</button>
+<button class="quick-btn" onclick="quickAsk('618大促怎么规划?给我一份完整作战计划')">🚀 618作战</button>
+<button class="quick-btn" onclick="quickAsk('拼多多价格力怎么玩?')">🍊 拼多多玩法</button>
+<button class="quick-btn" onclick="quickAsk('抖音直播间如何从0到1起号?')">🎬 抖音直播</button>
+<button class="quick-btn" onclick="quickAsk('私域流量怎么做?具体方法')">💰 私域方法</button>
+<button class="quick-btn" onclick="quickAsk('标题怎么写才能提高搜索排名?')">📝 标题优化</button>
+<button class="quick-btn" onclick="quickAsk('直播间选品和排品怎么设计?')">📦 直播选品</button>
+</div>
+<div class="ai-input-row">
+<input type="text" id="aiInput" placeholder="输入你的电商运营问题..." onkeydown="if(event.key==='Enter')sendQuestion()">
+<button onclick="sendQuestion()" style="background:#FF6A00;color:white;border:none;padding:0 18px;border-radius:8px;font-weight:600;cursor:pointer">发送</button>
+<button onclick="openSettings()" style="background:rgba(255,255,255,0.1);color:white;border:1px solid rgba(255,255,255,0.2);padding:0 12px;border-radius:8px;cursor:pointer">⚙️ 设置</button>
+</div>
+</div>
+</div>
+
+<!-- 设置弹窗 -->
+<div id="settingsModal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:2000;align-items:center;justify-content:center">
+<div style="background:white;border-radius:12px;padding:28px;max-width:480px;width:90%">
+<h3 style="margin:0 0 14px;color:#1a1a2e">⚙️ AI 设置</h3>
+<p style="color:#6b7280;font-size:13px;margin-bottom:14px">当前 AI 由后端 DeepSeek API 驱动,无需在此输入 API Key。</p>
+<input type="text" id="apiKeyInput" value="已启用后端 DeepSeek API" readonly style="width:100%;padding:10px 14px;border:1px solid #e5e7eb;border-radius:6px;font-size:14px;margin-bottom:12px;background:#f9fafb">
+<div style="display:flex;gap:8px;justify-content:flex-end">
+<button onclick="closeSettings()" style="background:#f3f4f6;color:#374151;border:none;padding:8px 16px;border-radius:6px;cursor:pointer">关闭</button>
+</div>
+<p id="settingsTip" style="margin-top:10px;font-size:12px;color:#6b7280"></p>
+</div>
+</div>
+
+</div>
+</main>
+</div>
+<div class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</div>
+<script>
+const sections=document.querySelectorAll('.section');
+const sidebarLinks=document.querySelectorAll('.sidebar a');
+window.addEventListener('scroll',()=>{
+    let current='';
+    document.querySelectorAll('[id]').forEach(s=>{if(window.scrollY>=s.offsetTop-120&&s.id)current=s.id});
+    sidebarLinks.forEach(a=>{a.classList.toggle('active',a.getAttribute('href')==='#'+current)});
+    document.getElementById('backTop').classList.toggle('show',window.scrollY>400);
+});
+function doSearch(q){if(!q)return;const text=document.body.innerText.toLowerCase();if(text.includes(q.toLowerCase())){const first=Array.from(document.querySelectorAll('h2,h3')).find(h=>h.innerText.toLowerCase().includes(q.toLowerCase()));if(first)first.scrollIntoView({behavior:'smooth',block:'start'})}}
+</script>
+
+<script>
+// ============ AI 对话与会员系统 ============
+const API = location.origin + '/api';
+let currentUser = null;
+let canUseAI = false;
+let userStatus = {source:'none', points:0, freeUsesLeft:0};
+let selectedPay = null;
+let pricingData = null;
+let aiHistory = [];
+
+const SYSTEM_PROMPT = `你是中国电商运营专家,精通淘宝、天猫、拼多多、京东、抖音、小红书、直播带货、私域运营、供应链管理。请用简洁、专业、可执行的方式回答问题,提供具体数字、步骤、案例。回答控制在 500 字以内,用中文。`;
+
+const KB_CONTEXT = `
+【平台算法核心】
+- 淘宝综合质量分 = 文本相关性 × 销量权重 × DSR评分 × 转化率 × 客单价 × 店铺权重 × 个性化因子
+- 拼多多:价格力系数占权重30%以上,系统自动对比全网同款
+- 京东:品牌权重⭐⭐⭐⭐⭐,用户搜索习惯是"品牌+型号+参数"
+- 抖音:核心指标 GPM = 客单价 × 转化率 × 1000
+
+【付费推广 ROAS 基线】
+- 淘宝直通车 ≥ 3:1
+- 拼多多多多搜索 ≥ 2:1
+- 京东快车 ≥ 3.5:1
+- 抖音千川 ≥ 2.5:1
+
+【大促作战时间轴】
+- T-60 天:战略规划、目标拆解
+- T-30 天:素材筹备、系统配置
+- T-7 天:蓄水期,加购量决定爆发
+- T-Day:四个流量高峰(0-2/10-12/14-16/20-22)
+- T+7 天:复盘、复购
+
+【私域 5 步法】
+公域引流 → 加企微 → 入群 → 首单 → 复购
+- 包裹卡加微转化率 10-30%
+- 私域首单转化率 30-50%(公域仅 2-5%)
+- 复购率每+5%,净利+20-30%
+`;
+
+function appendMsg(text, who) {
+  const wrap = document.getElementById('aiMessages');
+  const msg = document.createElement('div');
+  msg.className = 'ai-msg ' + (who === 'user' ? 'user' : '');
+  msg.innerHTML = `<div class="ai-avatar" style="background:${who==='user'?'#3b82f6':'#FF6A00'}">${who==='user'?'👤':'🤖'}</div><div class="ai-bubble ${who==='user'?'human':'ai'}">${text.replace(/\n/g,'<br>')}</div>`;
+  wrap.appendChild(msg);
+  wrap.scrollTop = wrap.scrollHeight;
+}
+
+function quickAsk(q) {
+  document.getElementById('aiInput').value = q;
+  sendQuestion();
+}
+
+function openSettings() { document.getElementById('settingsModal').style.display = 'flex'; }
+function closeSettings() { document.getElementById('settingsModal').style.display = 'none'; }
+
+function fmtDate(ts){ return ts ? new Date(ts*1000).toLocaleString('zh-CN') : '-'; }
+
+async function api(path, opts={}){
+  const token = localStorage.getItem('kb_token');
+  const headers = {...(opts.headers||{})};
+  if (token) headers['Authorization'] = 'Bearer '+token;
+  if (opts.json){ headers['Content-Type']='application/json'; opts.body = JSON.stringify(opts.json); }
+  return fetch(API+path, {...opts, headers});
+}
+
+async function initAuth(){
+  const token = localStorage.getItem('kb_token');
+  if (!token){
+    document.getElementById('authWall').style.display = 'flex';
+    document.getElementById('userBar').innerHTML = `<span class="badge">未登录</span><button class="btn secondary" onclick="openPayModal()">充值</button><button class="btn" onclick="goLogin()">登录 / 注册</button>`;
+    return;
+  }
+  try {
+    const r = await api('/auth/me');
+    if (!r.ok) throw new Error('unauthorized');
+    const data = await r.json();
+    if (!data.ok) throw new Error(data.message);
+    currentUser = data.user;
+    document.getElementById('authWall').style.display = 'none';
+    updateUserBar();
+    checkUsage();
+  } catch(e){
+    localStorage.removeItem('kb_token');
+    localStorage.removeItem('kb_user');
+    location.href = '/login.html';
+  }
+}
+
+function updateUserBar(){
+  const u = currentUser;
+  const now = Math.floor(Date.now()/1000);
+  const member = u.membershipValid;
+  const trial = u.trialValid;
+  let statusText = '未登录';
+  if (member) statusText = (u.membership_type==='year'?'包年':'包月')+'会员';
+  else if (trial) statusText = '试用中(剩'+u.free_uses_left+'次)';
+  else if (u.points > 0) statusText = '积分 '+u.points;
+  else statusText = '免费已用完';
+
+  const userName = u.username || u.phone || '用户';
+  document.getElementById('userBar').innerHTML = `
+    <span style="color:#fff;font-size:13px;margin-right:4px">👤 ${escHtml(userName)}</span>
+    <span class="badge" id="statusBadge">${statusText}</span>
+    <button class="btn secondary" onclick="openPayModal()">充值</button>
+    <a class="btn secondary" href="/admin.html" style="text-decoration:none;line-height:1.6">后台</a>
+    <button class="btn" onclick="logout()">退出</button>
+  `;
+}
+
+function escHtml(s){ const d=document.createElement('div'); d.textContent=s||''; return d.innerHTML; }
+
+async function checkUsage(){
+  const r = await api('/usage/check');
+  const data = await r.json();
+  if (data.ok){
+    userStatus = data;
+    canUseAI = data.canUse;
+  } else {
+    canUseAI = false;
+  }
+  updateUserBar();
+}
+
+async function ensureUsage(){
+  if (canUseAI) return true;
+  const r = await api('/usage/start', {method:'POST'});
+  const data = await r.json();
+  if (data.ok && data.source){
+    userStatus = data; canUseAI = true;
+    await checkUsage();
+    return true;
+  }
+  openPayModal(data.message || '免费次数已用完且积分不足');
+  return false;
+}
+
+async function sendQuestion(){
+  if (!currentUser) { location.href = '/login.html'; return; }
+  const input = document.getElementById('aiInput');
+  const q = input.value.trim();
+  if (!q) return;
+
+  const allowed = await ensureUsage();
+  if (!allowed) return;
+
+  input.value = '';
+  appendMsg(q, 'user');
+  appendMsg('🤔 正在思考...', 'ai');
+  const wrap = document.getElementById('aiMessages');
+  const loadingMsg = wrap.lastElementChild;
+
+  try {
+    const resp = await api('/ai/chat', {method:'POST', json: {message: q, history: aiHistory}});
+    const data = await resp.json();
+    if (data.ok && data.answer) {
+      loadingMsg.querySelector('.ai-bubble').innerHTML = data.answer.replace(/\n/g,'<br>');
+      aiHistory.push({role:'user', content: q});
+      aiHistory.push({role:'assistant', content: data.answer});
+      if (aiHistory.length > 12) aiHistory = aiHistory.slice(-12);
+      await checkUsage();
+    } else if (data.code === 'NO_ACCESS') {
+      loadingMsg.querySelector('.ai-bubble').innerHTML = '⚠️ '+ (data.message || '请购买积分或会员');
+      openPayModal(data.message);
+    } else {
+      throw new Error(data.message || 'AI 服务异常');
+    }
+  } catch (e) {
+    loadingMsg.querySelector('.ai-bubble').innerHTML = '⚠️ 后端 AI 暂时不可用,已切换到本地知识库回答:<br><br>' + localRuleEngine(q);
+  }
+}
+
+function goLogin(){ location.href = '/login.html'; }
+function logout(){ localStorage.removeItem('kb_token'); localStorage.removeItem('kb_user'); location.href = '/login.html'; }
+
+async function openPayModal(msg){
+  document.getElementById('payModal').classList.add('show');
+  if (msg) document.getElementById('payInfo').innerHTML = `<strong style="color:#b91c1c">${msg}</strong>`;
+  else document.getElementById('payInfo').textContent = '选择套餐后点击支付(模拟)';
+  if (!pricingData){
+    const r = await fetch(API+'/payment/pricing');
+    pricingData = await r.json();
+  }
+  renderPayGrid();
+}
+function closePayModal(){ document.getElementById('payModal').classList.remove('show'); }
+
+function renderPayGrid(){
+  if (!pricingData || !pricingData.ok) return;
+  const p = pricingData.pricing;
+  let html = '';
+  html += `<div class="pay-card" data-type="month" onclick="selectPay(this,'month')">
+    <div class="price">¥${p.month}</div><div class="desc">包月会员<br>30 天不限次</div>
+  </div>`;
+  html += `<div class="pay-card" data-type="year" onclick="selectPay(this,'year')">
+    <div class="price">¥${p.year}</div><div class="desc">包年会员<br>365 天不限次</div>
+  </div>`;
+  for (const [pts, price] of Object.entries(p.points)){
+    html += `<div class="pay-card" data-type="points" data-points="${pts}" onclick="selectPay(this,'points',${pts})">
+      <div class="price">¥${price}</div><div class="desc">${pts} 积分<br>≈ ${Math.floor(pts/10)} 次使用</div>
+    </div>`;
+  }
+  document.getElementById('payGrid').innerHTML = html;
+}
+function selectPay(el, type, points){
+  document.querySelectorAll('.pay-card').forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedPay = {type, points};
+}
+async function doPay(){
+  if (!selectedPay) return showPayMsg('请选择套餐');
+  if (!localStorage.getItem('kb_token')) { showPayMsg('请先登录'); setTimeout(()=>location.href='/login.html', 800); return; }
+  showPayMsg('创建订单中...');
+  try {
+    const r = await api('/payment/order', {method:'POST', json: selectedPay});
+    const order = await r.json();
+    if (!order.ok) return showPayMsg(order.message);
+    const pr = await api('/payment/pay', {method:'POST', json: {orderId: order.orderId}});
+    const pay = await pr.json();
+    if (!pay.ok) return showPayMsg(pay.message);
+    showPayMsg('支付成功!', false);
+    await checkUsage();
+    setTimeout(()=>{ closePayModal(); if (window.pendingAI) sendQuestion(); }, 600);
+  } catch(e) { showPayMsg('支付失败'); }
+}
+function showPayMsg(text, isErr=true){
+  const el = document.getElementById('payMsg');
+  el.textContent = text; el.style.display = 'block';
+  el.style.color = isErr ? '#b91c1c' : '#065f46';
+}
+
+// 本地规则引擎兜底
+function localRuleEngine(q) {
+  const k = q.toLowerCase();
+  if (k.includes('直通车') && (k.includes('roi') || k.includes('低'))) {
+    return '<strong>直通车 ROI 优化四步法:</strong><br>① 删词:7天展现>100但CTR<1%的词<br>② 加价:高质量分(≥8分)词+20-30%抢前三<br>③ 换图:测4套创意,留下CTR>行业均值1.2倍的<br>④ 缩地域:关掉转化最低的3个省份<br><br>预算分配:已验证高ROI词40% + 新词30% + 品牌词20% + 竞品10%';
+  }
+  if (k.includes('618') || k.includes('大促')) {
+    return '<strong>618 五阶段作战:</strong><br>• T-60天:GMV目标拆解到SKU(引流30%/利润50%/活动20%)<br>• T-30天:素材完成+客服培训+预售设置<br>• T-7天:蓄水期,日预算+30-50%,核心指标是<strong>加购量</strong><br>• T-Day:四高峰(0-2/10-12/14-16/20-22),秒杀每2小时1场<br>• T+7天:复盘+退货处理+复购运营<br><br>关键:蓄水期加购=目标订单×1.5';
+  }
+  if (k.includes('拼多多') || k.includes('价格力')) {
+    return '<strong>拼多多核心是价格力:</strong><br>系统自动爬全网同款价格,定价=均价80%以下 = 同款最低价标签(流量⭐⭐⭐⭐⭐)<br><br><strong>SKU布局:</strong>20%引流(-5%毛利)+ 50%利润(20-40%毛利)+ 10%形象(锚点)+ 20%凑单<br><br><strong>新店30天起量:</strong>第1周破零→第2周秒杀→第3周爆款→第4周百亿补贴';
+  }
+  if (k.includes('抖音') && (k.includes('直播') || k.includes('起号'))) {
+    return '<strong>抖音直播 GMV 公式:</strong><br>GMV = 场均观看 × 平均停留 × 转化率 × 客单价<br><br><strong>2小时排品:</strong>0-10分暖场福利 → 10-40分引流爆款 → 40-100分利润主推 → 100-115分福利返场 → 115-120分限量收尾<br><br><strong>千川 ROAS ≥ 2.5</strong>,3阶段:冷启动(高出价)→优化期(降出价提ROI)→放量期(+20%日预算)';
+  }
+  if (k.includes('私域') || k.includes('企微') || k.includes('会员')) {
+    return '<strong>私域 5 步法:</strong><br>公域引流 → 加企微 → 入群 → 首单 → 复购<br><br><strong>核心数据:</strong><br>• 包裹卡加微转化 10-30%<br>• 私域首单转化 30-50%(公域仅 2-5%)<br>• 复购率每+5%,净利+20-30%<br><br><strong>会员体系:</strong>普通(95折)→ 银卡(消费500,9折)→ 金卡(2000,85折)→ 钻卡(8000,8折)';
+  }
+  if (k.includes('标题')) {
+    return '<strong>各平台标题公式:</strong><br>• 淘宝(60字):品牌+核心词+属性+卖点+场景<br>• 拼多多(60字):核心词+价格锚点+价值主张<br>• 京东(45字):品牌+型号+参数+场景<br>• 抖音(30字):核心词+痛点+解决方案<br>• 小红书(20字):数字+痛点+解决方案<br><br><strong>违禁词:</strong>最/最佳/100%/包治/治愈/根治 — 每次扣2-4分';
+  }
+  if (k.includes('直播') && (k.includes('选品') || k.includes('排品'))) {
+    return '<strong>SKU 组合:</strong>福利10% + 引流30% + 利润40% + 形象20%<br><br><strong>2小时排品:</strong><br>0-10分 暖场福利(2-3款9.9)<br>10-40分 引流爆款(5-8款)<br>40-100分 利润主推(3-5款)<br>100-115分 福利返场<br>115-120分 限量收尾<br><br>选品标准:强视觉+强痛点+强价格+强复购+弱售后';
+  }
+  if (k.includes('新手') || k.includes('开店')) {
+    return '<strong>新手开店建议路径:</strong><br>① 选择 1-2 个主推类目(不要贪多)<br>② 注册企业店(比个人店权重高)<br>③ 先做淘宝/拼多多(门槛低),再做抖音/京东<br>④ 第一个月目标:破零 + 攒 100 条带图评价<br>⑤ 选品公式:引流款(20%)+ 利润款(50%)+ 形象款(10%)+ 凑单(20%)<br>⑥ 重点投入:直通车测试 + 短视频内容(抖音必做)';
+  }
+  if (k.includes('供应链') || k.includes('库存')) {
+    return '<strong>安全库存公式:</strong><br>安全库存 = 日均销量×备货周期 + 日均销量×波动系数<br><br><strong>预警机制:</strong><br>• 黄(< 14天)→ 立即补货<br>• 红(< 7天)→ 紧急+限购<br>• 断(< 3天)→ 下架+预售<br><br><strong>净利率警戒线:10%</strong>(<10% 抗风险能力弱)';
+  }
+  if (k.includes('岗位') || k.includes('职责') || k.includes('团队') || k.includes('KPI')) {
+    return '<strong>电商团队核心岗位:</strong><br>• 运营负责人:GMV/利润率/ROI<br>• 平台运营:销售额/ROI/转化率<br>• 内容运营:播放量/互动率/GPM<br>• 主播:GMV/转化率/停留时长<br>• 客服主管:响应时长/满意度/DSR<br>• 美工:点击率/转化率<br>• 供应链:缺货率/库存周转/毛利<br><br>三平台差异:淘宝重搜索+店铺;拼多多重价格力+活动;抖音重内容+直播;京东重品牌+参数';
+  }
+  if (k.includes('采销') || k.includes('采购') || k.includes('库存') || k.includes('周转') || k.includes('缺货')) {
+    return '<strong>采销关键指标:</strong><br>• 毛利率≥20% • 库存周转≤45天 • 缺货率≤5% • 动销率≥80%<br><br><strong>采购模块:</strong>品类规划→招商寻源→商家评估→条款谈判<br><strong>销运营模块:</strong>商品信息→流量预埋→拉新促销→导入期→成长期→成熟期<br><strong>采控模块:</strong>计划管理→采购执行→库存管理→临期管理→库存监控<br><br><strong>安全库存:</strong>日均销量×备货周期+日均销量×波动系数';
+  }
+  if (k.includes('售后') || k.includes('客服') || k.includes('体验分') || k.includes('DSR') || k.includes('差评')) {
+    return '<strong>平台评分红线:</strong><br>• 淘宝DSR<4.6降权<br>• 拼多多体验分低于行业30%无法报活动<br>• 京东店铺评分<4.5影响搜索<br>• 抖音体验分<4.6无法投流<br><br><strong>售后SOP:</strong><br>① 7天无理由自动同意<br>② 质量问题主动退换/补偿<br>③ 差评24小时内联系改评<br>④ 投诉保留凭证举证<br>⑤ 退货24小时内质检<br><br><strong>客服数据:</strong>首次响应5秒优秀,客服转化率70%优秀,差评率<0.5%优秀';
+  }
+  if (k.includes('平台选择') || k.includes('多平台') || k.includes('哪个平台') || k.includes('布局')) {
+    return '<strong>平台选择决策:</strong><br>• 低价供应链强→拼多多<br>• 品牌/3C/家电→京东<br>• 内容能力/非标→抖音<br>• 搜索长尾/供应链→淘宝<br>• 高颜值/种草→小红书<br><br><strong>入局路径:</strong>阶段1(0-6月)单平台打爆→阶段2(6-12月)复制第二平台→阶段3(12月+)全渠道+私域<br><br><strong>多平台定价:</strong>同一产品可差异化,关键是避免直接比价。例:保温杯 拼多多29.9/淘宝49.9/京东59.9/抖音39.9/小红书49';
+  }
+  if (k.includes('视觉') || k.includes('主图') || k.includes('素材') || k.includes('拍摄')) {
+    return '<strong>各平台主图规范:</strong><br>• 淘宝:800×800,文字≤30%,简洁高端<br>• 拼多多:800×800,文字≤60%,价格突出<br>• 京东:800×800,第5张白底,专业参数<br>• 抖音:9:16,视觉冲击<br>• 小红书:3:4,ins风/生活感<br><br><strong>素材生产清单:</strong>白底图/场景图/细节图/SKU图/参数图+促销素材+短视频+直播素材<br><br><strong>A/B测试:</strong>每款3-5套主图,单图展现≥1000再判断,大促前完成2轮测试';
+  }
+  if (k.includes('京东') && !k.includes('抖音')) {
+    return '<strong>京东运营核心:</strong><br>• 品牌权重⭐⭐⭐⭐⭐,标题=品牌+型号+参数+场景<br>• 3C/家电/母婴/超市标品优势大<br>• 推广:京东快车(ROAS≥3.5)/京东海投/京速推/京东联盟<br>• 活动:京东秒杀、百亿补贴、京东超市<br>• 建议路径:先POP 3个月→月销50万+评分4.8→谈自营→流量提升3倍但毛利降5%';
+  }
+  if (k.includes('小红书') || k.includes('种草') || k.includes('笔记')) {
+    return '<strong>小红书运营核心:</strong><br>• 账号:企业号可挂商卡投聚光;个人号1000粉开蒲公英<br>• 爆款公式:强封面(3:4)+痛点标题(20字)+实用内容+5-8个标签+置顶评论<br>• 笔记类型:测评/教程/场景/对比/合集<br>• 投放:薯条100元起投(CTR>5%追投)、聚光平台、蒲公英达人合作<br>• 冷启动:第1-2周铺50-100篇KOC→第3-4周5-10腰部达人→第5-8周1-2头部KOL<br>• 预算分配:30%头部+50%腰部+20%素人';
+  }
+  return '这是个不错的问题!建议:<br>① 在左侧目录中找到对应主题深入阅读<br>② 关注实战案例部分,里面有具体数字和步骤';
+}
+
+initAuth();
+</script>
+
+</body>
+</html>

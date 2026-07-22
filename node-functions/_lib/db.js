@@ -1,43 +1,30 @@
+// EdgeOne node-functions shared database helper
 const { Pool } = require('pg');
-const bcrypt = require('bcryptjs');
 
-const isNeon = (process.env.DATABASE_URL || '').includes('neon.tech');
+let pool = null;
 
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: isNeon ? { rejectUnauthorized: false } : false,
-});
-
-async function query(text, params) {
-  return pool.query(text, params);
+function getPool() {
+  if (!pool) {
+    const isNeon = (process.env.DATABASE_URL || '').includes('neon.tech');
+    pool = new Pool({
+      connectionString: process.env.DATABASE_URL,
+      ssl: isNeon ? { rejectUnauthorized: false } : false,
+      max: 5,
+      idleTimeoutMillis: 30000,
+      connectionTimeoutMillis: 5000,
+    });
+  }
+  return pool;
 }
 
-// 兼容 better-sqlite3 风格的轻量封装
-function prepare(sql) {
-  let idx = 0;
-  const pgSql = sql.replace(/\?/g, () => `$${++idx}`);
-
-  return {
-    get: async (...params) => {
-      const result = await pool.query(pgSql, params);
-      return result.rows[0] || null;
-    },
-    all: async (...params) => {
-      const result = await pool.query(pgSql, params);
-      return result.rows;
-    },
-    run: async (...params) => {
-      const result = await pool.query(pgSql, params);
-      return {
-        changes: result.rowCount,
-        lastInsertRowid: result.rows[0]?.id || null,
-      };
-    },
-  };
+async function query(text, params) {
+  const p = getPool();
+  return p.query(text, params);
 }
 
 async function initDb() {
-  await pool.query(`
+  const p = getPool();
+  await p.query(`
     CREATE TABLE IF NOT EXISTS users (
       id SERIAL PRIMARY KEY,
       username TEXT UNIQUE NOT NULL,
@@ -101,25 +88,16 @@ async function initDb() {
     CREATE INDEX IF NOT EXISTS idx_users_phone ON users(phone);
     CREATE INDEX IF NOT EXISTS idx_users_email ON users(email);
     CREATE INDEX IF NOT EXISTS idx_chat_user_id ON chat_history(user_id);
-    CREATE INDEX IF NOT EXISTS idx_chat_created_at ON chat_history(created_at);
     CREATE INDEX IF NOT EXISTS idx_usage_user_id ON usage_logs(user_id);
     CREATE INDEX IF NOT EXISTS idx_orders_user_id ON orders(user_id);
   `);
 
-  // 尝试为已有用户补充 username（如果没有则用 phone/email/id）
-  try {
-    await pool.query(`UPDATE users SET username = COALESCE(phone, email, 'user_' || id) WHERE username IS NULL`);
-  } catch (e) {
-    // 列可能已存在或不存在，忽略
-    console.log('username migration note:', e.message);
-  }
-
-  // 初始化管理员
-  const adminResult = await pool.query('SELECT id FROM admins WHERE username = $1', ['qaq']);
+  const bcrypt = require('bcryptjs');
+  const adminResult = await p.query('SELECT id FROM admins WHERE username = $1', ['qaq']);
   if (adminResult.rows.length === 0) {
     const hash = bcrypt.hashSync('qaq881205', 10);
-    await pool.query('INSERT INTO admins (username, password_hash) VALUES ($1, $2)', ['qaq', hash]);
+    await p.query('INSERT INTO admins (username, password_hash) VALUES ($1, $2)', ['qaq', hash]);
   }
 }
 
-module.exports = { pool, query, prepare, initDb };
+module.exports = { getPool, query, initDb };

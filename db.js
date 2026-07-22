@@ -49,13 +49,18 @@ function nextId(data, table) {
 
 let _dbCache = null;
 function db() {
-  if (!_dbCache) _dbCache = readDb();
+  // 始终从文件读取最新数据
+  _dbCache = readDb();
   return _dbCache;
 }
 
+function syncCache() {
+  _dbCache = readDb();
+}
+
 function save() {
-  _dbCache._dirty = true;
   writeDb(_dbCache);
+  syncCache(); // 确保缓存和磁盘一致
 }
 
 // ====== 模拟 pg prepare 接口 ======
@@ -214,7 +219,8 @@ function insertUserNew(data, { username, phone, password_hash, company, category
     created_at: now, updated_at: now, last_login_at: 0
   };
   data.users.push(user);
-  save();
+  _dbCache = data;  // 更新缓存
+  writeDb(data);    // 写磁盘
   return user;
 }
 
